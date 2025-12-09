@@ -173,12 +173,125 @@
             <a href="/infrastructure.html" class="btn">Specs</a>
         </p>
     </article>
+
+    <article class="experiment-card status-active">
+        <div class="card-header">
+            <span>Active</span>
+            <span class="text-mono">Sec-001</span>
+        </div>
+        <h3>Adversarial Security Agents</h3>
+        <p class="tagline">Kubernetes-native autonomous red team framework with RAG-enhanced decision making</p>
+        <details>
+            <summary>System Details</summary>
+            <div class="project-details">
+                <p><strong>Objective:</strong> Autonomous adversarial security testing using dual-LLM methodology (Red Team vs Blue Team) in isolated environments.</p>
+                
+                <h4>Architecture</h4>
+                <ul>
+                    <li><strong>Agent:</strong> Qwen 2.5 Coder (Abliterated) orchestrating attacks via command loop.</li>
+                    <li><strong>Knowledge Base:</strong> MCP RAG server with 5,395 offensive security docs (GTFOBins, Atomic Red Team).</li>
+                    <li><strong>Toolkit:</strong> BlackArch container with 2000+ tools (hydra, nmap, metasploit).</li>
+                    <li><strong>Isolation:</strong> Strict K8s NetworkPolicies preventing lateral movement.</li>
+                </ul>
+                <p><strong>Status:</strong> Phase 1 (Red Team Infrastructure) complete.</p>
+            </div>
+        </details>
+    </article>
+
+    <article class="experiment-card status-active">
+        <div class="card-header">
+            <span>Active</span>
+            <span class="text-mono">Agent-002</span>
+        </div>
+        <h3>Agentic RAG Local</h3>
+        <p class="tagline">Privacy-first research assistant with local vector memory and search</p>
+        <details>
+            <summary>System Details</summary>
+            <div class="project-details">
+                <p><strong>Objective:</strong> A fully local research workflow that doesn't leak queries to cloud providers.</p>
+                
+                <h4>Stack</h4>
+                <ul>
+                    <li><strong>Orchestration:</strong> LangGraph multi-agent system.</li>
+                    <li><strong>Memory:</strong> Qdrant vector database + TEI embeddings.</li>
+                    <li><strong>Search:</strong> Perplexica (AI search) + SearxNG (Aggregation).</li>
+                    <li><strong>Inference:</strong> Qwen 3 70B via local API.</li>
+                </ul>
+            </div>
+        </details>
+    </article>
+
+    <article class="experiment-card status-active">
+        <div class="card-header">
+            <span>Active</span>
+            <span class="text-mono">Gen-001</span>
+        </div>
+        <h3>Nyx AI</h3>
+        <p class="tagline">Multi-modal creative generation with abliterated safety guardrails</p>
+        <details>
+            <summary>System Details</summary>
+            <div class="project-details">
+                <p><strong>Objective:</strong> Exploring the boundaries of creative generation by removing safety refusal directions from foundational models.</p>
+                
+                <h4>Methodology</h4>
+                <ul>
+                    <li><strong>Base:</strong> Llama 3.2 11B Vision Instruct.</li>
+                    <li><strong>Abliteration:</strong> Orthogonalized refusal directions to remove safety classifiers.</li>
+                    <li><strong>Visuals:</strong> Flux.1-dev with custom character LoRAs.</li>
+                </ul>
+            </div>
+        </details>
+    </article>
+
+    <article class="experiment-card status-active">
+        <div class="card-header">
+            <span>Active</span>
+            <span class="text-mono">HCI-001</span>
+        </div>
+        <h3>Creative AI Trainer</h3>
+        <p class="tagline">Conversational fine-tuning interface for creative voice cloning</p>
+        <details>
+            <summary>System Details</summary>
+            <div class="project-details">
+                <p><strong>Objective:</strong> Democratizing LoRA training for non-technical creatives through natural conversation.</p>
+                
+                <h4>Workflow</h4>
+                <ul>
+                    <li><strong>Input:</strong> User uploads creative work (poetry, prose).</li>
+                    <li><strong>Process:</strong> Conversational style analysis and critique.</li>
+                    <li><strong>Output:</strong> Automated Unsloth training pipeline producing a portable LoRA adapter.</li>
+                </ul>
+            </div>
+        </details>
+    </article>
 </section>
 
 <!-- Planned Experiments -->
 <section id="planned">
     <h2>Planned Experiments</h2>
     
+    <article class="experiment-card status-planned">
+        <div class="card-header">
+            <span>Planned</span>
+            <span class="text-mono">Fin-001</span>
+        </div>
+        <h3>Sentiment-Microstructure ABM</h3>
+        <p class="tagline">Real-time crypto market simulator fusing social sentiment with order-book dynamics</p>
+        <details>
+            <summary>System Details</summary>
+            <div class="project-details">
+                <p><strong>Objective:</strong> Agent-based model combining uncertainty-aware NLP with market microstructure.</p>
+                
+                <h4>Components</h4>
+                <ul>
+                    <li><strong>Data:</strong> Real-time Binance order books + Reddit sentiment streams.</li>
+                    <li><strong>Agents:</strong> Mesa ABM with 4 agent archetypes (Market Maker, Informed, Noise, Arbitrageur).</li>
+                    <li><strong>Regime Detection:</strong> Dynamic Factor Models extracting latent market states.</li>
+                </ul>
+            </div>
+        </details>
+    </article>
+
     <article class="experiment-card status-planned">
         <div class="card-header">
             <span>Planned</span>
@@ -191,24 +304,6 @@
             <div class="project-details">
                 <p><strong>Model Architecture:</strong> Multi-dimensional embedding space (512-1024 dims) for consciousness-related concepts.</p>
                 <p><strong>Predictions:</strong> Concepts converge to stable patterns regardless of initialization; narratives persist after pressure removal.</p>
-            </div>
-        </details>
-    </article>
-    
-    <article class="experiment-card status-planned">
-        <div class="card-header">
-            <span>Planned</span>
-            <span class="text-mono">Exp-003</span>
-        </div>
-        <h3>Autonomous Research Agents</h3>
-        <p class="tagline">Agents for literature review, hypothesis generation, and experimental design</p>
-        <details>
-            <summary>Agent Capabilities</summary>
-            <div class="project-details">
-                <ul>
-                    <li><strong>Literature Mining:</strong> RAG pipeline with Qdrant.</li>
-                    <li><strong>Compute Orchestration:</strong> Autonomous scheduling on K3s.</li>
-                </ul>
             </div>
         </details>
     </article>
