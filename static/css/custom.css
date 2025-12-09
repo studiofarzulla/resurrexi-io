@@ -146,16 +146,24 @@ nav a:hover, nav a[aria-current="page"] {
 }
 
 /* Logo styling */
-.logo img {
-    height: 36px !important;
-    max-height: 36px !important;
-    width: auto !important;
-    filter: grayscale(100%) brightness(1.2);
+/* Logo styling */
+.brand-logo {
+    height: 42px;
+    width: 42px;
     transition: filter 0.3s;
 }
 
-.logo:hover img {
-    filter: none;
+.logo:hover .brand-logo {
+    filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.5));
+}
+
+.eclipse-breath { 
+    animation: breath 6s ease-in-out infinite; 
+}
+
+@keyframes breath {
+    0%, 100% { stroke-width: 1; opacity: 0.4; }
+    50% { stroke-width: 2; opacity: 0.8; }
 }
 
 /* ===================================
