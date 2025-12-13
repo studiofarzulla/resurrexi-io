@@ -57,6 +57,14 @@ def copy_static():
         shutil.copytree(STATIC_DIR, PUBLIC_DIR / "static", dirs_exist_ok=True)
         print("Copied static assets")
 
+def copy_apps():
+    """Copy embedded React apps"""
+    # ASRI Dashboard
+    asri_dist = BASE_DIR.parent.parent / "resurrexi-projects" / "asri" / "frontend" / "dist"
+    if asri_dist.exists():
+        shutil.copytree(asri_dist, PUBLIC_DIR / "asri", dirs_exist_ok=True)
+        print("Copied ASRI dashboard")
+
 def main():
     """Build the entire site"""
     print("Building resurrexi.io...")
@@ -69,6 +77,7 @@ def main():
     # Build all pages
     build_pages()
     copy_static()
+    copy_apps()
 
     print("\n✓ Build complete!")
     print(f"Output: {PUBLIC_DIR}")

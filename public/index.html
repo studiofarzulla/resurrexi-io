@@ -156,7 +156,32 @@
 <!-- Current Experiments -->
 <section id="experiments">
     <h2>Active Experiments</h2>
-    
+
+    <article class="experiment-card">
+        <span class="status status-active">Live</span>
+        <h3>ASRI: Aggregated Systemic Risk Index</h3>
+        <p class="tagline">Real-time crypto systemic risk monitoring—aggregating fragmented risk indicators into unified index</p>
+        <details>
+            <summary>Experiment Details</summary>
+            <div class="project-details">
+                <p><strong>Research Question:</strong> Can fragmented crypto/DeFi risk indicators be aggregated into a coherent systemic risk measure that provides early warning of market stress?</p>
+
+                <p><strong>Components:</strong></p>
+                <ul>
+                    <li>Stablecoin Risk (30%): Treasury exposure, peg stability, reserve concentration</li>
+                    <li>DeFi Liquidity Risk (25%): TVL concentration, leverage ratios, smart contract risk</li>
+                    <li>Contagion Risk (25%): Cross-market interconnection, TradFi linkages</li>
+                    <li>Opacity Risk (20%): Regulatory arbitrage, transparency scores</li>
+                </ul>
+
+                <p><strong>Data Sources:</strong> DeFi Llama, FRED, Token Terminal, on-chain analytics. Daily updates, backtested 2020-present.</p>
+            </div>
+        </details>
+        <p style="margin-top: 1rem;">
+            <a href="/asri/" role="button" class="btn-primary">View Dashboard</a>
+        </p>
+    </article>
+
     <article class="experiment-card">
         <span class="status status-active">Active</span>
         <h3>Consciousness Narrative Emergence & Stability</h3>
@@ -239,8 +264,13 @@
     <h2>Explore</h2>
     <div class="cta-grid">
         <div class="cta-card">
+            <h3>ASRI Dashboard</h3>
+            <p>Live crypto systemic risk index. Aggregated risk indicators, daily updates, interactive charts.</p>
+            <a href="/asri/" role="button" class="btn-primary">View Dashboard</a>
+        </div>
+        <div class="cta-card">
             <h3>Infrastructure</h3>
-            <p>Full specs on the frankencluster—7 nodes, dual GPU inference, cross-chassis power delivery, and more.</p>
+            <p>Full specs on the frankencluster—7 nodes, dual GPU inference, cross-chassis power delivery.</p>
             <a href="/infrastructure.html" role="button">View Infrastructure</a>
         </div>
         <div class="cta-card">
