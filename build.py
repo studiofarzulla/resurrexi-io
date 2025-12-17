@@ -58,12 +58,14 @@ def copy_static():
         print("Copied static assets")
 
 def copy_apps():
-    """Copy embedded React apps"""
-    # ASRI Dashboard
-    asri_dist = BASE_DIR.parent.parent / "resurrexi-projects" / "asri" / "frontend" / "dist"
-    if asri_dist.exists():
-        shutil.copytree(asri_dist, PUBLIC_DIR / "asri", dirs_exist_ok=True)
+    """Copy embedded apps"""
+    # ASRI Dashboard (generated static HTML from asri scheduler)
+    asri_static = BASE_DIR.parent.parent / "resurrexi-projects" / "asri" / "static_site"
+    if asri_static.exists() and (asri_static / "index.html").exists():
+        shutil.copytree(asri_static, PUBLIC_DIR / "asri", dirs_exist_ok=True)
         print("Copied ASRI dashboard")
+    else:
+        print("Warning: ASRI static site not found, skipping")
 
 def main():
     """Build the entire site"""
