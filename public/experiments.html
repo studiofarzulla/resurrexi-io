@@ -297,26 +297,32 @@
 <section id="published">
     <h2>Published Research</h2>
     <p class="text-muted" style="margin-bottom: 2rem;">
-        Full papers available via <a href="https://farzulla.org" target="_blank">Farzulla Research</a> or direct download below.
+        15 papers across computational finance, political economy, cognitive modeling, and AI safety.
+        Full papers via <a href="https://farzulla.org" target="_blank">Farzulla Research</a>.
     </p>
+
+    <!-- Computational Finance -->
+    <h3 style="font-size: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin: 2rem 0 1.5rem;">
+        <span class="status-dot green"></span> Computational Finance & Market Microstructure
+    </h3>
 
     <div class="project-grid">
         <article class="project-card">
             <div class="card-status" style="color: var(--neon-green);">
-                <span class="status-dot green"></span>
+                <span class="status-dot green pulse"></span>
                 Under Review
             </div>
-            <h3>Cryptocurrency Event Study</h3>
+            <h3>Market Reaction Asymmetry</h3>
             <p class="card-tagline">
-                Infrastructure events generate 5.7× larger volatility shocks than regulatory events. TARCH-X/GJR-GARCH with custom MLE.
+                Infrastructure events generate 5.7× larger volatility shocks than regulatory events. TARCH-X/GJR-GARCH with Bayesian inference.
             </p>
             <div class="tech-stack">
                 <span class="tech-tag">TARCH-X</span>
                 <span class="tech-tag">GDELT</span>
-                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Bayesian</span>
             </div>
             <div class="card-actions">
-                <a href="/static/papers/Farzulla_2025_Cryptocurrency_Event_Study_v2.0.1.pdf" target="_blank" class="btn btn-sm btn-primary">PDF</a>
+                <a href="https://doi.org/10.21203/rs.3.rs-8323026/v1" target="_blank" class="btn btn-sm btn-primary">Paper</a>
                 <a href="https://ssrn.com/abstract=5788082" target="_blank" class="btn btn-sm btn-ghost">SSRN</a>
             </div>
         </article>
@@ -326,17 +332,17 @@
                 <span class="status-dot"></span>
                 Published
             </div>
-            <h3>Trauma as Bad Training Data</h3>
+            <h3>Alpha Asymmetry in FX Markets</h3>
             <p class="card-tagline">
-                Computational reframing of developmental psychology. PyTorch experiments validating gradient cascades and catastrophic forgetting.
+                Detection and exploitation of skewness/kurtosis asymmetries in foreign exchange markets with cross-market validation.
             </p>
             <div class="tech-stack">
-                <span class="tech-tag">PyTorch</span>
-                <span class="tech-tag">ML Theory</span>
+                <span class="tech-tag">Skewness</span>
+                <span class="tech-tag">Backtesting</span>
+                <span class="tech-tag">FX</span>
             </div>
             <div class="card-actions">
-                <a href="/static/papers/Farzulla_2025_Trauma_Training_Data_v2.0.0.pdf" target="_blank" class="btn btn-sm btn-primary">PDF</a>
-                <a href="https://doi.org/10.5281/zenodo.17681336" target="_blank" class="btn btn-sm btn-ghost">Zenodo</a>
+                <a href="https://doi.org/10.5281/zenodo.17918374" target="_blank" class="btn btn-sm btn-primary">Zenodo</a>
             </div>
         </article>
 
@@ -345,17 +351,82 @@
                 <span class="status-dot"></span>
                 Published
             </div>
-            <h3>Consensual Sovereignty</h3>
+            <h3>Whitepaper Claims & Factor Analysis</h3>
             <p class="card-tagline">
-                Quantifying political legitimacy through stake-voice alignment. Monte Carlo validation of dynamic consensus mechanisms.
+                Do whitepaper claims predict market behavior? NLP zero-shot classification with CP tensor decomposition and Tucker congruence.
             </p>
             <div class="tech-stack">
-                <span class="tech-tag">Political Economy</span>
+                <span class="tech-tag">NLP</span>
+                <span class="tech-tag">Tensor</span>
+                <span class="tech-tag">BART-MNLI</span>
+            </div>
+            <div class="card-actions">
+                <a href="https://doi.org/10.2139/ssrn.5918302" target="_blank" class="btn btn-sm btn-primary">SSRN</a>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot green"></span>
+                Live
+            </div>
+            <h3>ASRI Methodology</h3>
+            <p class="card-tagline">
+                Aggregated Systemic Risk Index for cryptocurrency markets. DeFi-TradFi risk modeling with composite index construction.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Risk Index</span>
+                <span class="tech-tag">DeFi</span>
+                <span class="tech-tag">Dashboard</span>
+            </div>
+            <div class="card-actions">
+                <a href="/asri/" class="btn btn-sm btn-primary">Dashboard</a>
+                <a href="https://doi.org/10.5281/zenodo.17918239" target="_blank" class="btn btn-sm btn-ghost">Zenodo</a>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot"></span>
+                Published
+            </div>
+            <h3>Sentiment-Driven Market Microstructure</h3>
+            <p class="card-tagline">
+                Agent-based modeling framework for cryptocurrency markets. Monte Carlo dropout, heterogeneous agents, Kafka streaming.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Mesa ABM</span>
+                <span class="tech-tag">Kafka</span>
                 <span class="tech-tag">Monte Carlo</span>
             </div>
             <div class="card-actions">
-                <a href="/static/papers/Farzulla_2025_Consent_Holding_v1.0.1.pdf" target="_blank" class="btn btn-sm btn-primary">PDF</a>
-                <a href="https://doi.org/10.5281/zenodo.17684676" target="_blank" class="btn btn-sm btn-ghost">Zenodo</a>
+                <a href="https://doi.org/10.5281/zenodo.17957746" target="_blank" class="btn btn-sm btn-primary">Zenodo</a>
+            </div>
+        </article>
+    </div>
+
+    <!-- Political Economy -->
+    <h3 style="font-size: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin: 3rem 0 1.5rem;">
+        <span class="status-dot purple"></span> Institutional Dynamics & Political Economy
+    </h3>
+
+    <div class="project-grid">
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot"></span>
+                Published
+            </div>
+            <h3>Consensual Sovereignty</h3>
+            <p class="card-tagline">
+                Quantifying political legitimacy in adversarial environments. The Axiom of Consent with social choice theory and formal modeling.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Social Choice</span>
+                <span class="tech-tag">Stability</span>
+                <span class="tech-tag">Formal</span>
+            </div>
+            <div class="card-actions">
+                <a href="https://doi.org/10.2139/ssrn.5918222" target="_blank" class="btn btn-sm btn-primary">SSRN</a>
             </div>
         </article>
 
@@ -366,14 +437,15 @@
             </div>
             <h3>The Hedging Paradox</h3>
             <p class="card-tagline">
-                Perfect hedging in crypto markets leads to asymptotic wealth decay due to cost-of-carry exceeding volatility capture.
+                The ambiguous boundary between protection and transfer. Extending AML analysis to include the fourth stage.
             </p>
             <div class="tech-stack">
-                <span class="tech-tag">Derivatives</span>
-                <span class="tech-tag">Risk Theory</span>
+                <span class="tech-tag">AML</span>
+                <span class="tech-tag">Game Theory</span>
+                <span class="tech-tag">Regulation</span>
             </div>
             <div class="card-actions">
-                <a href="/static/papers/Farzulla_2025_The_Hedging_Paradox_v1.0.0.pdf" target="_blank" class="btn btn-sm btn-primary">PDF</a>
+                <a href="https://doi.org/10.5281/zenodo.17626621" target="_blank" class="btn btn-sm btn-primary">Zenodo</a>
             </div>
         </article>
 
@@ -384,14 +456,15 @@
             </div>
             <h3>Asymptotic Protection</h3>
             <p class="card-tagline">
-                Limits of defensive posturing in infinite games. Theoretical analysis of resource allocation in unbounded adversarial environments.
+                The simultaneous remedy and poison of risk management. Systemic risk modeling and network analysis in derivatives.
             </p>
             <div class="tech-stack">
-                <span class="tech-tag">Game Theory</span>
                 <span class="tech-tag">Systemic Risk</span>
+                <span class="tech-tag">Networks</span>
+                <span class="tech-tag">Derivatives</span>
             </div>
             <div class="card-actions">
-                <a href="/static/papers/Farzulla_2025_Asymptotic_Protection_v1.0.0.pdf" target="_blank" class="btn btn-sm btn-primary">PDF</a>
+                <a href="https://doi.org/10.5281/zenodo.17620448" target="_blank" class="btn btn-sm btn-primary">Zenodo</a>
             </div>
         </article>
 
@@ -400,16 +473,144 @@
                 <span class="status-dot"></span>
                 Published
             </div>
-            <h3>ASRI Methodology</h3>
+            <h3>Privacy-Preserving CBDC</h3>
             <p class="card-tagline">
-                Aggregated Systemic Risk Index methodology paper. Component weighting, data sources, backtesting framework.
+                Architectural framework for CBDC implementation. Mechanism design with zero-knowledge proofs for privacy-preserving surveillance.
             </p>
             <div class="tech-stack">
-                <span class="tech-tag">Risk Index</span>
-                <span class="tech-tag">Crypto</span>
+                <span class="tech-tag">ZK Proofs</span>
+                <span class="tech-tag">CBDC</span>
+                <span class="tech-tag">Privacy</span>
             </div>
             <div class="card-actions">
-                <a href="https://doi.org/10.5281/zenodo.17918239" target="_blank" class="btn btn-sm btn-primary">Zenodo</a>
+                <a href="https://doi.org/10.5281/zenodo.17917938" target="_blank" class="btn btn-sm btn-primary">Zenodo</a>
+            </div>
+        </article>
+    </div>
+
+    <!-- Cognitive Modeling -->
+    <h3 style="font-size: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin: 3rem 0 1.5rem;">
+        <span class="status-dot" style="background: var(--phoenix-magenta);"></span> Cognitive Modeling & Human-AI Alignment
+    </h3>
+
+    <div class="project-grid">
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot"></span>
+                Published
+            </div>
+            <h3>Trauma as Bad Training Data</h3>
+            <p class="card-tagline">
+                Gradient descent framework for developmental psychology. Neural network parallels with catastrophic forgetting and continual learning.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">PyTorch</span>
+                <span class="tech-tag">Catastrophic Forgetting</span>
+            </div>
+            <div class="card-actions">
+                <a href="https://doi.org/10.5281/zenodo.17681336" target="_blank" class="btn btn-sm btn-primary">Zenodo</a>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot"></span>
+                Published
+            </div>
+            <h3>Relational Functionalism</h3>
+            <p class="card-tagline">
+                Friendship as substrate-agnostic process. Functional analysis of human-AI relationships and alignment theory.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Philosophy</span>
+                <span class="tech-tag">Functionalism</span>
+                <span class="tech-tag">Alignment</span>
+            </div>
+            <div class="card-actions">
+                <a href="https://doi.org/10.5281/zenodo.17626860" target="_blank" class="btn btn-sm btn-primary">Zenodo</a>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot"></span>
+                Published
+            </div>
+            <h3>Eliminative Monism</h3>
+            <p class="card-tagline">
+                Dissolving qualia via Occam's razor. 33k-word monograph on computational basis of phenomenological illusion with network epistemology simulation.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Consciousness</span>
+                <span class="tech-tag">Illusionism</span>
+                <span class="tech-tag">Gödel</span>
+            </div>
+            <div class="card-actions">
+                <a href="https://doi.org/10.5281/zenodo.17917970" target="_blank" class="btn btn-sm btn-primary">Zenodo</a>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot"></span>
+                Published
+            </div>
+            <h3>From Consent to Consideration</h3>
+            <p class="card-tagline">
+                Why embodied autonomous systems cannot be legitimately ruled. Consent-based legitimacy and substrate-agnostic ethics.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">AI Ethics</span>
+                <span class="tech-tag">Consent</span>
+                <span class="tech-tag">Embodiment</span>
+            </div>
+            <div class="card-actions">
+                <a href="https://doi.org/10.5281/zenodo.17957659" target="_blank" class="btn btn-sm btn-primary">Zenodo</a>
+            </div>
+        </article>
+    </div>
+
+    <!-- AI Safety -->
+    <h3 style="font-size: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin: 3rem 0 1.5rem;">
+        <span class="status-dot" style="background: #ef4444;"></span> AI Safety & Security Research
+    </h3>
+
+    <div class="project-grid">
+        <article class="project-card">
+            <div class="card-status" style="color: #ef4444;">
+                <span class="status-dot" style="background: #ef4444;"></span>
+                Offensive
+            </div>
+            <h3>Autonomous Red Team AI</h3>
+            <p class="card-tagline">
+                LLM-guided adversarial security testing. RAG knowledge bases, OODA loops, NetworkPolicy isolation, abliterated models.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">RAG</span>
+                <span class="tech-tag">OODA</span>
+                <span class="tech-tag">K8s</span>
+            </div>
+            <div class="card-actions">
+                <a href="https://doi.org/10.5281/zenodo.17614726" target="_blank" class="btn btn-sm btn-primary">Zenodo</a>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot"></span>
+                Published
+            </div>
+            <h3>Genre Mimicry vs Ethical Reasoning</h3>
+            <p class="card-tagline">
+                Analysis of abliterated language models. Safety fine-tuning analysis, training data conventions, and genre pattern detection.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Abliteration</span>
+                <span class="tech-tag">Safety</span>
+                <span class="tech-tag">Analysis</span>
+            </div>
+            <div class="card-actions">
+                <a href="https://doi.org/10.5281/zenodo.17957694" target="_blank" class="btn btn-sm btn-primary">Zenodo</a>
             </div>
         </article>
     </div>
