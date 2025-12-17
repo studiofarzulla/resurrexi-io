@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Murad Farzulla">
+    <meta name="description" content="Interactive dashboard for cryptocurrency event study research analyzing cross-sectional heterogeneity in event sensitivity">
+    <meta name="doi" content="10.5281/zenodo.17449736">
+    <title>Cryptocurrency Event Study - Interactive Dashboard | Farzulla Research</title>
+
+    <!-- Plotly CDN -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a3e 50%, #16213e 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header Styling */
+        .header {
+            background: rgba(10, 14, 39, 0.95);
+            border-bottom: 3px solid #00d9ff;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.2);
+        }
+
+        .title {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            background: linear-gradient(135deg, #00d9ff, #ff6b9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #95a3b3;
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            margin: 0.5rem 0;
+        }
+
+        .author-info {
+            color: #95a3b3;
+            margin: 1rem 0 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .doi {
+            color: #00f5a0;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Key Metrics Section */
+        .metrics-section {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+            padding: 0 1rem;
+        }
+
+        .metric-card {
+            background: rgba(0, 217, 255, 0.08);
+            border: 2px solid #00d9ff;
+            border-radius: 15px;
+            padding: 1rem 1.5rem;
+            min-width: 140px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            background: rgba(0, 217, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .metric-label {
+            color: #95a3b3;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-value {
+            color: #00f5a0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Dashboard Section */
+        #dashboard {
+            padding: 2rem 0;
+            min-height: 800px;
+        }
+
+        /* Export Controls */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+            padding: 0 1rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #00d9ff, #0099cc);
+            color: #0a0e27;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 217, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #ff6b9d, #cc5580);
+            color: white;
+        }
+
+        /* Data Table */
+        .data-section {
+            margin: 2rem 0;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            color: #00d9ff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .data-table {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(26, 26, 62, 0.6);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #00d9ff;
+        }
+
+        .data-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background: rgba(0, 217, 255, 0.2);
+            color: #00f5a0;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table td {
+            padding: 0.75rem 1rem;
+            border-top: 1px solid rgba(0, 217, 255, 0.1);
+        }
+
+        .data-table tr:hover {
+            background: rgba(0, 217, 255, 0.05);
+        }
+
+        .crypto-name {
+            color: #00d9ff;
+            font-weight: 600;
+        }
+
+        .positive-value {
+            color: #00f5a0;
+        }
+
+        .negative-value {
+            color: #ff4757;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #95a3b3;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(0, 217, 255, 0.2);
+            margin-top: 3rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                padding: 1.5rem 0;
+            }
+
+            .metrics-section {
+                gap: 1rem;
+                margin: 1.5rem 0;
+            }
+
+            .metric-card {
+                min-width: 120px;
+                padding: 0.75rem 1rem;
+            }
+
+            .metric-value {
+                font-size: 1.25rem;
+            }
+
+            #dashboard {
+                padding: 1rem 0;
+                min-height: 600px;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 0.5rem;
+                font-size: 0.85rem;
+            }
+
+            .btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .metric-card {
+                min-width: 100px;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .metric-label {
+                font-size: 0.75rem;
+            }
+
+            .metric-value {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="title">Cryptocurrency Event Study</h1>
+            <p class="subtitle">Cross-Sectional Heterogeneity in Cryptocurrency Event Sensitivity</p>
+            <p class="author-info">Murad Farzulla | Farzulla Research</p>
+            <p class="doi">DOI: 10.5281/zenodo.17449736</p>
+        </div>
+    </header>
+
+    <section class="metrics-section">
+        <div class="metric-card">
+            <div class="metric-label">Infrastructure vs Regulatory</div>
+            <div class="metric-value">5.7× multiplier</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">Statistical Significance</div>
+            <div class="metric-value">p = 0.0008</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">Effect Size</div>
+            <div class="metric-value">d = 2.753</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">FDR Significant</div>
+            <div class="metric-value">ETH only</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">Heterogeneity Spread</div>
+            <div class="metric-value">2.18pp</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">TARCH-X Wins AIC</div>
+            <div class="metric-value">5/6 (83%)</div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="controls">
+            <button class="btn" onclick="exportPNG()">📊 Export PNG</button>
+            <button class="btn btn-secondary" onclick="exportCSV()">💾 Download CSV</button>
+        </div>
+
+        <div id="dashboard"></div>
+
+        <section class="data-section" style="margin-top: 3rem;">
+            <h2 class="section-title">Advanced Statistical Tests</h2>
+            <div class="data-table" style="margin-bottom: 3rem;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Test</th>
+                            <th>Statistic</th>
+                            <th>p-value</th>
+                            <th>Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="crypto-name">Independent t-test</td>
+                            <td class="positive-value">t = 4.768</td>
+                            <td class="positive-value">0.0008***</td>
+                            <td>Highly significant</td>
+                        </tr>
+                        <tr>
+                            <td class="crypto-name">Mann-Whitney U</td>
+                            <td class="positive-value">U = 34.0</td>
+                            <td class="positive-value">0.0043**</td>
+                            <td>Robust to outliers</td>
+                        </tr>
+                        <tr>
+                            <td class="crypto-name">Cohen's d</td>
+                            <td class="positive-value">d = 2.753</td>
+                            <td>N/A</td>
+                            <td>Huge effect size</td>
+                        </tr>
+                        <tr>
+                            <td class="crypto-name">Inverse-var weighted Z</td>
+                            <td class="positive-value">Z = 3.64</td>
+                            <td class="positive-value">0.0003***</td>
+                            <td>Precision-weighted</td>
+                        </tr>
+                        <tr>
+                            <td class="crypto-name">Bayes Factors</td>
+                            <td class="positive-value">BF > 10</td>
+                            <td class="positive-value">4/6 cryptos</td>
+                            <td>Strong evidence</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2 class="section-title">Network Analysis</h2>
+            <div class="data-table" style="margin-bottom: 3rem;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cryptocurrency</th>
+                            <th>Eigenvector Centrality</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="crypto-name">ETH</td>
+                            <td class="positive-value">0.89</td>
+                            <td>Most central (unexpected)</td>
+                        </tr>
+                        <tr>
+                            <td class="crypto-name">BTC</td>
+                            <td class="positive-value">0.71</td>
+                            <td>Secondary hub</td>
+                        </tr>
+                        <tr>
+                            <td class="crypto-name">Network Density</td>
+                            <td class="positive-value">0.667</td>
+                            <td>Substantial interconnection</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2 class="section-title">Regime-Switching Model</h2>
+            <div class="data-table" style="margin-bottom: 3rem;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Finding</th>
+                            <th>Statistic</th>
+                            <th>Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="crypto-name">Sensitivity Amplification</td>
+                            <td class="positive-value">5× during crisis</td>
+                            <td>Regime-dependent volatility</td>
+                        </tr>
+                        <tr>
+                            <td class="crypto-name">F-statistic</td>
+                            <td class="positive-value">F = 45.23</td>
+                            <td>p < 0.001***</td>
+                        </tr>
+                        <tr>
+                            <td class="crypto-name">Placebo Test</td>
+                            <td class="positive-value">1,000 random dates</td>
+                            <td>Actual events >>> random (p < 0.001)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="data-section">
+            <h2 class="section-title">Summary Statistics</h2>
+            <div class="data-table">
+                <table id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Cryptocurrency</th>
+                            <th>Infrastructure Effect (%)</th>
+                            <th>Regulatory Effect (%)</th>
+                            <th>Difference (pp)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Farzulla Research | Research Period: 2019-2025</p>
+        <p>Interactive Dashboard for Academic Research</p>
+    </footer>
+
+    <script>
+        // Research Data - TARCH-X Infrastructure and Regulatory Coefficients
+        const cryptoData = [
+            {crypto: 'BTC', mean_infra_effect: 1.191, mean_reg_effect: 0.32, difference: 0.871},
+            {crypto: 'ETH', mean_infra_effect: 2.531, mean_reg_effect: 0.55, difference: 1.981},
+            {crypto: 'XRP', mean_infra_effect: 2.386, mean_reg_effect: 1.47, difference: 0.916},
+            {crypto: 'BNB', mean_infra_effect: 2.913, mean_reg_effect: 0.16, difference: 2.753},
+            {crypto: 'LTC', mean_infra_effect: 2.920, mean_reg_effect: 0.05, difference: 2.870},
+            {crypto: 'ADA', mean_infra_effect: 3.371, mean_reg_effect: 0.00, difference: 3.371}
+        ];
+
+        // Color scheme
+        const colors = {
+            infrastructure: '#00D9FF',
+            regulatory: '#FF6B9D',
+            positive: '#00F5A0',
+            negative: '#FF4757',
+            neutral: '#95A3B3',
+            background: '#0a0e27',
+            gridColor: 'rgba(0, 217, 255, 0.2)'
+        };
+
+        // Populate data table
+        function populateTable() {
+            const tbody = document.getElementById('tableBody');
+            cryptoData.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="crypto-name">${row.crypto}</td>
+                    <td class="${row.mean_infra_effect >= 0 ? 'positive-value' : 'negative-value'}">
+                        ${row.mean_infra_effect.toFixed(3)}%
+                    </td>
+                    <td class="${row.mean_reg_effect >= 0 ? 'positive-value' : 'negative-value'}">
+                        ${row.mean_reg_effect.toFixed(3)}%
+                    </td>
+                    <td class="${row.difference >= 0 ? 'positive-value' : 'negative-value'}">
+                        ${row.difference.toFixed(3)}pp
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Create main dashboard
+        function createDashboard() {
+            const cryptos = cryptoData.map(d => d.crypto);
+            const infraEffects = cryptoData.map(d => d.mean_infra_effect);
+            const regEffects = cryptoData.map(d => d.mean_reg_effect);
+            const differences = cryptoData.map(d => d.difference);
+
+            // Trace 1: Infrastructure Effects Bar Chart
+            const trace1 = {
+                x: cryptos,
+                y: infraEffects,
+                type: 'bar',
+                name: 'Infrastructure Events',
+                marker: {
+                    color: infraEffects.map(val => val >= 0 ? colors.positive : colors.negative),
+                    line: {
+                        color: colors.infrastructure,
+                        width: 2
+                    }
+                },
+                text: infraEffects.map(v => v.toFixed(3) + '%'),
+                textposition: 'outside',
+                textfont: { size: 11 },
+                hovertemplate: '<b>%{x}</b><br>Infrastructure: %{y:.3f}%<extra></extra>'
+            };
+
+            // Trace 2: Regulatory Effects Bar Chart
+            const trace2 = {
+                x: cryptos,
+                y: regEffects,
+                type: 'bar',
+                name: 'Regulatory Events',
+                marker: {
+                    color: regEffects.map(val => val >= 0 ? colors.regulatory : colors.negative),
+                    opacity: 0.7
+                },
+                text: regEffects.map(v => v.toFixed(3) + '%'),
+                textposition: 'outside',
+                textfont: { size: 11 },
+                hovertemplate: '<b>%{x}</b><br>Regulatory: %{y:.3f}%<extra></extra>'
+            };
+
+            // Trace 3: 3D Scatter Plot
+            const trace3 = {
+                x: infraEffects,
+                y: regEffects,
+                z: differences,
+                mode: 'markers+text',
+                type: 'scatter3d',
+                name: 'Effect Space',
+                marker: {
+                    size: 12,
+                    color: infraEffects,
+                    colorscale: [
+                        [0, colors.negative],
+                        [0.5, colors.neutral],
+                        [1, colors.positive]
+                    ],
+                    showscale: true,
+                    colorbar: {
+                        title: 'Infra<br>Effect',
+                        titleside: 'right',
+                        ticksuffix: '%',
+                        len: 0.5,
+                        x: 1.15
+                    },
+                    line: {
+                        color: colors.infrastructure,
+                        width: 1
+                    }
+                },
+                text: cryptos,
+                textposition: 'top center',
+                textfont: {
+                    size: 10,
+                    color: '#ffffff'
+                },
+                hovertemplate: '<b>%{text}</b><br>Infra: %{x:.3f}%<br>Reg: %{y:.3f}%<br>Diff: %{z:.3f}pp<extra></extra>'
+            };
+
+            // Trace 4: Difference Line Plot
+            const trace4 = {
+                x: cryptos,
+                y: differences,
+                type: 'scatter',
+                mode: 'lines+markers',
+                name: 'Heterogeneity',
+                line: {
+                    color: colors.positive,
+                    width: 3
+                },
+                marker: {
+                    size: 10,
+                    color: colors.infrastructure,
+                    line: {
+                        color: colors.positive,
+                        width: 2
+                    }
+                },
+                hovertemplate: '<b>%{x}</b><br>Difference: %{y:.3f}pp<extra></extra>'
+            };
+
+            // Trace 5: Heatmap for statistical significance
+            const heatmapData = [
+                infraEffects,
+                regEffects,
+                differences
+            ];
+
+            const trace5 = {
+                z: heatmapData,
+                x: cryptos,
+                y: ['Infrastructure', 'Regulatory', 'Difference'],
+                type: 'heatmap',
+                colorscale: [
+                    [0, colors.negative],
+                    [0.5, colors.neutral],
+                    [1, colors.positive]
+                ],
+                showscale: true,
+                colorbar: {
+                    title: 'Effect<br>Size',
+                    titleside: 'right',
+                    ticksuffix: '%',
+                    len: 0.3,
+                    x: 1.15
+                },
+                hovertemplate: '<b>%{x}</b><br>%{y}: %{z:.3f}%<extra></extra>'
+            };
+
+            // Layout configuration
+            const layout = {
+                title: {
+                    text: '<b>Interactive Research Dashboard</b><br><sub>Mean Event Effects Across Cryptocurrencies</sub>',
+                    font: {
+                        size: 20,
+                        color: colors.infrastructure
+                    },
+                    x: 0.5,
+                    xanchor: 'center'
+                },
+
+                paper_bgcolor: colors.background,
+                plot_bgcolor: 'rgba(26, 26, 62, 0.4)',
+
+                font: {
+                    family: 'Roboto, sans-serif',
+                    size: 12,
+                    color: '#e0e0e0'
+                },
+
+                grid: {
+                    rows: 2,
+                    columns: 2,
+                    pattern: 'independent',
+                    roworder: 'top to bottom'
+                },
+
+                // Subplot 1: Infrastructure vs Regulatory Comparison
+                xaxis: {
+                    title: 'Cryptocurrency',
+                    domain: [0, 0.45],
+                    showgrid: true,
+                    gridcolor: colors.gridColor,
+                    tickfont: { size: 11 }
+                },
+                yaxis: {
+                    title: 'Mean Effect (%)',
+                    domain: [0.55, 1],
+                    showgrid: true,
+                    gridcolor: colors.gridColor,
+                    zeroline: true,
+                    zerolinecolor: colors.neutral
+                },
+
+                // Subplot 2: 3D Effect Space
+                scene: {
+                    domain: {
+                        x: [0.55, 1],
+                        y: [0.55, 1]
+                    },
+                    xaxis: {
+                        title: 'Infrastructure (%)',
+                        backgroundcolor: 'rgba(26, 26, 62, 0.4)',
+                        gridcolor: colors.gridColor,
+                        showbackground: true
+                    },
+                    yaxis: {
+                        title: 'Regulatory (%)',
+                        backgroundcolor: 'rgba(26, 26, 62, 0.4)',
+                        gridcolor: colors.gridColor,
+                        showbackground: true
+                    },
+                    zaxis: {
+                        title: 'Difference (pp)',
+                        backgroundcolor: 'rgba(26, 26, 62, 0.4)',
+                        gridcolor: colors.gridColor,
+                        showbackground: true
+                    },
+                    camera: {
+                        eye: { x: 1.5, y: 1.5, z: 1.3 }
+                    }
+                },
+
+                // Subplot 3: Heterogeneity Line
+                xaxis2: {
+                    title: 'Cryptocurrency',
+                    domain: [0, 0.45],
+                    anchor: 'y2',
+                    showgrid: true,
+                    gridcolor: colors.gridColor
+                },
+                yaxis2: {
+                    title: 'Difference (pp)',
+                    domain: [0, 0.45],
+                    anchor: 'x2',
+                    showgrid: true,
+                    gridcolor: colors.gridColor,
+                    zeroline: true,
+                    zerolinecolor: colors.neutral
+                },
+
+                // Subplot 4: Heatmap
+                xaxis3: {
+                    title: 'Cryptocurrency',
+                    domain: [0.55, 1],
+                    anchor: 'y3',
+                    side: 'bottom'
+                },
+                yaxis3: {
+                    title: 'Effect Type',
+                    domain: [0, 0.45],
+                    anchor: 'x3'
+                },
+
+                height: 900,
+                showlegend: true,
+                legend: {
+                    orientation: 'h',
+                    y: -0.08,
+                    x: 0.5,
+                    xanchor: 'center',
+                    bgcolor: 'rgba(10, 14, 39, 0.8)',
+                    bordercolor: colors.infrastructure,
+                    borderwidth: 1
+                },
+
+                margin: { l: 60, r: 100, t: 100, b: 100 },
+
+                hoverlabel: {
+                    bgcolor: 'rgba(10, 14, 39, 0.9)',
+                    bordercolor: colors.infrastructure,
+                    font: { size: 12 }
+                }
+            };
+
+            const data = [trace1, trace2, trace3, trace4, trace5];
+
+            const config = {
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false,
+                modeBarButtonsToRemove: ['pan2d', 'lasso2d', 'select2d', 'autoScale2d'],
+                toImageButtonOptions: {
+                    format: 'png',
+                    filename: 'crypto-event-study-dashboard',
+                    height: 1200,
+                    width: 1920,
+                    scale: 2
+                }
+            };
+
+            Plotly.newPlot('dashboard', data, layout, config);
+        }
+
+        // Export functions
+        function exportPNG() {
+            Plotly.downloadImage('dashboard', {
+                format: 'png',
+                filename: 'crypto-event-study-dashboard',
+                height: 1200,
+                width: 1920,
+                scale: 2
+            });
+        }
+
+        function exportCSV() {
+            const csvContent = [
+                ['Cryptocurrency', 'Infrastructure Effect (%)', 'Regulatory Effect (%)', 'Difference (pp)'],
+                ...cryptoData.map(row => [
+                    row.crypto,
+                    row.mean_infra_effect.toFixed(3),
+                    row.mean_reg_effect.toFixed(3),
+                    row.difference.toFixed(3)
+                ])
+            ].map(row => row.join(',')).join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'crypto-event-study-data.csv');
+            link.style.visibility = 'hidden';
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            populateTable();
+            createDashboard();
+        });
+
+        // Handle responsive resizing
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                Plotly.Plots.resize('dashboard');
+            }, 250);
+        });
+    </script>
+</body>
+</html>

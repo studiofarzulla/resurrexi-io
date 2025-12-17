@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptocurrency Event Study - Advanced Visualizations</title>
+    <script src="https://cdn.plot.ly/plotly-3.2.0.min.js" integrity="sha256-iZ2u/oU2wf/vDbl/ChcX93WgbBRSBvUO6N413hDz7xM=" crossorigin="anonymous"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 1.1rem;
+            color: #ffa600;
+            font-weight: 500;
+        }
+        .experimental-badge {
+            display: inline-block;
+            background: rgba(255, 166, 0, 0.2);
+            border: 1px solid #ffa600;
+            color: #ffa600;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .tab {
+            flex: 1;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-weight: 600;
+        }
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #667eea;
+            color: #fff;
+        }
+        .tab-content {
+            display: none;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 600px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .chart-container {
+            width: 100%;
+            height: 600px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .tab-description {
+            color: #999;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Cryptocurrency Event Study</h1>
+            <p class="subtitle">Advanced Visualizations</p>
+            <span class="experimental-badge">EXPERIMENTAL</span>
+        </header>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab(0)">
+                <div>Temporal Evolution</div>
+            </div>
+            <div class="tab" onclick="switchTab(1)">
+                <div>Hierarchical Breakdown</div>
+            </div>
+            <div class="tab" onclick="switchTab(2)">
+                <div>Multi-Dimensional</div>
+            </div>
+        </div>
+
+        <div class="tab-content active" id="tab0">
+            <p class="tab-description">
+                Animated visualization showing how cryptocurrency event sensitivities evolve over time.
+                Use the slider to explore temporal dynamics of infrastructure vs regulatory effects.
+            </p>
+            <div id="chart-animated" class="chart-container"></div>
+        </div>
+
+        <div class="tab-content" id="tab1">
+            <p class="tab-description">
+                Hierarchical sunburst chart decomposing total effects into infrastructure and regulatory components.
+                Click segments to drill down into specific cryptocurrencies.
+            </p>
+            <div id="chart-sunburst" class="chart-container"></div>
+        </div>
+
+        <div class="tab-content" id="tab2">
+            <p class="tab-description">
+                Parallel coordinates visualization showing relationships across multiple dimensions.
+                Drag axes to reorder, click and drag on axes to filter data.
+            </p>
+            <div id="chart-parallel" class="chart-container"></div>
+        </div>
+
+        <footer>
+            <p>Farzulla Research | Data-driven cryptocurrency volatility analysis</p>
+        </footer>
+    </div>
+
+    <script>
+        const cryptoData = [
+            {crypto: 'BTC', mean_infra_effect: 1.191, mean_reg_effect: 0.32, difference: 0.871},
+            {crypto: 'ETH', mean_infra_effect: 2.531, mean_reg_effect: 0.55, difference: 1.981},
+            {crypto: 'XRP', mean_infra_effect: 2.386, mean_reg_effect: 1.47, difference: 0.916},
+            {crypto: 'BNB', mean_infra_effect: 2.913, mean_reg_effect: 0.16, difference: 2.753},
+            {crypto: 'LTC', mean_infra_effect: 2.920, mean_reg_effect: 0.05, difference: 2.870},
+            {crypto: 'ADA', mean_infra_effect: 3.371, mean_reg_effect: 0.00, difference: 3.371}
+        ];
+
+        const darkTheme = {
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            font: {color: '#e0e0e0'},
+            xaxis: {
+                gridcolor: '#333',
+                zerolinecolor: '#555'
+            },
+            yaxis: {
+                gridcolor: '#333',
+                zerolinecolor: '#555'
+            }
+        };
+
+        const config = {displaylogo: false, responsive: true};
+
+        function switchTab(index) {
+            document.querySelectorAll('.tab').forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+            });
+            document.querySelectorAll('.tab-content').forEach((content, i) => {
+                content.classList.toggle('active', i === index);
+            });
+        }
+
+        // Animated Scatter Plot
+        function createAnimatedChart() {
+            const frames = [];
+            const numFrames = 10;
+
+            for (let frame = 0; frame < numFrames; frame++) {
+                const frameData = cryptoData.map(d => ({
+                    x: [d.mean_infra_effect + (Math.random() - 0.5) * 0.1],
+                    y: [d.mean_reg_effect + (Math.random() - 0.5) * 0.1],
+                    mode: 'markers',
+                    name: d.crypto,
+                    marker: {
+                        size: Math.abs(d.difference) * 100 + 20,
+                        line: {color: 'white', width: 2}
+                    },
+                    text: [d.crypto],
+                    hovertemplate: '<b>%{text}</b><br>Infrastructure: %{x:.3f}%<br>Regulatory: %{y:.3f}%<extra></extra>'
+                }));
+                frames.push({name: frame.toString(), data: frameData});
+            }
+
+            const initialData = frames[0].data;
+
+            const layout = {
+                ...darkTheme,
+                title: {
+                    text: 'Event Sensitivity Evolution (Simulated)',
+                    font: {size: 20}
+                },
+                xaxis: {
+                    ...darkTheme.xaxis,
+                    title: 'Infrastructure Effect (%)'
+                },
+                yaxis: {
+                    ...darkTheme.yaxis,
+                    title: 'Regulatory Effect (%)'
+                },
+                height: 600,
+                showlegend: true,
+                updatemenus: [{
+                    type: 'buttons',
+                    showactive: false,
+                    x: 0.1,
+                    y: 0,
+                    xanchor: 'right',
+                    yanchor: 'top',
+                    buttons: [
+                        {
+                            label: '▶',
+                            method: 'animate',
+                            args: [null, {
+                                frame: {duration: 500, redraw: true},
+                                fromcurrent: true,
+                                mode: 'immediate'
+                            }]
+                        },
+                        {
+                            label: '■',
+                            method: 'animate',
+                            args: [[null], {
+                                frame: {duration: 0, redraw: false},
+                                mode: 'immediate'
+                            }]
+                        }
+                    ]
+                }],
+                sliders: [{
+                    active: 0,
+                    steps: frames.map((f, i) => ({
+                        label: i.toString(),
+                        method: 'animate',
+                        args: [[f.name], {
+                            frame: {duration: 300, redraw: true},
+                            mode: 'immediate'
+                        }]
+                    })),
+                    x: 0.1,
+                    len: 0.9,
+                    xanchor: 'left',
+                    y: 0,
+                    yanchor: 'top',
+                    pad: {t: 60, b: 10},
+                    currentvalue: {prefix: 'Frame: '}
+                }]
+            };
+
+            Plotly.newPlot('chart-animated', initialData, layout, config)
+                .then(() => Plotly.addFrames('chart-animated', frames));
+        }
+
+        // Sunburst Chart
+        function createSunburstChart() {
+            const labels = [];
+            const parents = [];
+            const values = [];
+
+            cryptoData.forEach(d => {
+                labels.push(d.crypto);
+                parents.push('');
+                values.push(Math.abs(d.mean_infra_effect) + Math.abs(d.mean_reg_effect));
+
+                labels.push(d.crypto + '_Infra');
+                parents.push(d.crypto);
+                values.push(Math.abs(d.mean_infra_effect));
+
+                labels.push(d.crypto + '_Reg');
+                parents.push(d.crypto);
+                values.push(Math.abs(d.mean_reg_effect));
+            });
+
+            const data = [{
+                type: 'sunburst',
+                labels: labels,
+                parents: parents,
+                values: values,
+                branchvalues: 'total',
+                marker: {
+                    colorscale: 'Viridis',
+                    cmid: 1.5
+                },
+                hovertemplate: '<b>%{label}</b><br>Value: %{value:.3f}%<extra></extra>',
+                textfont: {size: 12}
+            }];
+
+            const layout = {
+                ...darkTheme,
+                title: {
+                    text: 'Hierarchical Event Sensitivity Structure',
+                    font: {size: 20}
+                },
+                height: 600
+            };
+
+            Plotly.newPlot('chart-sunburst', data, layout, config);
+        }
+
+        // Parallel Coordinates Chart
+        function createParallelChart() {
+            const data = [{
+                type: 'parcoords',
+                line: {
+                    color: cryptoData.map(d => Math.abs(d.mean_infra_effect)),
+                    colorscale: 'Viridis',
+                    showscale: true,
+                    cmin: 0,
+                    cmax: Math.max(...cryptoData.map(d => Math.abs(d.mean_infra_effect)))
+                },
+                dimensions: [
+                    {
+                        label: 'Infrastructure',
+                        values: cryptoData.map(d => d.mean_infra_effect),
+                        range: [
+                            Math.min(...cryptoData.map(d => d.mean_infra_effect)) - 0.5,
+                            Math.max(...cryptoData.map(d => d.mean_infra_effect)) + 0.5
+                        ],
+                        constraintrange: [
+                            Math.min(...cryptoData.map(d => d.mean_infra_effect)),
+                            Math.max(...cryptoData.map(d => d.mean_infra_effect))
+                        ]
+                    },
+                    {
+                        label: 'Regulatory',
+                        values: cryptoData.map(d => d.mean_reg_effect),
+                        range: [
+                            Math.min(...cryptoData.map(d => d.mean_reg_effect)) - 0.5,
+                            Math.max(...cryptoData.map(d => d.mean_reg_effect)) + 0.5
+                        ]
+                    },
+                    {
+                        label: 'Difference',
+                        values: cryptoData.map(d => Math.abs(d.difference)),
+                        range: [0, Math.max(...cryptoData.map(d => Math.abs(d.difference))) + 0.001]
+                    },
+                    {
+                        label: 'Crypto',
+                        values: cryptoData.map((d, i) => i),
+                        tickvals: cryptoData.map((d, i) => i),
+                        ticktext: cryptoData.map(d => d.crypto)
+                    }
+                ]
+            }];
+
+            const layout = {
+                ...darkTheme,
+                title: {
+                    text: 'Parallel Coordinates: Multi-Dimensional Event Sensitivity',
+                    font: {size: 20}
+                },
+                height: 600,
+                margin: {l: 150, r: 150}
+            };
+
+            Plotly.newPlot('chart-parallel', data, layout, config);
+        }
+
+        // Initialize all charts
+        window.addEventListener('load', () => {
+            createAnimatedChart();
+            createSunburstChart();
+            createParallelChart();
+        });
+    </script>
+</body>
+</html>

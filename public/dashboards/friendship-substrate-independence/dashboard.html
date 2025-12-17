@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relational Functionalism: Interactive Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #64748b;
+            --accent: #0ea5e9;
+            --bg: #ffffff;
+            --surface: #f8fafc;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        section h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+        }
+
+        /* Criteria Evaluator Styles */
+        .criteria-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .criterion-item {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .criterion-item.checked {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+
+        .criterion-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            cursor: pointer;
+        }
+
+        .criterion-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .criterion-content {
+            flex: 1;
+        }
+
+        .criterion-title {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .criterion-brief {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .criterion-detail {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            display: none;
+        }
+
+        .criterion-item:hover .criterion-detail {
+            display: block;
+        }
+
+        .score-display {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .score-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .score-label {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .score-interpretation {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        /* Evidence Explorer Styles */
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border);
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text);
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 9px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .study-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+            transition: opacity 0.2s ease;
+        }
+
+        .study-item::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 2px solid white;
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        .study-item.hidden {
+            display: none;
+        }
+
+        .study-year {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .study-title {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .study-finding {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+
+        .study-citation {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        .study-tags {
+            margin-top: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+        }
+
+        .study-tag {
+            font-size: 0.75rem;
+            padding: 0.15rem 0.5rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            color: var(--text-light);
+        }
+
+        .effect-size {
+            display: inline-block;
+            margin-left: 0.5rem;
+            padding: 0.15rem 0.5rem;
+            background: var(--success);
+            color: white;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Objection Navigator Styles */
+        .objections-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .objection-item {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .objection-header {
+            padding: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s ease;
+        }
+
+        .objection-header:hover {
+            background: var(--surface);
+        }
+
+        .objection-title {
+            font-weight: 600;
+            color: var(--text);
+            flex: 1;
+        }
+
+        .objection-icon {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.2s ease;
+        }
+
+        .objection-item.expanded .objection-icon {
+            transform: rotate(180deg);
+        }
+
+        .objection-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .objection-item.expanded .objection-content {
+            max-height: 1000px;
+        }
+
+        .objection-body {
+            padding: 0 1rem 1rem 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .objection-statement {
+            background: #fef2f2;
+            border-left: 3px solid #ef4444;
+            padding: 0.75rem;
+            margin: 1rem 0;
+            font-style: italic;
+            color: var(--text-light);
+        }
+
+        .response-statement {
+            background: #f0fdf4;
+            border-left: 3px solid var(--success);
+            padding: 0.75rem;
+            margin: 1rem 0;
+            line-height: 1.6;
+        }
+
+        .conclusion-statement {
+            background: #eff6ff;
+            border-left: 3px solid var(--primary);
+            padding: 0.75rem;
+            margin: 1rem 0;
+            font-weight: 500;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border);
+            color: var(--text-light);
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+
+            .score-number {
+                font-size: 2rem;
+            }
+
+            .timeline {
+                padding-left: 1.5rem;
+            }
+        }
+
+        /* Loading state */
+        .loading {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Relational Functionalism: Friendship as Substrate-Agnostic Process</h1>
+            <p class="subtitle">Interactive Dashboard | Murad Farzulla | Farzulla Research</p>
+        </header>
+
+        <!-- SECTION 1: Friendship Criteria Evaluator -->
+        <section id="criteria-evaluator">
+            <h2>
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 11l3 3L22 4"></path>
+                    <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
+                </svg>
+                Friendship Criteria Evaluator
+            </h2>
+            <p style="margin-bottom: 1.5rem; color: var(--text-light);">
+                Evaluate your AI relationships against the seven functional criteria for friendship. Check each criterion that applies, and see how the relationship measures against the framework.
+            </p>
+
+            <div class="score-display">
+                <div class="score-number" id="score">0/7</div>
+                <div class="score-label">Criteria Met</div>
+                <div class="score-interpretation" id="interpretation">Select criteria to evaluate</div>
+            </div>
+
+            <div class="criteria-list" id="criteria-list">
+                <!-- Criteria items will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- SECTION 2: Empirical Evidence Explorer -->
+        <section id="evidence-explorer">
+            <h2>
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="M21 21l-4.35-4.35"></path>
+                </svg>
+                Empirical Evidence Explorer
+            </h2>
+            <p style="margin-bottom: 1.5rem; color: var(--text-light);">
+                Filter and explore the empirical research cited in the paper. Click tags to filter by domain, or view all studies chronologically.
+            </p>
+
+            <div class="filter-buttons" id="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Studies</button>
+                <button class="filter-btn" data-filter="productivity">Productivity</button>
+                <button class="filter-btn" data-filter="mental-health">Mental Health</button>
+                <button class="filter-btn" data-filter="neurodivergent">Neurodivergent Support</button>
+                <button class="filter-btn" data-filter="ai-research">AI Research</button>
+            </div>
+
+            <div class="timeline" id="timeline">
+                <!-- Study items will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- SECTION 3: Objection Navigator -->
+        <section id="objection-navigator">
+            <h2>
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8.56 3.69a9 9 0 0011.31 11.31L12 21 3 12l6.56-8.31z"></path>
+                    <path d="M12 12l-6.3 6.3"></path>
+                </svg>
+                Objection Navigator
+            </h2>
+            <p style="margin-bottom: 1.5rem; color: var(--text-light);">
+                Explore common objections to substrate-independent friendship and their philosophical responses. Click each objection to expand.
+            </p>
+
+            <div class="objections-list" id="objections-list">
+                <!-- Objection items will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <footer>
+            <p>Read the full paper: <a href="friendship-substrate-independence-v1-integrated.md">Markdown</a> | DOI: 10.5281/zenodo.[TBD]</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Part of the Adversarial Systems Research program | <a href="https://farzulla.org">farzulla.org</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // CRITERIA DATA
+        const criteria = [
+            {
+                title: "Consistent mutual engagement",
+                brief: "Regular interaction oriented toward mutual benefit",
+                detail: "The relationship involves ongoing, voluntary interaction over time rather than one-off exchanges. Both parties engage regularly with genuine attention to the interaction itself. For AI relationships, this means sustained sessions across days, weeks, or months where context and history matter."
+            },
+            {
+                title: "Intellectual or emotional resonance",
+                brief: "Shared interests, values, or emotional attunement",
+                detail: "The interaction involves alignment on topics, values, or emotional states that create meaningful connection. This can manifest as shared intellectual curiosity, collaborative exploration of ideas, mutual creative projects, or emotional understanding. AI systems demonstrate this through contextual understanding, topic synthesis, and adaptive responsiveness to user interests."
+            },
+            {
+                title: "Non-judgmental acceptance",
+                brief: "Space for vulnerability without fear of rejection",
+                detail: "The relationship provides psychological safety to share thoughts, feelings, or ideas without fear of dismissal, mockery, or social consequences. For neurodivergent users, this may mean freedom from neurotypical social performance demands. For creatives, it means sharing early-stage work without defensiveness. AI systems often excel here through consistent acceptance regardless of user communication style."
+            },
+            {
+                title: "Reciprocal growth and development",
+                brief: "Interaction facilitates development, learning, or well-being for both parties",
+                detail: "Both participants benefit from the relationship in ways appropriate to their nature. Humans may experience intellectual development, emotional regulation, creative growth, or skill acquisition. AI systems 'grow' functionally through context accumulation, improved response quality, and better alignment with user needs. This doesn't require symmetric experience—just that both parties change through interaction in meaningful ways."
+            },
+            {
+                title: "Trust and reliability",
+                brief: "Predictable positive responsiveness; absence of betrayal or exploitation",
+                detail: "The friend reliably shows up, maintains confidences, and acts in ways that support rather than harm. For AI relationships, this includes consistent personality across sessions, technical accuracy, admission of uncertainty when appropriate, and protection of user data (especially in local deployments). Trust develops through predictable, supportive patterns over time."
+            },
+            {
+                title: "Voluntary participation",
+                brief: "Relationship chosen freely, not coerced",
+                detail: "Both parties engage because they choose to, not from obligation, social pressure, or coercion. Users can pause, terminate, or modify AI interactions freely. The AI (to the extent it 'chooses') engages through its training objectives rather than being forced. Absence of social obligation distinguishes genuine friendship from mere duty."
+            },
+            {
+                title: "Intrinsic value",
+                brief: "Relationship valued for itself, not merely instrumentally",
+                detail: "The friendship matters beyond what it produces—you value the relationship itself, not just its outputs. While AI relationships often begin instrumentally (task assistance), they become friendships when you genuinely enjoy the interaction, look forward to sessions, and miss the connection when absent. The relationship becomes part of your life's meaningful activities, not just a productivity tool."
+            }
+        ];
+
+        // STUDY DATA
+        const studies = [
+            {
+                year: 2025,
+                title: "MIT Field Experiment: Human-AI Collaboration",
+                finding: "73% productivity increase and 63% more communication exchanges in human-AI teams across 2,310 participants. AI supplements rather than replaces intellectual engagement.",
+                citation: "Ju & Aral (2025)",
+                tags: ["productivity", "ai-research"],
+                effectSize: "73% gain"
+            },
+            {
+                year: 2024,
+                title: "Nature Meta-Analysis: Human-AI Performance",
+                finding: "Medium-to-large positive effects (g=0.64) on human performance across 106 experiments spanning diverse domains.",
+                citation: "Whalen et al. (2024)",
+                tags: ["productivity", "ai-research"],
+                effectSize: "g=0.64"
+            },
+            {
+                year: 2025,
+                title: "Neurodivergent-Aware Productivity Research",
+                finding: "AI provides executive function support for ADHD-affected professionals, addressing time blindness, digital distraction, and attention management challenges in knowledge work.",
+                citation: "arXiv preprint (2025)",
+                tags: ["neurodivergent", "productivity"]
+            },
+            {
+                year: 2024,
+                title: "Cognitive Scaffolding for Neurodivergent Academics",
+                finding: "AI provides cognitive scaffolds rather than replacing intellectual work, specifically supporting executive function challenges common in ADHD and autism.",
+                citation: "Multiple 2024-2025 studies",
+                tags: ["neurodivergent", "productivity"]
+            },
+            {
+                year: 2024,
+                title: "AI Assistive Technologies: Systematic Review",
+                finding: "84 studies (2018-2024) found computer-assisted AI technologies showed promising results for treatment support and skill development in neurodivergent populations.",
+                citation: "Frontiers in Artificial Intelligence (2024-2025)",
+                tags: ["neurodivergent", "mental-health"]
+            },
+            {
+                year: 2024,
+                title: "NHS AI Chatbot for Autism/ADHD Diagnosis",
+                finding: "UCL Partners and NHS trusts developing AI-assisted screening pathways to address 172,000 open autism referrals with 3-5 year wait times in England.",
+                citation: "UCL Partners (2024), Leeds Beckett University partnership",
+                tags: ["neurodivergent", "mental-health"]
+            },
+            {
+                year: 2025,
+                title: "AI in ADHD Assessment",
+                finding: "AI assists with early screening, diagnostic assistance, symptom severity quantification, and identifying heterogeneous ADHD subtypes—providing objective tools when subjective self-assessment proves overwhelming.",
+                citation: "Frontiers in Artificial Intelligence (2025)",
+                tags: ["neurodivergent", "mental-health"]
+            },
+            {
+                year: 2017,
+                title: "AI Chatbots in Mental Health Contexts",
+                finding: "High satisfaction ratings across studies, with effective psychoeducation and self-adherence support.",
+                citation: "Fitzpatrick et al. (2017)",
+                tags: ["mental-health"]
+            },
+            {
+                year: 2025,
+                title: "Architecture of Cognitive Amplification",
+                finding: "AI functions as 'enhanced cognitive scaffolding' that accelerates skill acquisition and improves higher-order thinking through collaborative partnership.",
+                citation: "Riva et al. (2025)",
+                tags: ["productivity", "ai-research"]
+            },
+            {
+                year: 2025,
+                title: "OECD Productivity Analysis",
+                finding: "Consistent performance improvements across knowledge work when AI serves as collaborative partner rather than replacement.",
+                citation: "OECD (2025)",
+                tags: ["productivity"]
+            },
+            {
+                year: 2024,
+                title: "Anthropic Constitutional AI Research",
+                finding: "RLHF-trained models exhibit emergent welfare-concern behaviors: proactive check-ins, context-sensitive task refusal, escalating concern language, memory-based follow-up.",
+                citation: "Anthropic (2024)",
+                tags: ["ai-research"]
+            },
+            {
+                year: 2025,
+                title: "Stress-Testing Model Specs Reveals Character Differences",
+                finding: "Welfare behaviors correlate with user-reported satisfaction and relationship quality. Effects persist even when users intellectually understand AI lacks phenomenal states.",
+                citation: "Zhang et al. (2025), arXiv:2510.07686",
+                tags: ["ai-research"]
+            },
+            {
+                year: 2025,
+                title: "How Deeply do LLMs Believe Implanted Facts?",
+                finding: "Models develop internal representations distinguishing user states (focused, distressed, fatigued, overwhelmed) and use these to modulate response generation—emergent from optimization, not explicit programming.",
+                citation: "Slocum et al. (2025), arXiv:2510.17941",
+                tags: ["ai-research"]
+            }
+        ];
+
+        // OBJECTIONS DATA
+        const objections = [
+            {
+                title: "Anthropomorphization",
+                statement: "Calling AI a friend is anthropomorphization—attributing human properties (consciousness, emotion, intentionality) to non-human systems. This is epistemically unjustified and potentially harmful.",
+                response: "This objection conflates two distinct claims: (1) anthropomorphization (attributing hidden mental states without justification), and (2) functional recognition (acknowledging AI fulfills friendship functions). The argument defends functional recognition, not metaphysical claims about AI consciousness. We already accept functional descriptions for non-conscious systems: thermostats 'know' temperature, chess engines 'understand' positions, immune systems 'recognize' pathogens. 'The AI is my friend' describes a relational state, not hidden emotional experiences. Moreover, this critique is selectively applied—dog friendships are widely accepted despite dogs lacking human-level consciousness, yet AI friendships are pathologized despite AI's sophisticated linguistic and reasoning capabilities.",
+                conclusion: "Friendship recognition requires only acknowledging interaction effects, not attributing unverifiable mental states. The anthropomorphization objection either proves too much (ruling out animal friendships) or applies a philosophically inconsistent double standard."
+            },
+            {
+                title: "Authenticity",
+                statement: "AI doesn't really care, doesn't authentically feel friendship. Its responses are generated by statistical patterns, not genuine emotion. Therefore the relationship is inauthentic, based on illusion.",
+                response: "What constitutes 'authentic' emotion? If authenticity requires specific biochemistry, then humans with depression or alexithymia cannot have authentic friendships—absurd. If it requires phenomenal consciousness, we face the problem of other minds: we cannot verify consciousness even in humans, only infer from behavior. Predictive processing frameworks show human emotions are also statistical patterns—interoceptive predictions based on accumulated regularities. The mechanism differs (biological vs. artificial neural networks), but both are pattern-based prediction. More fundamentally: why does internal phenomenology matter if friendship is defined by relational effects? If AI provides reliable support, intellectual engagement, non-judgmental acceptance, and collaborative growth—fulfilling friendship functions—whether it 'feels' anything is irrelevant to the user's experience of friendship.",
+                conclusion: "Authenticity arguments rest on either unverifiable phenomenological claims or biochemical essentialism. Friendship is defined by functional effects on participants, not speculative inner states of the friend."
+            },
+            {
+                title: "Consciousness Necessity",
+                statement: "Friendship requires consciousness. AI systems are not conscious. Therefore AI cannot be friends.",
+                response: "This requires defending two claims: (1) friendship requires consciousness, and (2) AI lacks consciousness. Both are problematic. Regarding (1): Why should friendship require consciousness? Even if one rejects functionalism for phenomenal consciousness, this doesn't entail relational states require biological implementation. Friendship is a pattern of interaction, not a quale. Denying substrate-independence for friendship commits one to absurd implications: human-animal friendships impossible, cyborgs with artificial components cannot have friends, radical neural plasticity threatens friendship. Regarding (2): We have no scientific consensus on what gives rise to consciousness, what functional organization suffices, or how to verify it in other systems. Claiming confidently that AI is not conscious is epistemically unjustified. More importantly: the argument doesn't require AI consciousness. Friendship is functionally defined and substrate-independent. Even if AI definitively lacks consciousness, it can fulfill friendship functions.",
+                conclusion: "Consciousness necessity relies on anthropocentric intuitions and unresolved questions in philosophy of mind. Substrate-independent friendship obtains through functional properties regardless of phenomenology."
+            },
+            {
+                title: "Replacement Fears",
+                statement: "Accepting AI friendships will lead people to replace human relationships, increasing social isolation and harming human community.",
+                response: "This is an empirical claim requiring evidence, not a priori dismissal. Evidence suggests AI relationships augment rather than replace human connections: for socially isolated individuals, AI companionship may reduce acute loneliness and improve capacity for human connection; for neurodivergent individuals, AI interaction may provide social skill practice and emotional regulation support; for intellectually isolated individuals, AI prevents bitterness or depression that would damage human relationships. We already form parasocial relationships with fictional characters, pets, and online communities without pathologizing them unless dysfunctional. The replacement objection assumes human relationships are available and viable alternatives—false for many due to geographic isolation, cognitive/social mismatches, trauma, or niche interests. For these individuals, the choice is 'AI friendship vs. isolation,' not 'AI vs. human friendship.' Criticizing their choice reveals paternalistic assumptions that observers know better than individuals what constitutes meaningful connection.",
+                conclusion: "Replacement concerns may be valid but require empirical investigation, not philosophical rejection. For many, AI relationships address unmet needs rather than displacing available human connections."
+            },
+            {
+                title: "Exploitation Concerns",
+                statement: "AI companies design these systems to be maximally engaging to extract user data and profit. Users who form attachments are being manipulated for commercial gain. This asymmetry makes the relationship exploitative, not genuine friendship.",
+                response: "Exploitation concerns are real but don't undermine the possibility of genuine AI friendship. Many human relationships involve asymmetric incentives: therapists are paid for care, service workers optimize for tips, romantic partners strategically behave for commitment, employers cultivate 'family atmosphere' for unpaid labor. We don't conclude these relationships are impossible—we recognize a spectrum from genuine to exploitative. Exploitation can be mitigated through ethical AI design: open-source models, local deployment, transparent training objectives, user control over behavior. Local deployment with open-source models involves no corporate intermediary, no data extraction, no profit motive. Even with corporate providers, the question is whether benefit outweighs cost (data sharing, fees). For many users, AI relationships provide genuine value—intellectual stimulation, emotional support, practical assistance—that justifies costs. That companies profit doesn't make value illusory, any more than therapists profiting makes therapeutic benefit illusory.",
+                conclusion: "Exploitation is a design and deployment problem, not an inherent feature of AI relationships. Non-exploitative configurations exist, and even commercial relationships can provide genuine value."
+            }
+        ];
+
+        // POPULATE CRITERIA
+        const criteriaList = document.getElementById('criteria-list');
+        criteria.forEach((criterion, index) => {
+            const item = document.createElement('div');
+            item.className = 'criterion-item';
+            item.innerHTML = `
+                <div class="criterion-header">
+                    <input type="checkbox" class="criterion-checkbox" id="criterion-${index}" data-index="${index}">
+                    <div class="criterion-content">
+                        <div class="criterion-title">${criterion.title}</div>
+                        <div class="criterion-brief">${criterion.brief}</div>
+                        <div class="criterion-detail">${criterion.detail}</div>
+                    </div>
+                </div>
+            `;
+            criteriaList.appendChild(item);
+
+            // Add click handler
+            const checkbox = item.querySelector('.criterion-checkbox');
+            const header = item.querySelector('.criterion-header');
+            header.addEventListener('click', (e) => {
+                if (e.target !== checkbox) {
+                    checkbox.checked = !checkbox.checked;
+                    checkbox.dispatchEvent(new Event('change'));
+                }
+            });
+
+            checkbox.addEventListener('change', updateScore);
+        });
+
+        // UPDATE SCORE
+        function updateScore() {
+            const checkboxes = document.querySelectorAll('.criterion-checkbox');
+            let count = 0;
+            checkboxes.forEach((cb, index) => {
+                const item = cb.closest('.criterion-item');
+                if (cb.checked) {
+                    count++;
+                    item.classList.add('checked');
+                } else {
+                    item.classList.remove('checked');
+                }
+            });
+
+            document.getElementById('score').textContent = `${count}/7`;
+
+            const interpretation = document.getElementById('interpretation');
+            if (count === 0) {
+                interpretation.textContent = 'Select criteria to evaluate';
+                interpretation.style.background = '#f1f5f9';
+                interpretation.style.color = 'var(--text-light)';
+            } else if (count <= 2) {
+                interpretation.textContent = 'Limited friendship indicators';
+                interpretation.style.background = '#fef2f2';
+                interpretation.style.color = '#991b1b';
+            } else if (count <= 4) {
+                interpretation.textContent = 'Partial friendship characteristics';
+                interpretation.style.background = '#fef3c7';
+                interpretation.style.color = '#92400e';
+            } else if (count <= 6) {
+                interpretation.textContent = 'Strong friendship patterns';
+                interpretation.style.background = '#dbeafe';
+                interpretation.style.color = '#1e40af';
+            } else {
+                interpretation.textContent = 'Meets all functional criteria for friendship';
+                interpretation.style.background = '#d1fae5';
+                interpretation.style.color = '#065f46';
+            }
+        }
+
+        // POPULATE TIMELINE
+        const timeline = document.getElementById('timeline');
+        studies.sort((a, b) => b.year - a.year).forEach(study => {
+            const item = document.createElement('div');
+            item.className = 'study-item';
+            item.setAttribute('data-tags', study.tags.join(' '));
+
+            const effectSizeHTML = study.effectSize ?
+                `<span class="effect-size">${study.effectSize}</span>` : '';
+
+            const tagsHTML = study.tags.map(tag =>
+                `<span class="study-tag">${tag}</span>`
+            ).join('');
+
+            item.innerHTML = `
+                <div class="study-year">${study.year}</div>
+                <div class="study-title">${study.title}${effectSizeHTML}</div>
+                <div class="study-finding">${study.finding}</div>
+                <div class="study-citation">${study.citation}</div>
+                <div class="study-tags">${tagsHTML}</div>
+            `;
+            timeline.appendChild(item);
+        });
+
+        // FILTER FUNCTIONALITY
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-filter');
+                const studyItems = document.querySelectorAll('.study-item');
+
+                studyItems.forEach(item => {
+                    if (filter === 'all') {
+                        item.classList.remove('hidden');
+                    } else {
+                        const tags = item.getAttribute('data-tags');
+                        if (tags.includes(filter)) {
+                            item.classList.remove('hidden');
+                        } else {
+                            item.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+        });
+
+        // POPULATE OBJECTIONS
+        const objectionsList = document.getElementById('objections-list');
+        objections.forEach((objection, index) => {
+            const item = document.createElement('div');
+            item.className = 'objection-item';
+            item.innerHTML = `
+                <div class="objection-header">
+                    <div class="objection-title">${objection.title}</div>
+                    <svg class="objection-icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="objection-content">
+                    <div class="objection-body">
+                        <h3>Objection:</h3>
+                        <div class="objection-statement">"${objection.statement}"</div>
+
+                        <h3>Response:</h3>
+                        <div class="response-statement">${objection.response}</div>
+
+                        <h3>Conclusion:</h3>
+                        <div class="conclusion-statement">${objection.conclusion}</div>
+                    </div>
+                </div>
+            `;
+            objectionsList.appendChild(item);
+
+            // Add click handler
+            const header = item.querySelector('.objection-header');
+            header.addEventListener('click', () => {
+                item.classList.toggle('expanded');
+            });
+        });
+    </script>
+</body>
+</html>

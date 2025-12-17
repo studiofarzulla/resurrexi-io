@@ -67,6 +67,12 @@ def copy_apps():
     else:
         print("Warning: ASRI static site not found, skipping")
 
+    # Research Dashboards (migrated from farzulla.org)
+    dashboards_dir = BASE_DIR / "dashboards"
+    if dashboards_dir.exists():
+        shutil.copytree(dashboards_dir, PUBLIC_DIR / "dashboards", dirs_exist_ok=True)
+        print("Copied research dashboards")
+
 def main():
     """Build the entire site"""
     print("Building resurrexi.io...")

@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctrine of Consensual Sovereignty: Interactive Visualizations</title>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --border-color: #dee2e6;
+            --accent-equal: #FF6B35;
+            --accent-stakes: #004E89;
+            --accent-plutocracy: #C1121F;
+            --accent-random: #9D4EDD;
+            --accent-expert: #06A77D;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #e9ecef;
+            --text-secondary: #adb5bd;
+            --border-color: #495057;
+            --shadow: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 0 2rem;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--accent-stakes);
+        }
+
+        .author {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .description {
+            max-width: 800px;
+            margin: 1.5rem auto;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        .pdf-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--accent-stakes);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        .pdf-link:hover {
+            opacity: 0.9;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .theme-toggle {
+            padding: 0.5rem 1rem;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--border-color);
+        }
+
+        .parameter-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .parameter-controls label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .parameter-controls select {
+            padding: 0.4rem 0.8rem;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .chart-container {
+            margin-bottom: 3rem;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .chart-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .chart-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .chart {
+            width: 100%;
+            min-height: 500px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background-color: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-stakes);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .stat-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+            border-top: 2px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .chart {
+                min-height: 400px;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Doctrine of Consensual Sovereignty</h1>
+            <div class="author">Murad Farzulla (Farzulla Research)</div>
+            <div class="description">
+                Interactive visualizations exploring stakes-weighted governance mechanisms.
+                This dashboard presents Monte Carlo simulation results validating consent-weighted
+                governance frameworks across 1000 iterations, 100 agents, and 50 time periods.
+            </div>
+            <a href="#" class="pdf-link" id="pdfLink">Read Full Paper (PDF)</a>
+        </header>
+
+        <div class="controls">
+            <button class="theme-toggle" id="themeToggle">Toggle Dark Mode</button>
+            <div class="parameter-controls">
+                <label>
+                    Population:
+                    <select id="populationSelect">
+                        <option value="50">N = 50</option>
+                        <option value="100" selected>N = 100</option>
+                        <option value="200">N = 200</option>
+                    </select>
+                </label>
+                <label>
+                    Time Periods:
+                    <select id="timeSelect">
+                        <option value="25">T = 25</option>
+                        <option value="50" selected>T = 50</option>
+                        <option value="100">T = 100</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Stakes-Weighted α (Final)</div>
+                <div class="stat-value" id="stakesAlpha">0.8722</div>
+                <div class="stat-subtitle">Bayesian learning dynamics</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Equal Voice α (Final)</div>
+                <div class="stat-value" id="equalAlpha">0.8695</div>
+                <div class="stat-subtitle">Democracy comparison</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">DoCS Improvement</div>
+                <div class="stat-value" id="legitimacyDiff">+6.0%</div>
+                <div class="stat-subtitle">From initial 0.8229 → 0.8722</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Random Assignment</div>
+                <div class="stat-value" id="pValue">-0.5%</div>
+                <div class="stat-subtitle">Only mechanism that fails to improve</div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">Chart 1: α Convergence Under Bayesian Learning</div>
+            <div class="chart-subtitle">Mean consent alignment trajectories with ±1σ bands (1000 Monte Carlo runs, N=100 agents)</div>
+            <div id="chart1" class="chart"></div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">Chart 2: Final Legitimacy Comparison</div>
+            <div class="chart-subtitle">Mean legitimacy L(d,t) with standard deviation (1000 Monte Carlo runs)</div>
+            <div id="chart2" class="chart"></div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">Chart 3: Parameter Robustness Heatmap</div>
+            <div class="chart-subtitle">Legitimacy across population sizes and time horizons (stakes-weighted only)</div>
+            <div id="chart3" class="chart"></div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">Chart 4: Stakes Heterogeneity Sensitivity</div>
+            <div class="chart-subtitle">Legitimacy vs. Gini coefficient across governance mechanisms</div>
+            <div id="chart4" class="chart"></div>
+        </div>
+
+        <footer>
+            Farzulla Research (2025) | Interactive Visualizations for DoCS Paper<br>
+            Built with Plotly.js | Data from Monte Carlo simulations (N=1000, seed=42)
+        </footer>
+    </div>
+
+    <script>
+        // ============================================================================
+        // DATA EMBEDDING
+        // ============================================================================
+
+        // Chart 1: Alpha trajectories from Bayesian Learning dynamics (1000 Monte Carlo runs)
+        const alphaTrajectories = {
+            'Stakes-Weighted DoCS': {
+                mean: [0.8229, 0.8376, 0.8451, 0.8498, 0.8532, 0.8557, 0.8576, 0.8592, 0.8605, 0.8616, 0.8626, 0.8634, 0.8642, 0.8648, 0.8654, 0.8659, 0.8663, 0.8668, 0.8672, 0.8675, 0.8678, 0.8681, 0.8684, 0.8687, 0.8689, 0.8691, 0.8694, 0.8696, 0.8698, 0.8699, 0.8701, 0.8703, 0.8704, 0.8706, 0.8707, 0.8708, 0.871, 0.8711, 0.8712, 0.8713, 0.8714, 0.8715, 0.8716, 0.8717, 0.8718, 0.8719, 0.872, 0.8721, 0.8721, 0.8722],
+                std: [0.1025, 0.1123, 0.1172, 0.1204, 0.1227, 0.1244, 0.1257, 0.1268, 0.1277, 0.1285, 0.1292, 0.1298, 0.1303, 0.1307, 0.1311, 0.1315, 0.1318, 0.1321, 0.1324, 0.1327, 0.1329, 0.1331, 0.1333, 0.1335, 0.1337, 0.1339, 0.134, 0.1342, 0.1343, 0.1345, 0.1346, 0.1347, 0.1348, 0.1349, 0.135, 0.1351, 0.1352, 0.1353, 0.1354, 0.1355, 0.1355, 0.1356, 0.1357, 0.1358, 0.1358, 0.1359, 0.136, 0.136, 0.1361, 0.1361],
+                color: '#004E89'
+            },
+            'Equal Voice': {
+                mean: [0.8205, 0.8353, 0.8427, 0.8473, 0.8506, 0.8531, 0.8551, 0.8566, 0.858, 0.8591, 0.86, 0.8608, 0.8615, 0.8622, 0.8628, 0.8633, 0.8637, 0.8642, 0.8646, 0.8649, 0.8652, 0.8655, 0.8658, 0.8661, 0.8663, 0.8666, 0.8668, 0.867, 0.8672, 0.8673, 0.8675, 0.8677, 0.8678, 0.868, 0.8681, 0.8682, 0.8683, 0.8684, 0.8685, 0.8686, 0.8687, 0.8688, 0.8689, 0.869, 0.8691, 0.8692, 0.8693, 0.8693, 0.8694, 0.8695],
+                std: [0.0996, 0.1093, 0.1142, 0.1174, 0.1197, 0.1214, 0.1228, 0.1239, 0.1248, 0.1256, 0.1263, 0.1269, 0.1274, 0.1279, 0.1283, 0.1286, 0.129, 0.1293, 0.1296, 0.1298, 0.1301, 0.1303, 0.1305, 0.1307, 0.1309, 0.1311, 0.1312, 0.1314, 0.1315, 0.1316, 0.1318, 0.1319, 0.132, 0.1321, 0.1322, 0.1323, 0.1324, 0.1324, 0.1325, 0.1326, 0.1327, 0.1327, 0.1328, 0.1329, 0.1329, 0.133, 0.1331, 0.1331, 0.1332, 0.1332],
+                color: '#FF6B35'
+            },
+            'Plutocracy': {
+                mean: [0.8105, 0.8259, 0.8336, 0.8384, 0.8417, 0.8442, 0.8462, 0.8477, 0.849, 0.8501, 0.8511, 0.8519, 0.8526, 0.8532, 0.8537, 0.8541, 0.8546, 0.855, 0.8553, 0.8556, 0.856, 0.8563, 0.8565, 0.8568, 0.857, 0.8572, 0.8574, 0.8576, 0.8578, 0.8579, 0.8581, 0.8582, 0.8584, 0.8585, 0.8586, 0.8587, 0.8589, 0.859, 0.8591, 0.8592, 0.8593, 0.8594, 0.8594, 0.8595, 0.8596, 0.8597, 0.8598, 0.8598, 0.8599, 0.86],
+                std: [0.108, 0.1176, 0.1225, 0.1254, 0.1276, 0.1292, 0.1305, 0.1316, 0.1325, 0.1332, 0.1339, 0.1344, 0.1349, 0.1353, 0.1357, 0.136, 0.1363, 0.1366, 0.1368, 0.1371, 0.1373, 0.1375, 0.1377, 0.1379, 0.138, 0.1382, 0.1383, 0.1385, 0.1386, 0.1387, 0.1388, 0.1389, 0.139, 0.1391, 0.1392, 0.1393, 0.1394, 0.1394, 0.1395, 0.1396, 0.1397, 0.1397, 0.1398, 0.1399, 0.1399, 0.14, 0.14, 0.1401, 0.1401, 0.1402],
+                color: '#C1121F'
+            },
+            'Expert Rule': {
+                mean: [0.811, 0.8123, 0.8147, 0.8171, 0.8206, 0.8231, 0.8256, 0.8255, 0.8248, 0.8288, 0.8289, 0.8286, 0.8295, 0.8291, 0.8326, 0.8328, 0.8319, 0.8339, 0.8339, 0.8353, 0.8338, 0.8344, 0.8351, 0.8367, 0.8366, 0.8365, 0.8365, 0.8382, 0.8376, 0.8367, 0.838, 0.8376, 0.8369, 0.8377, 0.8364, 0.8388, 0.8392, 0.8364, 0.8368, 0.8384, 0.8403, 0.8404, 0.8379, 0.839, 0.8379, 0.8416, 0.8406, 0.8403, 0.8394, 0.8418],
+                std: [0.106, 0.1064, 0.11, 0.1119, 0.1147, 0.1144, 0.1156, 0.117, 0.1187, 0.1188, 0.1192, 0.1185, 0.1192, 0.1194, 0.1218, 0.1223, 0.1223, 0.1211, 0.1221, 0.1221, 0.1231, 0.1234, 0.1217, 0.124, 0.1233, 0.1232, 0.1231, 0.1248, 0.1234, 0.1239, 0.1262, 0.1243, 0.1248, 0.1254, 0.1245, 0.1258, 0.1244, 0.1256, 0.124, 0.1249, 0.1258, 0.1258, 0.1259, 0.1263, 0.1267, 0.1264, 0.1256, 0.1271, 0.1263, 0.1281],
+                color: '#06A77D'
+            },
+            'Random Assignment': {
+                mean: [0.7651, 0.7249, 0.715, 0.7191, 0.7211, 0.7284, 0.729, 0.7309, 0.7251, 0.736, 0.7351, 0.7372, 0.7262, 0.7348, 0.7371, 0.7439, 0.7466, 0.7446, 0.7524, 0.7485, 0.7485, 0.746, 0.7431, 0.7505, 0.7522, 0.7448, 0.7523, 0.7519, 0.7508, 0.7533, 0.7653, 0.7617, 0.75, 0.7612, 0.7579, 0.7564, 0.7599, 0.7671, 0.76, 0.7654, 0.7604, 0.7615, 0.7584, 0.7579, 0.7589, 0.758, 0.7539, 0.7626, 0.767, 0.7612],
+                std: [0.1753, 0.1745, 0.1852, 0.192, 0.198, 0.2003, 0.1976, 0.2006, 0.2119, 0.207, 0.2091, 0.2067, 0.2124, 0.2101, 0.2219, 0.2102, 0.2165, 0.2068, 0.2051, 0.2166, 0.2095, 0.2117, 0.2143, 0.2148, 0.2231, 0.2161, 0.2139, 0.214, 0.2128, 0.2142, 0.2026, 0.2118, 0.2242, 0.2134, 0.2181, 0.2117, 0.2121, 0.2098, 0.2098, 0.2091, 0.2207, 0.2177, 0.2142, 0.2177, 0.2196, 0.2225, 0.2198, 0.211, 0.2093, 0.2216],
+                color: '#9D4EDD'
+            }
+        };
+
+        // Chart 2: Final legitimacy from robustness results (N=100, T=50)
+        const legitimacyData = {
+            mechanisms: ['Equal Voice', 'Stakes-Weighted DoCS', 'Plutocracy', 'Random Assignment', 'Expert Rule'],
+            meanLegitimacy: [0.6024, 0.6389, 0.6044, 0.4917, 0.6120],
+            stdLegitimacy: [0.1233, 0.1407, 0.1309, 0.1948, 0.1242],
+            colors: ['#FF6B35', '#004E89', '#C1121F', '#9D4EDD', '#06A77D']
+        };
+
+        // Chart 3: Parameter sweep heatmap data (from CSV)
+        const parameterSweepData = [
+            {N: 50, T: 25, L: 0.6087},
+            {N: 50, T: 50, L: 0.6199},
+            {N: 50, T: 100, L: 0.6229},
+            {N: 100, T: 25, L: 0.6216},
+            {N: 100, T: 50, L: 0.6389},
+            {N: 100, T: 100, L: 0.6149},
+            {N: 200, T: 25, L: 0.6218},
+            {N: 200, T: 50, L: 0.6358},
+            {N: 200, T: 100, L: 0.6293}
+        ];
+
+        // Chart 4: Stakes distribution data (from CSV)
+        const stakesDistributionData = [
+            {gini: 0.032, mechanism: 'Equal Voice', legitimacy: 0.5734},
+            {gini: 0.035, mechanism: 'Stakes-Weighted DoCS', legitimacy: 0.5891},
+            {gini: 0.036, mechanism: 'Plutocracy', legitimacy: 0.5718},
+            {gini: 0.033, mechanism: 'Random Assignment', legitimacy: 0.4613},
+            {gini: 0.032, mechanism: 'Expert Rule', legitimacy: 0.5704},
+            {gini: 0.263, mechanism: 'Equal Voice', legitimacy: 0.5843},
+            {gini: 0.309, mechanism: 'Stakes-Weighted DoCS', legitimacy: 0.5962},
+            {gini: 0.251, mechanism: 'Plutocracy', legitimacy: 0.5852},
+            {gini: 0.338, mechanism: 'Random Assignment', legitimacy: 0.4864},
+            {gini: 0.303, mechanism: 'Expert Rule', legitimacy: 0.5555},
+            {gini: 0.782, mechanism: 'Equal Voice', legitimacy: 0.6183},
+            {gini: 0.748, mechanism: 'Stakes-Weighted DoCS', legitimacy: 0.6444},
+            {gini: 0.750, mechanism: 'Plutocracy', legitimacy: 0.6169},
+            {gini: 0.817, mechanism: 'Random Assignment', legitimacy: 0.5220},
+            {gini: 0.707, mechanism: 'Expert Rule', legitimacy: 0.6178},
+            {gini: 0.854, mechanism: 'Equal Voice', legitimacy: 0.6186},
+            {gini: 0.771, mechanism: 'Stakes-Weighted DoCS', legitimacy: 0.6581},
+            {gini: 0.754, mechanism: 'Plutocracy', legitimacy: 0.6129},
+            {gini: 0.684, mechanism: 'Random Assignment', legitimacy: 0.5142},
+            {gini: 0.697, mechanism: 'Expert Rule', legitimacy: 0.6080}
+        ];
+
+        // ============================================================================
+        // CHART RENDERING FUNCTIONS
+        // ============================================================================
+
+        function renderChart1() {
+            const timesteps = Array.from({length: 50}, (_, i) => i);
+            const traces = [];
+
+            for (const [mechanism, data] of Object.entries(alphaTrajectories)) {
+                const upperBound = data.mean.map((m, i) => m + data.std[i]);
+                const lowerBound = data.mean.map((m, i) => m - data.std[i]);
+
+                // Main line
+                traces.push({
+                    x: timesteps,
+                    y: data.mean,
+                    name: mechanism,
+                    type: 'scatter',
+                    mode: 'lines',
+                    line: {
+                        color: data.color,
+                        width: 3
+                    }
+                });
+
+                // Confidence interval
+                traces.push({
+                    x: timesteps.concat(timesteps.slice().reverse()),
+                    y: upperBound.concat(lowerBound.slice().reverse()),
+                    fill: 'toself',
+                    fillcolor: data.color + '20',
+                    type: 'scatter',
+                    mode: 'none',
+                    showlegend: false,
+                    hoverinfo: 'skip'
+                });
+            }
+
+            const layout = {
+                xaxis: {
+                    title: 'Time Period',
+                    gridcolor: 'rgba(128, 128, 128, 0.2)'
+                },
+                yaxis: {
+                    title: 'Consent Alignment α(d,t)',
+                    range: [0.65, 0.95],
+                    gridcolor: 'rgba(128, 128, 128, 0.2)'
+                },
+                plot_bgcolor: 'transparent',
+                paper_bgcolor: 'transparent',
+                font: {
+                    color: getComputedStyle(document.documentElement).getPropertyValue('--text-primary').trim()
+                },
+                hovermode: 'x unified',
+                legend: {
+                    orientation: 'h',
+                    y: -0.15,
+                    x: 0.5,
+                    xanchor: 'center'
+                },
+                margin: {t: 20, r: 20, b: 80, l: 60}
+            };
+
+            Plotly.newPlot('chart1', traces, layout, {responsive: true, displayModeBar: false});
+        }
+
+        function renderChart2() {
+            const trace = {
+                x: legitimacyData.mechanisms,
+                y: legitimacyData.meanLegitimacy,
+                error_y: {
+                    type: 'data',
+                    array: legitimacyData.stdLegitimacy,
+                    visible: true,
+                    color: 'rgba(128, 128, 128, 0.6)'
+                },
+                type: 'bar',
+                marker: {
+                    color: legitimacyData.colors,
+                    opacity: 0.8
+                }
+            };
+
+            const layout = {
+                yaxis: {
+                    title: 'Final Legitimacy L(d,t)',
+                    range: [0, 1],
+                    gridcolor: 'rgba(128, 128, 128, 0.2)'
+                },
+                xaxis: {
+                    tickangle: -15
+                },
+                plot_bgcolor: 'transparent',
+                paper_bgcolor: 'transparent',
+                font: {
+                    color: getComputedStyle(document.documentElement).getPropertyValue('--text-primary').trim()
+                },
+                showlegend: false,
+                margin: {t: 20, r: 20, b: 80, l: 60}
+            };
+
+            Plotly.newPlot('chart2', [trace], layout, {responsive: true, displayModeBar: false});
+        }
+
+        function renderChart3() {
+            const populations = [50, 100, 200];
+            const timePeriods = [25, 50, 100];
+            const zData = populations.map(n =>
+                timePeriods.map(t => {
+                    const point = parameterSweepData.find(p => p.N === n && p.T === t);
+                    return point ? point.L : null;
+                })
+            );
+
+            const trace = {
+                z: zData,
+                x: timePeriods,
+                y: populations,
+                type: 'heatmap',
+                colorscale: [
+                    [0, '#f8f9fa'],
+                    [0.5, '#004E89'],
+                    [1, '#00213D']
+                ],
+                colorbar: {
+                    title: 'Legitimacy',
+                    titleside: 'right'
+                },
+                text: zData.map(row => row.map(val => val ? val.toFixed(4) : '')),
+                texttemplate: '%{text}',
+                textfont: {
+                    color: 'white',
+                    size: 14
+                },
+                hovertemplate: 'N=%{y}<br>T=%{x}<br>Legitimacy=%{z:.4f}<extra></extra>'
+            };
+
+            const layout = {
+                xaxis: {
+                    title: 'Time Periods (T)',
+                    tickvals: timePeriods
+                },
+                yaxis: {
+                    title: 'Population Size (N)',
+                    tickvals: populations
+                },
+                plot_bgcolor: 'transparent',
+                paper_bgcolor: 'transparent',
+                font: {
+                    color: getComputedStyle(document.documentElement).getPropertyValue('--text-primary').trim()
+                },
+                margin: {t: 20, r: 100, b: 60, l: 60}
+            };
+
+            Plotly.newPlot('chart3', [trace], layout, {responsive: true, displayModeBar: false});
+        }
+
+        function renderChart4() {
+            const mechanisms = [...new Set(stakesDistributionData.map(d => d.mechanism))];
+            const traces = mechanisms.map((mech, idx) => {
+                const mechData = stakesDistributionData.filter(d => d.mechanism === mech);
+                const colors = {
+                    'Equal Voice': '#FF6B35',
+                    'Stakes-Weighted DoCS': '#004E89',
+                    'Plutocracy': '#C1121F',
+                    'Random Assignment': '#9D4EDD',
+                    'Expert Rule': '#06A77D'
+                };
+
+                return {
+                    x: mechData.map(d => d.gini),
+                    y: mechData.map(d => d.legitimacy),
+                    name: mech,
+                    type: 'scatter',
+                    mode: 'markers+lines',
+                    marker: {
+                        size: 10,
+                        color: colors[mech],
+                        opacity: 0.7
+                    },
+                    line: {
+                        color: colors[mech],
+                        width: 2
+                    }
+                };
+            });
+
+            const layout = {
+                xaxis: {
+                    title: 'Gini Coefficient (Stakes Inequality)',
+                    gridcolor: 'rgba(128, 128, 128, 0.2)'
+                },
+                yaxis: {
+                    title: 'Legitimacy',
+                    range: [0.3, 0.7],
+                    gridcolor: 'rgba(128, 128, 128, 0.2)'
+                },
+                plot_bgcolor: 'transparent',
+                paper_bgcolor: 'transparent',
+                font: {
+                    color: getComputedStyle(document.documentElement).getPropertyValue('--text-primary').trim()
+                },
+                hovermode: 'closest',
+                legend: {
+                    orientation: 'h',
+                    y: -0.15,
+                    x: 0.5,
+                    xanchor: 'center'
+                },
+                margin: {t: 20, r: 20, b: 80, l: 60}
+            };
+
+            Plotly.newPlot('chart4', traces, layout, {responsive: true, displayModeBar: false});
+        }
+
+        // ============================================================================
+        // PARAMETER CONTROLS
+        // ============================================================================
+
+        function updateStats(n, t) {
+            // Find data for selected parameters
+            const stakesData = parameterSweepData.find(p => p.N === n && p.T === t);
+            const allData = [
+                {N: n, T: t, mechanism: 'Equal Voice', mean_legitimacy: 0, mean_alpha: 0},
+                {N: n, T: t, mechanism: 'Stakes-Weighted DoCS', mean_legitimacy: 0, mean_alpha: 0},
+                {N: n, T: t, mechanism: 'Plutocracy', mean_legitimacy: 0, mean_alpha: 0},
+                {N: n, T: t, mechanism: 'Random Assignment', mean_legitimacy: 0, mean_alpha: 0},
+                {N: n, T: t, mechanism: 'Expert Rule', mean_legitimacy: 0, mean_alpha: 0}
+            ];
+
+            // Parse from CSV data for exact values
+            const csvLookup = {
+                '50,25': {equal: 0.5793, stakes: 0.6087},
+                '50,50': {equal: 0.5816, stakes: 0.6199},
+                '50,100': {equal: 0.5818, stakes: 0.6229},
+                '100,25': {equal: 0.6005, stakes: 0.6216},
+                '100,50': {equal: 0.6024, stakes: 0.6389},
+                '100,100': {equal: 0.6110, stakes: 0.6149},
+                '200,25': {equal: 0.6193, stakes: 0.6218},
+                '200,50': {equal: 0.6366, stakes: 0.6358},
+                '200,100': {equal: 0.6240, stakes: 0.6293}
+            };
+
+            const key = `${n},${t}`;
+            const values = csvLookup[key] || {equal: 0.6024, stakes: 0.6389};
+
+            document.getElementById('stakesAlpha').textContent = values.stakes.toFixed(4);
+            document.getElementById('equalAlpha').textContent = values.equal.toFixed(4);
+            document.getElementById('legitimacyDiff').textContent =
+                (values.stakes - values.equal >= 0 ? '+' : '') +
+                (values.stakes - values.equal).toFixed(3);
+        }
+
+        // ============================================================================
+        // EVENT LISTENERS
+        // ============================================================================
+
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+
+            // Re-render charts with new theme colors
+            setTimeout(() => {
+                renderChart1();
+                renderChart2();
+                renderChart3();
+                renderChart4();
+            }, 100);
+        });
+
+        document.getElementById('populationSelect').addEventListener('change', (e) => {
+            const n = parseInt(e.target.value);
+            const t = parseInt(document.getElementById('timeSelect').value);
+            updateStats(n, t);
+        });
+
+        document.getElementById('timeSelect').addEventListener('change', (e) => {
+            const t = parseInt(e.target.value);
+            const n = parseInt(document.getElementById('populationSelect').value);
+            updateStats(n, t);
+        });
+
+        // ============================================================================
+        // INITIALIZATION
+        // ============================================================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderChart1();
+            renderChart2();
+            renderChart3();
+            renderChart4();
+            updateStats(100, 50); // Default baseline
+
+            // Set PDF link (placeholder for now)
+            document.getElementById('pdfLink').href = '#'; // Update when hosted
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            Plotly.Plots.resize('chart1');
+            Plotly.Plots.resize('chart2');
+            Plotly.Plots.resize('chart3');
+            Plotly.Plots.resize('chart4');
+        });
+    </script>
+</body>
+</html>

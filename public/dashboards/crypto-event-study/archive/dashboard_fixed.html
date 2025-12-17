@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptocurrency Event Study | Interactive Dashboard | Farzulla Research</title>
+
+    <!-- Plotly CDN -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0F0F23 0%, #1A1A3E 100%);
+            color: #E0E0E0;
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(15, 15, 35, 0.95);
+            border-bottom: 3px solid #00D9FF;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #00D9FF, #FF6B9D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+
+        .subtitle {
+            color: #95A3B3;
+            margin: 1rem 0;
+        }
+
+        .metrics {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .metric {
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid #00D9FF;
+            border-radius: 20px;
+            padding: 0.5rem 1.5rem;
+        }
+
+        .metric-value {
+            color: #00F5A0;
+            font-weight: bold;
+        }
+
+        #dashboard {
+            padding: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .author {
+            text-align: center;
+            padding: 1rem;
+            color: #95A3B3;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">Cryptocurrency Event Study Analysis</h1>
+        <p class="subtitle">Cross-Sectional Heterogeneity in Event Sensitivity | 2019-2025</p>
+        <p class="author">By Murad Farzulla | Farzulla Research</p>
+
+        <div class="metrics">
+            <div class="metric">Spread: <span class="metric-value">2.18pp</span></div>
+            <div class="metric">Significance: <span class="metric-value">p<0.001</span></div>
+            <div class="metric">Cohen's d: <span class="metric-value">2.75</span></div>
+            <div class="metric">FDR: <span class="metric-value">5/6</span></div>
+        </div>
+    </div>
+
+    <div id="dashboard"></div>
+
+    <script>
+        // Actual data from the analysis
+        const cryptoData = [{"crypto": "BTC", "mean_infra_effect": 1.191, "mean_reg_effect": 0.311, "difference": 0.879}, {"crypto": "ETH", "mean_infra_effect": 2.814, "mean_reg_effect": 0.555, "difference": 2.259}, {"crypto": "XRP", "mean_infra_effect": 2.519, "mean_reg_effect": 1.433, "difference": 1.086}, {"crypto": "BNB", "mean_infra_effect": 1.499, "mean_reg_effect": 0.165, "difference": 1.334}, {"crypto": "LTC", "mean_infra_effect": 2.917, "mean_reg_effect": 0.049, "difference": 2.868}, {"crypto": "ADA", "mean_infra_effect": 3.371, "mean_reg_effect": -0.0, "difference": 3.371}];
+
+        // Color scheme
+        const colors = {
+            infrastructure: '#00D9FF',
+            regulatory: '#FF6B9D',
+            positive: '#00F5A0',
+            negative: '#FF4757',
+            neutral: '#95A3B3'
+        };
+
+        // Create the main visualization
+        function createDashboard() {
+            // Extract data for plotting
+            const cryptos = cryptoData.map(d => d.crypto);
+            const infraEffects = cryptoData.map(d => d.mean_infra_effect);
+            const regEffects = cryptoData.map(d => d.mean_reg_effect);
+            const differences = cryptoData.map(d => d.difference);
+
+            // Sort by infrastructure effect for better visualization
+            const sorted = cryptoData.sort((a, b) => a.mean_infra_effect - b.mean_infra_effect);
+
+            // Create subplots
+            const fig = {
+                data: [
+                    // Infrastructure effects bar chart
+                    {
+                        x: sorted.map(d => d.crypto),
+                        y: sorted.map(d => d.mean_infra_effect),
+                        type: 'bar',
+                        name: 'Infrastructure',
+                        marker: {
+                            color: sorted.map(d =>
+                                d.mean_infra_effect > 1 ? colors.positive :
+                                d.mean_infra_effect > 0 ? colors.infrastructure :
+                                colors.neutral
+                            )
+                        },
+                        text: sorted.map(d => d.mean_infra_effect.toFixed(3) + '%'),
+                        textposition: 'outside',
+                        xaxis: 'x',
+                        yaxis: 'y'
+                    },
+                    // Regulatory effects bar chart
+                    {
+                        x: sorted.map(d => d.crypto),
+                        y: sorted.map(d => d.mean_reg_effect),
+                        type: 'bar',
+                        name: 'Regulatory',
+                        marker: { color: colors.regulatory },
+                        opacity: 0.7,
+                        xaxis: 'x2',
+                        yaxis: 'y2'
+                    },
+                    // 3D scatter plot
+                    {
+                        x: infraEffects,
+                        y: regEffects,
+                        z: differences,
+                        mode: 'markers+text',
+                        type: 'scatter3d',
+                        name: 'Event Space',
+                        marker: {
+                            size: 15,
+                            color: infraEffects,
+                            colorscale: 'Viridis',
+                            showscale: true,
+                            colorbar: {
+                                title: 'Infra Effect (%)',
+                                x: 1.02
+                            }
+                        },
+                        text: cryptos,
+                        textposition: 'top center',
+                        scene: 'scene'
+                    },
+                    // Difference line plot
+                    {
+                        x: cryptos,
+                        y: differences,
+                        type: 'scatter',
+                        mode: 'lines+markers',
+                        name: 'Difference (Infra - Reg)',
+                        line: { color: colors.positive, width: 3 },
+                        marker: { size: 10 },
+                        xaxis: 'x3',
+                        yaxis: 'y3'
+                    }
+                ],
+                layout: {
+                    template: 'plotly_dark',
+                    paper_bgcolor: '#0F0F23',
+                    plot_bgcolor: '#1A1A2E',
+                    font: { family: 'Roboto, sans-serif', size: 12, color: '#E0E0E0' },
+
+                    title: {
+                        text: '<b>Interactive Analysis Dashboard</b>',
+                        font: { size: 24, color: colors.infrastructure }
+                    },
+
+                    grid: {
+                        rows: 2,
+                        columns: 2,
+                        pattern: 'independent',
+                        roworder: 'top to bottom'
+                    },
+
+                    xaxis: {
+                        title: 'Cryptocurrency',
+                        domain: [0, 0.45],
+                        anchor: 'y'
+                    },
+                    yaxis: {
+                        title: 'Infrastructure Effect (%)',
+                        domain: [0.55, 1],
+                        anchor: 'x'
+                    },
+
+                    xaxis2: {
+                        title: 'Cryptocurrency',
+                        domain: [0.55, 1],
+                        anchor: 'y2'
+                    },
+                    yaxis2: {
+                        title: 'Regulatory Effect (%)',
+                        domain: [0.55, 1],
+                        anchor: 'x2'
+                    },
+
+                    xaxis3: {
+                        title: 'Cryptocurrency',
+                        domain: [0, 0.45],
+                        anchor: 'y3'
+                    },
+                    yaxis3: {
+                        title: 'Difference (%)',
+                        domain: [0, 0.45],
+                        anchor: 'x3'
+                    },
+
+                    scene: {
+                        domain: {
+                            x: [0.55, 1],
+                            y: [0, 0.45]
+                        },
+                        xaxis: { title: 'Infrastructure (%)' },
+                        yaxis: { title: 'Regulatory (%)' },
+                        zaxis: { title: 'Difference (%)' },
+                        camera: {
+                            eye: { x: 1.5, y: 1.5, z: 1.5 }
+                        }
+                    },
+
+                    height: 800,
+                    showlegend: true,
+                    legend: {
+                        orientation: 'h',
+                        y: -0.1,
+                        x: 0.5,
+                        xanchor: 'center'
+                    },
+
+                    margin: { l: 60, r: 60, t: 100, b: 100 }
+                }
+            };
+
+            // Create the plot
+            Plotly.newPlot('dashboard', fig.data, fig.layout, {
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false,
+                modeBarButtonsToRemove: ['pan2d', 'lasso2d', 'select2d'],
+                toImageButtonOptions: {
+                    format: 'png',
+                    filename: 'crypto-event-study',
+                    height: 1080,
+                    width: 1920,
+                    scale: 2
+                }
+            });
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', createDashboard);
+
+        // Make responsive
+        window.addEventListener('resize', () => {
+            Plotly.Plots.resize('dashboard');
+        });
+    </script>
+</body>
+</html>
