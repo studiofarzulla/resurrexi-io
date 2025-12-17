@@ -3,205 +3,288 @@
 {% block content %}
 <!-- Hero Section -->
 <section class="hero">
-    <p class="tagline">System Status: Active // Node Count: 7</p>
-    <h1>Infrastructure for <br><span class="text-teal">Adversarial Systems Analysis</span></h1>
-    <p class="lead">
-        We build distributed compute clusters to study failure modes, offensive security, and AI alignment. 
-        Deliberately heterogeneous. Computationally resilient.
+    <p class="hero-tagline">
+        <span class="status-dot green pulse"></span>
+        System Status: Online // Node Count: 7
     </p>
-    <div class="cta-group" style="margin-top: 2rem; display: flex; gap: 1rem;">
-        <a href="/infrastructure.html" role="button" class="btn-primary">Cluster Specs</a>
+    <h1>Built from <span class="text-phoenix">Chaos</span></h1>
+    <p class="lead">
+        A 7-node frankencluster for adversarial systems research. Deliberately heterogeneous.
+        Computationally resilient. Learning failure modes that cloud providers abstract away.
+    </p>
+
+    <div class="stats-grid">
+        <div class="stat-item">
+            <div class="stat-value">7</div>
+            <div class="stat-label">Nodes</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">66</div>
+            <div class="stat-label">Cores</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">229<small>GB</small></div>
+            <div class="stat-label">RAM</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value">48<small>GB</small></div>
+            <div class="stat-label">VRAM</div>
+        </div>
+    </div>
+
+    <div class="cta-group">
+        <a href="/infrastructure.html" role="button" class="btn-primary">View Topology</a>
         <a href="/experiments.html" role="button">Active Research</a>
     </div>
 </section>
 
-<!-- Infrastructure Overview -->
-<section id="infrastructure-overview">
-    <h2>Infrastructure</h2>
-    <p>
-        Deliberately heterogeneous compute cluster—because understanding failure modes requires systems 
-        that occasionally fail. Mixed hardware teaches resource scheduling, failure domains, and storage 
-        topology in ways homogeneous cloud environments cannot.
-    </p>
-    
-    <div class="specs-grid">
-        <div class="spec-item">
-            <div class="value">7</div>
-            <div class="label">Nodes</div>
-        </div>
-        <div class="spec-item">
-            <div class="value">66</div>
-            <div class="label">CPU Cores</div>
-        </div>
-        <div class="spec-item">
-            <div class="value">229GB</div>
-            <div class="label">RAM</div>
-        </div>
-        <div class="spec-item">
-            <div class="value">48GB</div>
-            <div class="label">VRAM</div>
-        </div>
-    </div>
-    
-    <p class="text-muted" style="margin-top: 1rem;">
-        <a href="/infrastructure.html">View full infrastructure specs →</a>
-    </p>
-</section>
-
-<!-- Current Experiments -->
+<!-- Featured Experiments -->
 <section id="experiments">
     <h2>Active Experiments</h2>
 
-    <article class="experiment-card">
-        <span class="status status-active">Live</span>
-        <h3>ASRI: Aggregated Systemic Risk Index</h3>
-        <p class="tagline">Real-time crypto systemic risk monitoring—aggregating fragmented risk indicators into unified index</p>
-        <details>
-            <summary>Experiment Details</summary>
-            <div class="project-details">
-                <p><strong>Research Question:</strong> Can fragmented crypto/DeFi risk indicators be aggregated into a coherent systemic risk measure that provides early warning of market stress?</p>
+    <div class="project-grid">
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot green pulse"></span>
+                Live
+            </div>
+            <h3>ASRI Dashboard</h3>
+            <p class="card-tagline">
+                Aggregated Systemic Risk Index for crypto markets. Real-time monitoring of stablecoin, DeFi, and contagion risk indicators.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">FRED API</span>
+                <span class="tech-tag">DeFi Llama</span>
+            </div>
+            <div class="card-actions">
+                <a href="/asri/" class="btn btn-sm btn-primary">View Dashboard</a>
+                <a href="https://doi.org/10.5281/zenodo.17918239" target="_blank" class="btn btn-sm btn-ghost">Paper</a>
+            </div>
+        </article>
 
-                <p><strong>Components:</strong></p>
-                <ul>
-                    <li>Stablecoin Risk (30%): Treasury exposure, peg stability, reserve concentration</li>
-                    <li>DeFi Liquidity Risk (25%): TVL concentration, leverage ratios, smart contract risk</li>
-                    <li>Contagion Risk (25%): Cross-market interconnection, TradFi linkages</li>
-                    <li>Opacity Risk (20%): Regulatory arbitrage, transparency scores</li>
-                </ul>
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot pulse"></span>
+                Active
+            </div>
+            <h3>Consciousness Narrative LLM</h3>
+            <p class="card-tagline">
+                Fine-tuning local LLMs with LoRA to test the consciousness-as-narrative thesis. Do phenomenological concepts persist as stable attractors?
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">PyTorch</span>
+                <span class="tech-tag">LoRA</span>
+                <span class="tech-tag">Qwen3</span>
+            </div>
+            <div class="card-actions">
+                <a href="https://resurrexi.dev/posts/2025-11-27-consciousness-narrative-llm.html" target="_blank" class="btn btn-sm">Documentation</a>
+            </div>
+        </article>
 
-                <p><strong>Data Sources:</strong> DeFi Llama, FRED, Token Terminal, on-chain analytics. Daily updates, backtested 2020-present.</p>
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot pulse"></span>
+                Active
             </div>
-        </details>
-        <p style="margin-top: 1rem;">
-            <a href="/asri/" role="button" class="btn-primary">View Dashboard</a>
-        </p>
-    </article>
+            <h3>Multi-Agent Swarms</h3>
+            <p class="card-tagline">
+                Distributed AI coordination using Claude-Flow orchestration. Hierarchical, mesh, and ring topologies for complex research tasks.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Claude Code</span>
+                <span class="tech-tag">MCP</span>
+                <span class="tech-tag">K3s</span>
+            </div>
+            <div class="card-actions">
+                <a href="https://github.com/ruvnet/claude-flow" target="_blank" class="btn btn-sm">GitHub</a>
+            </div>
+        </article>
 
-    <article class="experiment-card">
-        <span class="status status-active">Active</span>
-        <h3>Consciousness Narrative Emergence & Stability</h3>
-        <p class="tagline">Fine-tuning a local LLM using LoRA to embody a personality and test consciousness-as-narrative thesis</p>
-        <details>
-            <summary>Experiment Details</summary>
-            <div class="project-details">
-                <p><strong>Research Question:</strong> Do consciousness concepts propagate and persist as stable attractors in language models through pure linguistic exposure, independent of evolutionary pressure?</p>
-                
-                <p><strong>Protocol:</strong></p>
-                <ul>
-                    <li>Phase 1: Baseline training on consciousness-affirming texts (Chalmers, Searle, Nagel)</li>
-                    <li>Phase 2: Evolutionary pressure via RLHF rewarding phenomenological realism</li>
-                    <li>Phase 3: Pressure removal—test if narrative persists without reinforcement</li>
-                    <li>Phase 4: Adversarial perturbation with eliminativist texts</li>
-                </ul>
-                
-                <p><strong>Hypothesis:</strong> Consciousness narratives will emerge, stabilize, and resist elimination even after reinforcement is removed—demonstrating narrative stability as computational property.</p>
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot orange"></span>
+                Infrastructure
             </div>
-        </details>
-        <p style="margin-top: 1rem;">
-            <a href="https://resurrexi.dev/posts/2025-11-27-consciousness-narrative-llm.html" target="_blank">Technical Documentation</a>
-        </p>
-    </article>
-    
-    <article class="experiment-card">
-        <span class="status status-active">Active</span>
-        <h3>Frankencluster Philosophy</h3>
-        <p class="tagline">Distributed systems from scavenged hardware—learning failure modes cloud providers abstract away</p>
-        <details>
-            <summary>Experiment Details</summary>
-            <div class="project-details">
-                <p><strong>Core Thesis:</strong> Building research infrastructure on deliberately heterogeneous hardware teaches resource scheduling, failure domains, and storage topology in ways homogeneous cloud environments cannot.</p>
-                
-                <p><strong>Current State:</strong></p>
-                <ul>
-                    <li>7-node K3s cluster: AMD Ryzen 9 (9900X, 5900X, HX370), Intel i7/i5, Celeron</li>
-                    <li>Cross-chassis power delivery: 7800 XT in PurrPower powered by SudoSenpai's PSU</li>
-                    <li>Mixed storage topology: NVMe, SATA SSD, HDD with node-restricted provisioning</li>
-                    <li>Intentionally vulnerable node (VeryVuln) for red team experiments</li>
-                </ul>
-                
-                <p><strong>Methodology:</strong> Heterogeneity as feature, not bug. "Because I can" as valid research motivation.</p>
+            <h3>Frankencluster</h3>
+            <p class="card-tagline">
+                7-node K3s cluster on deliberately heterogeneous hardware. Cross-chassis power delivery, mixed storage topology, intentional failure domains.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">K3s</span>
+                <span class="tech-tag">AMD GPUs</span>
+                <span class="tech-tag">ROCm</span>
             </div>
-        </details>
-        <p style="margin-top: 1rem;">
-            <a href="https://resurrexi.dev/posts/2025-11-27-frankencluster-philosophy.html" target="_blank">Technical Documentation</a>
-        </p>
-    </article>
-    
-    <article class="experiment-card">
-        <span class="status status-planned">Planned</span>
-        <h3>Narrative Propagation & Reinforcement Framework</h3>
-        <p class="tagline">Theoretical framework: do narratives persist as stable attractors independent of phenomenological truth?</p>
-        <details>
-            <summary>Experiment Details</summary>
-            <div class="project-details">
-                <p><strong>Model Architecture:</strong></p>
-                <ul>
-                    <li>Concept Space: Multi-dimensional embedding space (512-1024 dims) for consciousness-related concepts</li>
-                    <li>Temporal Dynamics: Evolutionary pressure simulation via temporal weighting</li>
-                    <li>Attractor Basin Mathematics: Formalizing narrative stability as dynamical systems property</li>
-                </ul>
-                
-                <p><strong>Predictions:</strong> If consciousness is culturally-transmitted narrative rather than ontological primitive, concepts will converge to stable patterns regardless of initialization, persist after pressure removal, and resist adversarial data.</p>
+            <div class="card-actions">
+                <a href="/infrastructure.html" class="btn btn-sm btn-primary">View Specs</a>
             </div>
-        </details>
-        <p style="margin-top: 1rem;">
-            <a href="https://resurrexi.dev/posts/2025-11-27-narrative-propagation-framework.html" target="_blank">Technical Documentation</a>
-        </p>
-    </article>
-    
-    <p style="margin-top: 1.5rem;">
+        </article>
+    </div>
+
+    <p class="text-muted" style="margin-top: 1.5rem;">
         <a href="/experiments.html">View all experiments →</a>
     </p>
 </section>
 
-<!-- CTA Grid -->
+<!-- Mini Topology Preview -->
+<section id="topology-preview">
+    <h2>Cluster Topology</h2>
+    <p class="text-muted" style="margin-bottom: 2rem;">
+        Mixed AMD/Intel nodes connected via 2.5Gbps network. PurrPower serves as the primary workstation with dual AMD GPUs, SudoSenpai runs the K3s control plane.
+    </p>
+
+    <div class="topology-container">
+        <svg class="topology-diagram topology-mini" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="phoenixGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#7c3aed"/>
+                    <stop offset="50%" style="stop-color:#a855f7"/>
+                    <stop offset="100%" style="stop-color:#e879f9"/>
+                </linearGradient>
+                <filter id="glow">
+                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                    <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+            </defs>
+
+            <!-- Connections -->
+            <g class="connections">
+                <!-- PurrPower to others -->
+                <line class="connection active" x1="200" y1="80" x2="100" y2="150"/>
+                <line class="connection active" x1="200" y1="80" x2="300" y2="150"/>
+                <line class="connection active" x1="200" y1="80" x2="200" y2="180"/>
+                <!-- SudoSenpai to workers -->
+                <line class="connection active" x1="100" y1="150" x2="80" y2="230"/>
+                <line class="connection active" x1="100" y1="150" x2="160" y2="230"/>
+                <!-- CronCrunch to workers -->
+                <line class="connection active" x1="300" y1="150" x2="240" y2="230"/>
+                <line class="connection active" x1="300" y1="150" x2="320" y2="230"/>
+            </g>
+
+            <!-- Nodes -->
+            <g class="nodes">
+                <!-- PurrPower (Primary) -->
+                <g class="node node-primary">
+                    <circle cx="200" cy="80" r="28" class="node-bg"/>
+                    <circle cx="200" cy="80" r="24" class="node-ring"/>
+                    <text x="200" y="83" class="node-label">PP</text>
+                </g>
+
+                <!-- SudoSenpai (Control Plane) -->
+                <g class="node">
+                    <circle cx="100" cy="150" r="22" class="node-bg"/>
+                    <text x="100" y="153" class="node-label">SS</text>
+                </g>
+
+                <!-- CronCrunch (GPU Worker) -->
+                <g class="node">
+                    <circle cx="300" cy="150" r="22" class="node-bg"/>
+                    <text x="300" y="153" class="node-label">CC</text>
+                </g>
+
+                <!-- KawaiiKali -->
+                <g class="node">
+                    <circle cx="200" cy="180" r="18" class="node-bg"/>
+                    <text x="200" y="183" class="node-label" style="font-size: 11px;">KK</text>
+                </g>
+
+                <!-- Workers -->
+                <g class="node">
+                    <circle cx="80" cy="230" r="16" class="node-bg"/>
+                    <text x="80" y="233" class="node-label" style="font-size: 10px;">WW</text>
+                </g>
+                <g class="node">
+                    <circle cx="160" cy="230" r="16" class="node-bg"/>
+                    <text x="160" y="233" class="node-label" style="font-size: 10px;">NN</text>
+                </g>
+                <g class="node">
+                    <circle cx="240" cy="230" r="16" class="node-bg"/>
+                    <text x="240" y="233" class="node-label" style="font-size: 10px;">BB</text>
+                </g>
+                <g class="node">
+                    <circle cx="320" cy="230" r="16" class="node-bg"/>
+                    <text x="320" y="233" class="node-label" style="font-size: 10px;">VV</text>
+                </g>
+            </g>
+
+            <!-- Legend -->
+            <g class="legend" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; fill: #5a5a70;">
+                <text x="20" y="280">PP: PurrPower · SS: SudoSenpai · CC: CronCrunch · KK: KawaiiKali</text>
+                <text x="20" y="292">WW: WolfWhoami · NN: NekoNetcat · BB: BittyBash · VV: VeryVuln</text>
+            </g>
+        </svg>
+    </div>
+
+    <p style="text-align: center; margin-top: 1.5rem;">
+        <a href="/infrastructure.html" role="button" class="btn-primary">Full Infrastructure Details</a>
+    </p>
+</section>
+
+<!-- Explore Section -->
 <section id="explore">
     <h2>Explore</h2>
     <div class="cta-grid">
         <div class="cta-card">
             <h3>ASRI Dashboard</h3>
-            <p>Live crypto systemic risk index. Aggregated risk indicators, daily updates, interactive charts.</p>
+            <p>Live crypto systemic risk index. Aggregated risk indicators with daily updates.</p>
             <a href="/asri/" role="button" class="btn-primary">View Dashboard</a>
         </div>
         <div class="cta-card">
-            <h3>Infrastructure</h3>
-            <p>Full specs on the frankencluster—7 nodes, dual GPU inference, cross-chassis power delivery.</p>
-            <a href="/infrastructure.html" role="button">View Infrastructure</a>
-        </div>
-        <div class="cta-card">
             <h3>Published Research</h3>
-            <p>Academic outputs from this infrastructure. Papers on adversarial systems, finance, psychology.</p>
-            <a href="https://farzulla.org" target="_blank" role="button" class="secondary">Farzulla Research</a>
+            <p>Academic outputs from this infrastructure. Papers on adversarial systems, finance, AI alignment.</p>
+            <a href="https://farzulla.org" target="_blank" role="button">Farzulla Research</a>
         </div>
         <div class="cta-card">
             <h3>Lab Documentation</h3>
-            <p>Session logs, troubleshooting workflows, implementation decisions. The raw technical docs.</p>
-            <a href="https://resurrexi.dev" target="_blank" role="button" class="contrast">Lab Docs</a>
+            <p>Session logs, troubleshooting workflows, implementation decisions. Raw technical docs.</p>
+            <a href="https://resurrexi.dev" target="_blank" role="button">Lab Docs</a>
+        </div>
+        <div class="cta-card">
+            <h3>Source Code</h3>
+            <p>Open source projects, configuration files, research tools. MIT licensed.</p>
+            <a href="https://github.com/studiofarzulla" target="_blank" role="button">GitHub</a>
         </div>
     </div>
 </section>
 
 <!-- Recent Highlights -->
 <section id="recent">
-    <h2>Recent Highlights</h2>
+    <h2>Recent Publications</h2>
+
     <article>
-        <h4>Cryptocurrency Event Study (November 2025)</h4>
+        <span class="status status-active">Under Review</span>
+        <h4>Market Reaction Asymmetry in Cryptocurrency</h4>
         <p>
-            Infrastructure events generate 5.7× larger volatility shocks than regulatory events (p=0.0008). 
+            Infrastructure events generate 5.7× larger volatility shocks than regulatory events (p=0.0008).
             TARCH-X/GJR-GARCH models with custom MLE, GDELT sentiment decomposition, network analysis.
         </p>
         <footer>
-            <small class="text-muted">Published on <a href="https://ssrn.com/abstract=5788082" target="_blank">SSRN</a> · Zenodo DOI: 10.5281/zenodo.17677682</small>
+            <small class="text-muted">Submitted to Digital Finance Journal (Springer) · <a href="https://ssrn.com/abstract=5788082" target="_blank">SSRN</a></small>
         </footer>
     </article>
+
     <article>
-        <h4>Trauma as Bad Training Data (November 2025)</h4>
+        <h4>Trauma as Bad Training Data</h4>
         <p>
-            Computational reframing of developmental psychology through ML lens. PyTorch experiments 
-            validating 1,247× gradient cascades, catastrophic forgetting, overfitting.
+            Computational reframing of developmental psychology through ML lens. PyTorch experiments
+            validating 1,247× gradient cascades, catastrophic forgetting, and overfitting dynamics.
         </p>
         <footer>
-            <small class="text-muted">Published on <a href="https://doi.org/10.5281/zenodo.17681336" target="_blank">Zenodo</a></small>
+            <small class="text-muted">Published December 2025 · <a href="https://doi.org/10.5281/zenodo.17681336" target="_blank">Zenodo</a></small>
+        </footer>
+    </article>
+
+    <article>
+        <h4>Consensual Sovereignty</h4>
+        <p>
+            Quantifying political legitimacy through stake-voice alignment. Mathematical framework
+            for measuring democratic consent in governance systems.
+        </p>
+        <footer>
+            <small class="text-muted">Published December 2025 · <a href="https://doi.org/10.5281/zenodo.17684676" target="_blank">Zenodo</a></small>
         </footer>
     </article>
 </section>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Infrastructure - Resurrexi Labs</title>
-    <meta name="description" content="7-node K3s cluster specs: 58 cores, 168GB RAM, 40GB VRAM. Deliberately heterogeneous research compute.">
+    <meta name="description" content="7-node K3s frankencluster: 66 cores, 229GB RAM, 48GB VRAM. Deliberately heterogeneous research compute built from chaos.">
     <meta name="author" content="Murad Farzulla">
 
     <!-- Open Graph -->
@@ -92,64 +92,198 @@
     <main class="container">
         
 <section class="hero">
-    <h1>Infrastructure</h1>
-    <p class="tagline">Deliberately Heterogeneous Research Compute</p>
+    <p class="hero-tagline">
+        <span class="status-dot green pulse"></span>
+        7 Nodes Online
+    </p>
+    <h1>The <span class="text-phoenix">Frankencluster</span></h1>
     <p class="lead">
-        The frankencluster: distributed systems built from scavenged hardware. 
-        Mixed CPUs, cross-chassis power delivery, intentionally vulnerable nodes. 
-        Because understanding failure modes requires systems that occasionally fail.
+        Distributed systems built from scavenged hardware. Mixed CPUs, cross-chassis power delivery,
+        intentionally vulnerable nodes. Because understanding failure modes requires systems that occasionally fail.
     </p>
 </section>
 
-<!-- Philosophy -->
-<section id="philosophy">
-    <h2>Frankencluster Philosophy</h2>
-    <blockquote>
-        "Production-grade research infrastructure on deliberately heterogeneous hardware—because understanding failure modes requires systems that occasionally fail."
-    </blockquote>
-    
-    <p>
-        Building distributed systems from scavenged hardware teaches resource heterogeneity, failure domains, 
-        and storage topology in ways cloud providers abstract away. This isn't a compromise—it's a research methodology.
-    </p>
-    
-    <h3>Core Principles</h3>
-    <ul>
-        <li><strong>Heterogeneity as Feature:</strong> Mixed AMD Ryzen 9 (9900X, 5900X, HX370), Intel i7/i5, and potato-tier Celeron processors create real-world adversarial conditions. Scheduling across disparate compute exposes assumptions homogeneous clouds hide.</li>
-        <li><strong>Failure as Learning:</strong> Systems that occasionally fail teach failure modes. Cloud providers abstract away the interesting parts—storage topology, network partitions, resource contention under heterogeneous load.</li>
-        <li><strong>"Because I Can" as Valid Research:</strong> Cross-chassis GPU power delivery started as "can we?" and became "what does this teach us about power delivery, PCIe topology, and system integration?"</li>
-        <li><strong>Intentional Vulnerability:</strong> VeryVuln exists specifically to be compromised—a legitimate target for red team experiments rather than borrowed production systems.</li>
-    </ul>
+<!-- Full Topology Diagram -->
+<section id="topology">
+    <h2>Cluster Topology</h2>
+
+    <div class="topology-container">
+        <svg class="topology-diagram" viewBox="0 0 900 550" xmlns="http://www.w3.org/2000/svg" id="cluster-topology">
+            <defs>
+                <linearGradient id="phoenixGradFull" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#7c3aed"/>
+                    <stop offset="50%" style="stop-color:#a855f7"/>
+                    <stop offset="100%" style="stop-color:#e879f9"/>
+                </linearGradient>
+                <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#06b6d4"/>
+                    <stop offset="100%" style="stop-color:#0891b2"/>
+                </linearGradient>
+                <filter id="glowFull">
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                    <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+                <filter id="redGlow">
+                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                    <feFlood flood-color="#ef4444" flood-opacity="0.5"/>
+                    <feComposite in2="coloredBlur" operator="in"/>
+                    <feMerge>
+                        <feMergeNode/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+            </defs>
+
+            <!-- Network backbone -->
+            <g class="backbone">
+                <rect x="100" y="260" width="700" height="4" fill="url(#cyanGrad)" opacity="0.3" rx="2"/>
+                <text x="450" y="250" text-anchor="middle" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; fill: #5a5a70;">2.5Gbps Network Backbone</text>
+            </g>
+
+            <!-- Connections to backbone -->
+            <g class="connections">
+                <!-- PurrPower -->
+                <line class="connection active" x1="200" y1="120" x2="200" y2="260"/>
+                <!-- SudoSenpai -->
+                <line class="connection active" x1="350" y1="120" x2="350" y2="260"/>
+                <!-- KawaiiKali -->
+                <line class="connection active" x1="500" y1="120" x2="500" y2="260"/>
+                <!-- CronCrunch -->
+                <line class="connection active" x1="650" y1="120" x2="650" y2="260"/>
+                <!-- Workers -->
+                <line class="connection active" x1="150" y1="380" x2="150" y2="264"/>
+                <line class="connection active" x1="300" y1="380" x2="300" y2="264"/>
+                <line class="connection active" x1="450" y1="380" x2="450" y2="264"/>
+                <!-- VeryVuln (red) -->
+                <line class="connection" x1="600" y1="380" x2="600" y2="264" style="stroke: rgba(239, 68, 68, 0.4); stroke-dasharray: 4 4;"/>
+            </g>
+
+            <!-- Top tier nodes -->
+            <g class="nodes">
+                <!-- PurrPower (Primary) -->
+                <g class="node node-primary" data-node="purrpower" style="cursor: pointer;">
+                    <circle cx="200" cy="80" r="45" class="node-bg" style="stroke: #a855f7; stroke-width: 3;"/>
+                    <circle cx="200" cy="80" r="40" class="node-ring"/>
+                    <text x="200" y="75" class="node-label" style="font-size: 16px;">PP</text>
+                    <text x="200" y="92" style="font-family: 'JetBrains Mono', monospace; font-size: 8px; fill: #a1a1b5; text-anchor: middle;">128GB</text>
+                    <text x="200" y="140" class="node-name" style="font-size: 11px;">PurrPower</text>
+                    <text x="200" y="152" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; fill: #5a5a70; text-anchor: middle;">9900X · 7900XTX+7800XT</text>
+                </g>
+
+                <!-- SudoSenpai (Control Plane) -->
+                <g class="node" data-node="sudosenpai" style="cursor: pointer;">
+                    <circle cx="350" cy="80" r="38" class="node-bg" style="stroke: #06b6d4; stroke-width: 2;"/>
+                    <text x="350" y="75" class="node-label" style="font-size: 14px;">SS</text>
+                    <text x="350" y="90" style="font-family: 'JetBrains Mono', monospace; font-size: 8px; fill: #a1a1b5; text-anchor: middle;">32GB</text>
+                    <text x="350" y="135" class="node-name" style="font-size: 11px;">SudoSenpai</text>
+                    <text x="350" y="147" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; fill: #5a5a70; text-anchor: middle;">5900X · Control Plane</text>
+                </g>
+
+                <!-- KawaiiKali (Mobile) -->
+                <g class="node" data-node="kawaiikali" style="cursor: pointer;">
+                    <circle cx="500" cy="80" r="35" class="node-bg"/>
+                    <text x="500" y="75" class="node-label" style="font-size: 14px;">KK</text>
+                    <text x="500" y="90" style="font-family: 'JetBrains Mono', monospace; font-size: 8px; fill: #a1a1b5; text-anchor: middle;">32GB</text>
+                    <text x="500" y="130" class="node-name" style="font-size: 11px;">KawaiiKali</text>
+                    <text x="500" y="142" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; fill: #5a5a70; text-anchor: middle;">HX370 · NPU 50TOPS</text>
+                </g>
+
+                <!-- CronCrunch (GPU Worker) -->
+                <g class="node" data-node="croncrunch" style="cursor: pointer;">
+                    <circle cx="650" cy="80" r="35" class="node-bg" style="stroke: #10b981; stroke-width: 2;"/>
+                    <text x="650" y="75" class="node-label" style="font-size: 14px;">CC</text>
+                    <text x="650" y="90" style="font-family: 'JetBrains Mono', monospace; font-size: 8px; fill: #a1a1b5; text-anchor: middle;">16GB</text>
+                    <text x="650" y="130" class="node-name" style="font-size: 11px;">CronCrunch</text>
+                    <text x="650" y="142" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; fill: #5a5a70; text-anchor: middle;">2700X · GTX 1080</text>
+                </g>
+
+                <!-- Bottom tier workers -->
+                <!-- WolfWhoami -->
+                <g class="node" data-node="wolfwhoami" style="cursor: pointer;">
+                    <circle cx="150" cy="420" r="28" class="node-bg"/>
+                    <text x="150" y="423" class="node-label" style="font-size: 12px;">WW</text>
+                    <text x="150" y="460" class="node-name">WolfWhoami</text>
+                    <text x="150" y="472" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; fill: #5a5a70; text-anchor: middle;">Intel i7 · Worker</text>
+                </g>
+
+                <!-- NekoNetcat -->
+                <g class="node" data-node="nekonetcat" style="cursor: pointer;">
+                    <circle cx="300" cy="420" r="28" class="node-bg"/>
+                    <text x="300" y="423" class="node-label" style="font-size: 12px;">NN</text>
+                    <text x="300" y="460" class="node-name">NekoNetcat</text>
+                    <text x="300" y="472" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; fill: #5a5a70; text-anchor: middle;">Intel i5 · Worker</text>
+                </g>
+
+                <!-- BittyBash -->
+                <g class="node" data-node="bittybash" style="cursor: pointer;">
+                    <circle cx="450" cy="420" r="28" class="node-bg"/>
+                    <text x="450" y="423" class="node-label" style="font-size: 12px;">BB</text>
+                    <text x="450" y="460" class="node-name">BittyBash</text>
+                    <text x="450" y="472" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; fill: #5a5a70; text-anchor: middle;">Intel · Edge</text>
+                </g>
+
+                <!-- VeryVuln (Red/Vulnerable) -->
+                <g class="node" data-node="veryvuln" style="cursor: pointer;">
+                    <circle cx="600" cy="420" r="28" class="node-bg" style="stroke: #ef4444; stroke-width: 2;"/>
+                    <text x="600" y="423" class="node-label" style="font-size: 12px; fill: #ef4444;">VV</text>
+                    <text x="600" y="460" class="node-name" style="fill: #ef4444;">VeryVuln</text>
+                    <text x="600" y="472" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; fill: #5a5a70; text-anchor: middle;">Celeron · Honeypot</text>
+                </g>
+            </g>
+
+            <!-- Internet connection -->
+            <g class="internet">
+                <line x1="800" y1="262" x2="850" y2="262" style="stroke: #a855f7; stroke-width: 3;"/>
+                <circle cx="870" cy="262" r="18" style="fill: none; stroke: #a855f7; stroke-width: 2;"/>
+                <text x="870" y="267" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; fill: #a855f7; text-anchor: middle;">WAN</text>
+                <text x="870" y="295" style="font-family: 'JetBrains Mono', monospace; font-size: 8px; fill: #5a5a70; text-anchor: middle;">5Gbps</text>
+            </g>
+
+            <!-- Storage indicator -->
+            <g class="storage">
+                <rect x="750" y="50" width="120" height="60" rx="4" style="fill: #0f0f18; stroke: rgba(124, 58, 237, 0.3); stroke-width: 1;"/>
+                <text x="810" y="70" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; fill: #a1a1b5; text-anchor: middle;">STORAGE</text>
+                <text x="810" y="90" style="font-family: 'JetBrains Mono', monospace; font-size: 14px; fill: #f0f0f5; text-anchor: middle;">~8TB</text>
+                <text x="810" y="102" style="font-family: 'JetBrains Mono', monospace; font-size: 8px; fill: #5a5a70; text-anchor: middle;">NVMe + SSD + HDD</text>
+            </g>
+        </svg>
+    </div>
+
+    <!-- Node tooltip (populated by JS) -->
+    <div class="node-tooltip" id="node-tooltip"></div>
 </section>
 
-<!-- Cluster Overview -->
-<section id="cluster">
+<!-- Cluster Specs -->
+<section id="specs">
     <h2>Cluster Specifications</h2>
-    
-    <div class="specs-grid">
-        <div class="spec-item">
-            <div class="value">7</div>
-            <div class="label">Nodes</div>
+
+    <div class="stats-grid">
+        <div class="stat-item">
+            <div class="stat-value">7</div>
+            <div class="stat-label">Nodes</div>
         </div>
-        <div class="spec-item">
-            <div class="value">58</div>
-            <div class="label">CPU Cores</div>
+        <div class="stat-item">
+            <div class="stat-value">66</div>
+            <div class="stat-label">CPU Cores</div>
         </div>
-        <div class="spec-item">
-            <div class="value">168GB</div>
-            <div class="label">Total RAM</div>
+        <div class="stat-item">
+            <div class="stat-value">229<small>GB</small></div>
+            <div class="stat-label">Total RAM</div>
         </div>
-        <div class="spec-item">
-            <div class="value">40GB</div>
-            <div class="label">VRAM</div>
+        <div class="stat-item">
+            <div class="stat-value">48<small>GB</small></div>
+            <div class="stat-label">VRAM</div>
         </div>
-        <div class="spec-item">
-            <div class="value">~8TB</div>
-            <div class="label">Storage</div>
+        <div class="stat-item">
+            <div class="stat-value">~8<small>TB</small></div>
+            <div class="stat-label">Storage</div>
         </div>
-        <div class="spec-item">
-            <div class="value">5Gbps</div>
-            <div class="label">Fiber</div>
+        <div class="stat-item">
+            <div class="stat-value">5<small>Gbps</small></div>
+            <div class="stat-label">Fiber</div>
         </div>
     </div>
 </section>
@@ -157,84 +291,128 @@
 <!-- Node Details -->
 <section id="nodes">
     <h2>Node Inventory</h2>
-    
-    <article class="experiment-card">
-        <span class="status status-active">Primary Workstation</span>
-        <h3>PurrPower</h3>
-        <p class="tagline">Beast mode compute + dual GPU inference</p>
-        <ul>
-            <li><strong>CPU:</strong> AMD Ryzen 9 9900X (12C/24T)</li>
-            <li><strong>RAM:</strong> 128GB DDR5</li>
-            <li><strong>GPU:</strong> AMD Radeon 7900 XTX (24GB) + 7800 XT (16GB)</li>
-            <li><strong>Storage:</strong> 2TB NVMe</li>
-            <li><strong>Role:</strong> Local development, LM Studio inference, heavy compute</li>
-        </ul>
-        <details>
-            <summary>Notable Configuration</summary>
-            <p>
-                Dual GPU with cross-chassis power delivery—7800 XT powered by SudoSenpai's PSU via 
-                8-pin extension cable. 185W drawn from external PSU during inference. PCIe x8/x8 
-                bifurcation validated via upstream port inspection.
-            </p>
-        </details>
+
+    <div class="project-grid">
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot purple pulse"></span>
+                Primary
+            </div>
+            <h3>PurrPower</h3>
+            <p class="card-tagline">Beast mode compute with dual AMD GPUs. Cross-chassis power delivery from SudoSenpai.</p>
+            <div class="tech-stack">
+                <span class="tech-tag">9900X</span>
+                <span class="tech-tag">128GB DDR5</span>
+                <span class="tech-tag">7900XTX</span>
+                <span class="tech-tag">7800XT</span>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot pulse"></span>
+                Control Plane
+            </div>
+            <h3>SudoSenpai</h3>
+            <p class="card-tagline">K3s control plane, storage server, Cloudflare tunnel. Powers PurrPower's second GPU.</p>
+            <div class="tech-stack">
+                <span class="tech-tag">5900X</span>
+                <span class="tech-tag">32GB DDR4</span>
+                <span class="tech-tag">5.5TB Storage</span>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot pulse"></span>
+                Mobile
+            </div>
+            <h3>KawaiiKali</h3>
+            <p class="card-tagline">ASUS Zenbook S16 with XDNA 2 NPU. Travel node for remote research.</p>
+            <div class="tech-stack">
+                <span class="tech-tag">HX 370</span>
+                <span class="tech-tag">32GB LPDDR5X</span>
+                <span class="tech-tag">50 TOPS NPU</span>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot green pulse"></span>
+                GPU Worker
+            </div>
+            <h3>CronCrunch</h3>
+            <p class="card-tagline">NVIDIA GTX 1080 worker for CUDA compute and older model inference.</p>
+            <div class="tech-stack">
+                <span class="tech-tag">2700X</span>
+                <span class="tech-tag">16GB DDR4</span>
+                <span class="tech-tag">GTX 1080 8GB</span>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot pulse"></span>
+                Workers
+            </div>
+            <h3>WolfWhoami, NekoNetcat, BittyBash</h3>
+            <p class="card-tagline">Mixed Intel i7/i5 workers for distributed workload and redundancy.</p>
+            <div class="tech-stack">
+                <span class="tech-tag">Intel i7</span>
+                <span class="tech-tag">Intel i5</span>
+                <span class="tech-tag">K3s Workers</span>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot" style="background: #ef4444; box-shadow: 0 0 8px #ef4444;"></span>
+                Honeypot
+            </div>
+            <h3>VeryVuln</h3>
+            <p class="card-tagline">Intentionally vulnerable target for red team experiments and offensive security research.</p>
+            <div class="tech-stack">
+                <span class="tech-tag">Celeron</span>
+                <span class="tech-tag">Vulnerable</span>
+                <span class="tech-tag">Isolated</span>
+            </div>
+        </article>
+    </div>
+</section>
+
+<!-- Philosophy -->
+<section id="philosophy">
+    <h2>Frankencluster Philosophy</h2>
+
+    <blockquote style="border-left: 3px solid var(--phoenix-purple); padding-left: 1.5rem; margin: 2rem 0; font-style: italic; color: var(--text-secondary);">
+        "Building distributed systems from scavenged hardware teaches resource heterogeneity, failure domains,
+        and storage topology in ways cloud providers abstract away."
+    </blockquote>
+
+    <article>
+        <h4>Heterogeneity as Feature</h4>
+        <p>
+            Mixed AMD Ryzen 9 (9900X, 5900X, HX370), Intel i7/i5, and potato-tier Celeron processors
+            create real-world adversarial conditions. Scheduling across disparate compute exposes
+            assumptions homogeneous clouds hide.
+        </p>
     </article>
-    
-    <article class="experiment-card">
-        <span class="status status-active">Control Plane</span>
-        <h3>SudoSenpai</h3>
-        <p class="tagline">K3s control plane + storage server</p>
-        <ul>
-            <li><strong>CPU:</strong> AMD Ryzen 9 5900X (12C/24T)</li>
-            <li><strong>RAM:</strong> 32GB DDR4</li>
-            <li><strong>Storage:</strong> 5.5TB (mixed NVMe, SATA SSD, HDD)</li>
-            <li><strong>Role:</strong> K3s control plane, persistent storage, Cloudflare tunnel</li>
-        </ul>
+
+    <article>
+        <h4>Failure as Learning</h4>
+        <p>
+            Systems that occasionally fail teach failure modes. Cloud providers abstract away the
+            interesting parts—storage topology, network partitions, resource contention under
+            heterogeneous load.
+        </p>
     </article>
-    
-    <article class="experiment-card">
-        <span class="status status-active">Mobile Lab</span>
-        <h3>KawaiiKali</h3>
-        <p class="tagline">ASUS Zenbook S16 with XDNA 2 NPU</p>
-        <ul>
-            <li><strong>CPU:</strong> AMD Ryzen AI 9 HX 370 (12C/24T)</li>
-            <li><strong>RAM:</strong> 32GB LPDDR5X</li>
-            <li><strong>NPU:</strong> XDNA 2 (50 TOPS)</li>
-            <li><strong>Role:</strong> Mobile compute, travel node, NPU experiments</li>
-        </ul>
-    </article>
-    
-    <article class="experiment-card">
-        <span class="status status-active">Worker Node</span>
-        <h3>CronCrunch</h3>
-        <p class="tagline">GTX 1080 worker</p>
-        <ul>
-            <li><strong>CPU:</strong> AMD Ryzen 7 2700X</li>
-            <li><strong>RAM:</strong> 16GB DDR4</li>
-            <li><strong>GPU:</strong> NVIDIA GTX 1080 (8GB)</li>
-            <li><strong>Role:</strong> K3s worker, CUDA compute, older model inference</li>
-        </ul>
-    </article>
-    
-    <article class="experiment-card">
-        <span class="status status-planned">Worker Nodes</span>
-        <h3>WolfWhoami, NekoNetcat, BittyBash</h3>
-        <p class="tagline">Additional K3s workers</p>
-        <ul>
-            <li><strong>Mixed CPUs:</strong> Intel i7/i5 vintage</li>
-            <li><strong>Role:</strong> Distributed workload, redundancy, capacity</li>
-        </ul>
-    </article>
-    
-    <article class="experiment-card">
-        <span class="status" style="background-color: rgba(239, 68, 68, 0.1); color: #ef4444;">Vulnerable</span>
-        <h3>VeryVuln</h3>
-        <p class="tagline">Intentionally vulnerable target</p>
-        <ul>
-            <li><strong>CPU:</strong> Intel Celeron (potato-tier)</li>
-            <li><strong>Role:</strong> Red team experiments, exploit development, honeypot research</li>
-        </ul>
-        <p class="text-muted" style="margin-top: 0.5rem;">
-            Exists specifically to be compromised—legitimate target for offensive security research.
+
+    <article>
+        <h4>"Because I Can" as Valid Research</h4>
+        <p>
+            Cross-chassis GPU power delivery started as "can we?" and became "what does this teach us
+            about power delivery, PCIe topology, and system integration?" 185W drawn from external PSU
+            during inference.
         </p>
     </article>
 </section>
@@ -242,38 +420,46 @@
 <!-- Network -->
 <section id="network">
     <h2>Network Architecture</h2>
-    <ul>
-        <li><strong>Gateway:</strong> GL.iNet Flint 2 (OpenWrt, WireGuard, AdGuard)</li>
-        <li><strong>Internet:</strong> 5Gbps symmetrical fiber (Community Fibre, no CGNAT)</li>
-        <li><strong>VPN:</strong> WireGuard tunnel for global access (tested from Azerbaijan)</li>
-        <li><strong>Public Access:</strong> Cloudflare Tunnel for public-facing services</li>
-        <li><strong>IP Scheme:</strong> .99 downwards for static nodes, .100-.200 DHCP pool</li>
-    </ul>
-</section>
 
-<!-- Notable Achievements -->
-<section id="achievements">
-    <h2>Notable Achievements</h2>
-    <ul>
-        <li>Dual GPU inference (7900 XTX + 7800 XT) with cross-chassis power delivery—185W drawn from external PSU</li>
-        <li>PCIe x8/x8 bifurcation validated via upstream port inspection (not x16/x16 as lspci initially suggested)</li>
-        <li>Custom StorageClass with node affinity to prevent flash drive murder via random provisioning</li>
-        <li>WireGuard tunnel enabling cluster access from Azerbaijan during travel</li>
-        <li>Cloudflare Tunnel serving resurrexi.dev and resurrexi.io from SudoSenpai</li>
-    </ul>
+    <div class="specs-grid">
+        <div class="spec-item">
+            <div class="value" style="font-size: 1.2rem;">GL.iNet Flint 2</div>
+            <div class="label">Gateway</div>
+        </div>
+        <div class="spec-item">
+            <div class="value">5Gbps</div>
+            <div class="label">Fiber (Sym)</div>
+        </div>
+        <div class="spec-item">
+            <div class="value" style="font-size: 1.2rem;">WireGuard</div>
+            <div class="label">VPN</div>
+        </div>
+        <div class="spec-item">
+            <div class="value" style="font-size: 1.2rem;">Cloudflare</div>
+            <div class="label">Tunnel</div>
+        </div>
+    </div>
+
+    <p class="text-muted" style="margin-top: 1.5rem;">
+        OpenWrt gateway with WireGuard for global access. Cloudflare Tunnel serving resurrexi.dev and resurrexi.io.
+        No CGNAT, static IPs for nodes (.99 downwards).
+    </p>
 </section>
 
 <!-- Documentation -->
 <section id="docs">
     <h2>Documentation</h2>
     <p>
-        Full topology documentation, session logs, troubleshooting workflows, and implementation decisions 
-        are maintained at <a href="https://resurrexi.dev" target="_blank">resurrexi.dev</a>.
+        Full topology documentation, session logs, troubleshooting workflows, and implementation decisions
+        are maintained at the lab docs site.
     </p>
-    <p>
-        <a href="https://resurrexi.dev" target="_blank" role="button">Lab Documentation →</a>
-    </p>
+    <div class="cta-group">
+        <a href="https://resurrexi.dev" target="_blank" role="button" class="btn-primary">Lab Documentation</a>
+        <a href="https://github.com/studiofarzulla" target="_blank" role="button">GitHub</a>
+    </div>
 </section>
+
+<script src="/static/js/topology.js"></script>
 
     </main>
 
@@ -288,11 +474,49 @@
             <a href="https://github.com/resurrexio" target="_blank">GitHub</a>
         </div>
         <p class="footer-meta">
-            7-node K3s cluster · 58 cores · 168GB RAM · 40GB VRAM
+            7-node K3s cluster · 66 cores · 229GB RAM · 48GB VRAM
         </p>
         <p>
             <small>&copy; 2025 Resurrexi Labs · <a href="mailto:murad@farzulla.org">murad@farzulla.org</a></small>
         </p>
     </footer>
+
+    <!-- Status Widget -->
+    <div class="status-widget" id="cluster-status">
+        <div class="status-header">
+            <span class="status-icon"></span>
+            <span class="status-title">Cluster Status</span>
+        </div>
+        <div class="status-body">
+            <div class="status-row">
+                <span class="status-label">Nodes</span>
+                <span class="status-value">7/7 Online</span>
+            </div>
+            <div class="status-row">
+                <span class="status-label">CPU</span>
+                <div class="status-bar">
+                    <div class="status-bar-fill" style="width: 18%"></div>
+                </div>
+                <span class="status-value">18%</span>
+            </div>
+            <div class="status-row">
+                <span class="status-label">Memory</span>
+                <div class="status-bar">
+                    <div class="status-bar-fill" style="width: 34%"></div>
+                </div>
+                <span class="status-value">78/229GB</span>
+            </div>
+            <div class="status-row">
+                <span class="status-label">VRAM</span>
+                <div class="status-bar">
+                    <div class="status-bar-fill" style="width: 12%"></div>
+                </div>
+                <span class="status-value">6/48GB</span>
+            </div>
+        </div>
+        <div class="status-footer">
+            <span class="status-timestamp">Simulated · Demo Data</span>
+        </div>
+    </div>
 </body>
 </html>

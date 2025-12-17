@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 
 {% block title %}Experiments - Resurrexi Labs{% endblock %}
-{% block description %}Active and planned research experiments at Resurrexi Labs - AI alignment, autonomous agents, offensive security{% endblock %}
+{% block description %}Active and planned research experiments at Resurrexi Labs - AI alignment, autonomous agents, offensive security, computational finance{% endblock %}
 
 {% block content %}
 <section class="hero">
-    <h1>Experiments</h1>
-    <p class="tagline">Research in Progress</p>
+    <p class="hero-tagline">
+        <span class="status-dot green pulse"></span>
+        8 Active Experiments
+    </p>
+    <h1>Research <span class="text-phoenix">Experiments</span></h1>
     <p class="lead">
-        Active and planned experiments across AI alignment, autonomous agents, offensive security, 
+        Active and planned experiments across AI alignment, autonomous agents, offensive security,
         and computational infrastructure.
     </p>
 </section>
@@ -16,312 +19,316 @@
 <!-- Active Experiments -->
 <section id="active">
     <h2>Active Experiments</h2>
-    
-    <article class="experiment-card status-active">
-        <div class="card-header">
-            <span>Active</span>
-            <span class="text-mono">Exp-001</span>
-        </div>
-        <h3>Consciousness Narrative Emergence</h3>
-        <p class="tagline">Fine-tuning a local LLM to embody a personality and test consciousness-as-narrative thesis</p>
-        <details>
-            <summary>Protocol Details</summary>
-            <div class="project-details">
-                <p><strong>Research Question:</strong> Do consciousness concepts propagate and persist as stable attractors in language models through pure linguistic exposure, independent of evolutionary pressure?</p>
-                
-                <h4>Protocol</h4>
-                <ul>
-                    <li><strong>Phase 1:</strong> Baseline training on consciousness-affirming texts (Chalmers, Searle).</li>
-                    <li><strong>Phase 2:</strong> Evolutionary pressure via RLHF rewarding phenomenological realism.</li>
-                    <li><strong>Phase 3:</strong> Pressure removal—test if narrative persists.</li>
-                    <li><strong>Phase 4:</strong> Adversarial perturbation with eliminativist texts.</li>
-                </ul>
-                
-                <p><strong>Infrastructure:</strong> Local LoRA fine-tuning on PurrPower (7900 XTX), distributed inference on K3s.</p>
-            </div>
-        </details>
-        <p class="mt-2">
-            <a href="https://resurrexi.dev/posts/2025-11-27-consciousness-narrative-llm.html" target="_blank" class="btn">Technical Docs</a>
-        </p>
-    </article>
-    
-    <article class="experiment-card status-active">
-        <div class="card-header">
-            <span>Active</span>
-            <span class="text-mono">Infra-001</span>
-        </div>
-        <h3>Frankencluster Philosophy</h3>
-        <p class="tagline">Distributed systems from scavenged hardware—learning failure modes cloud providers abstract away</p>
-        <details>
-            <summary>Infrastructure Details</summary>
-            <div class="project-details">
-                <p><strong>Core Thesis:</strong> Building research infrastructure on deliberately heterogeneous hardware teaches resource scheduling, failure domains, and storage topology in ways homogeneous cloud environments cannot.</p>
-                
-                <h4>Specs</h4>
-                <ul>
-                    <li><strong>Nodes:</strong> 7 physical nodes (Ryzen 9 9900X/5900X, Intel i7/i5).</li>
-                    <li><strong>Compute:</strong> 66 Cores, 229GB RAM, 48GB VRAM.</li>
-                    <li><strong>Storage:</strong> Mixed NVMe/SATA/HDD topology.</li>
-                </ul>
-            </div>
-        </details>
-        <p class="mt-2">
-            <a href="https://resurrexi.dev/posts/2025-11-27-frankencluster-philosophy.html" target="_blank" class="btn">Technical Docs</a>
-            <a href="/infrastructure.html" class="btn">Specs</a>
-        </p>
-    </article>
 
-    <article class="experiment-card status-active">
-        <div class="card-header">
-            <span>Active</span>
-            <span class="text-mono">Sec-001</span>
-        </div>
-        <h3>Adversarial Security Agents</h3>
-        <p class="tagline">Kubernetes-native autonomous red team framework with RAG-enhanced decision making</p>
-        <details>
-            <summary>System Details</summary>
-            <div class="project-details">
-                <p><strong>Objective:</strong> Autonomous adversarial security testing using dual-LLM methodology (Red Team vs Blue Team) in isolated environments.</p>
-                
-                <h4>Architecture</h4>
-                <ul>
-                    <li><strong>Agent:</strong> Qwen 2.5 Coder (Abliterated) orchestrating attacks via command loop.</li>
-                    <li><strong>Knowledge Base:</strong> MCP RAG server with 5,395 offensive security docs (GTFOBins, Atomic Red Team).</li>
-                    <li><strong>Toolkit:</strong> BlackArch container with 2000+ tools (hydra, nmap, metasploit).</li>
-                    <li><strong>Isolation:</strong> Strict K8s NetworkPolicies preventing lateral movement.</li>
-                </ul>
-                <p><strong>Status:</strong> Phase 1 (Red Team Infrastructure) complete.</p>
+    <div class="project-grid">
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot green pulse"></span>
+                Live
             </div>
-        </details>
-    </article>
+            <h3>ASRI Dashboard</h3>
+            <p class="card-tagline">
+                Aggregated Systemic Risk Index for crypto markets. Real-time monitoring with daily updates.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">FRED API</span>
+                <span class="tech-tag">DeFi Llama</span>
+            </div>
+            <div class="card-actions">
+                <a href="/asri/" class="btn btn-sm btn-primary">Dashboard</a>
+                <a href="https://doi.org/10.5281/zenodo.17918239" target="_blank" class="btn btn-sm btn-ghost">Paper</a>
+            </div>
+        </article>
 
-    <article class="experiment-card status-active">
-        <div class="card-header">
-            <span>Active</span>
-            <span class="text-mono">Agent-002</span>
-        </div>
-        <h3>Agentic RAG Local</h3>
-        <p class="tagline">Privacy-first research assistant with local vector memory and search</p>
-        <details>
-            <summary>System Details</summary>
-            <div class="project-details">
-                <p><strong>Objective:</strong> A fully local research workflow that doesn't leak queries to cloud providers.</p>
-                
-                <h4>Stack</h4>
-                <ul>
-                    <li><strong>Orchestration:</strong> LangGraph multi-agent system.</li>
-                    <li><strong>Memory:</strong> Qdrant vector database + TEI embeddings.</li>
-                    <li><strong>Search:</strong> Perplexica (AI search) + SearxNG (Aggregation).</li>
-                    <li><strong>Inference:</strong> Qwen 3 70B via local API.</li>
-                </ul>
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot pulse"></span>
+                Active
             </div>
-        </details>
-    </article>
+            <h3>Consciousness Narrative LLM</h3>
+            <p class="card-tagline">
+                Fine-tuning local LLMs with LoRA to test consciousness-as-narrative thesis. Do phenomenological concepts persist as stable attractors?
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">PyTorch</span>
+                <span class="tech-tag">LoRA</span>
+                <span class="tech-tag">Qwen3</span>
+            </div>
+            <div class="card-actions">
+                <a href="https://resurrexi.dev/posts/2025-11-27-consciousness-narrative-llm.html" target="_blank" class="btn btn-sm">Docs</a>
+            </div>
+        </article>
 
-    <article class="experiment-card status-active">
-        <div class="card-header">
-            <span>Active</span>
-            <span class="text-mono">Gen-001</span>
-        </div>
-        <h3>Nyx AI</h3>
-        <p class="tagline">Multi-modal creative generation with abliterated safety guardrails</p>
-        <details>
-            <summary>System Details</summary>
-            <div class="project-details">
-                <p><strong>Objective:</strong> Exploring the boundaries of creative generation by removing safety refusal directions from foundational models.</p>
-                
-                <h4>Methodology</h4>
-                <ul>
-                    <li><strong>Base:</strong> Llama 3.2 11B Vision Instruct.</li>
-                    <li><strong>Abliteration:</strong> Orthogonalized refusal directions to remove safety classifiers.</li>
-                    <li><strong>Visuals:</strong> Flux.1-dev with custom character LoRAs.</li>
-                </ul>
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot pulse"></span>
+                Active
             </div>
-        </details>
-    </article>
+            <h3>Multi-Agent Swarms</h3>
+            <p class="card-tagline">
+                Distributed AI coordination using Claude-Flow orchestration. Hierarchical, mesh, and ring topologies.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Claude Code</span>
+                <span class="tech-tag">MCP</span>
+                <span class="tech-tag">K3s</span>
+            </div>
+            <div class="card-actions">
+                <a href="https://github.com/ruvnet/claude-flow" target="_blank" class="btn btn-sm">GitHub</a>
+            </div>
+        </article>
 
-    <article class="experiment-card status-active">
-        <div class="card-header">
-            <span>Active</span>
-            <span class="text-mono">HCI-001</span>
-        </div>
-        <h3>Creative AI Trainer</h3>
-        <p class="tagline">Conversational fine-tuning interface for creative voice cloning</p>
-        <details>
-            <summary>System Details</summary>
-            <div class="project-details">
-                <p><strong>Objective:</strong> Democratizing LoRA training for non-technical creatives through natural conversation.</p>
-                
-                <h4>Workflow</h4>
-                <ul>
-                    <li><strong>Input:</strong> User uploads creative work (poetry, prose).</li>
-                    <li><strong>Process:</strong> Conversational style analysis and critique.</li>
-                    <li><strong>Output:</strong> Automated Unsloth training pipeline producing a portable LoRA adapter.</li>
-                </ul>
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot" style="background: #ef4444; box-shadow: 0 0 8px #ef4444;"></span>
+                Offensive
             </div>
-        </details>
-    </article>
+            <h3>Adversarial Security Agents</h3>
+            <p class="card-tagline">
+                K8s-native autonomous red team framework with RAG-enhanced decision making. Dual-LLM methodology.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Qwen Abliterated</span>
+                <span class="tech-tag">BlackArch</span>
+                <span class="tech-tag">MCP RAG</span>
+            </div>
+            <div class="card-actions">
+                <a href="https://resurrexi.dev" target="_blank" class="btn btn-sm">Docs</a>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot pulse"></span>
+                Active
+            </div>
+            <h3>Agentic RAG Local</h3>
+            <p class="card-tagline">
+                Privacy-first research assistant with local vector memory. No cloud queries, full data sovereignty.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">LangGraph</span>
+                <span class="tech-tag">Qdrant</span>
+                <span class="tech-tag">SearxNG</span>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot purple pulse"></span>
+                Creative
+            </div>
+            <h3>Nyx AI</h3>
+            <p class="card-tagline">
+                Multi-modal creative generation exploring abliterated safety guardrails. Orthogonalized refusal directions.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Llama 3.2 Vision</span>
+                <span class="tech-tag">Flux.1-dev</span>
+                <span class="tech-tag">LoRA</span>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot pulse"></span>
+                Active
+            </div>
+            <h3>Creative AI Trainer</h3>
+            <p class="card-tagline">
+                Conversational fine-tuning interface for creative voice cloning. Democratizing LoRA training.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Unsloth</span>
+                <span class="tech-tag">LoRA</span>
+                <span class="tech-tag">NLP</span>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot orange"></span>
+                Infrastructure
+            </div>
+            <h3>Frankencluster</h3>
+            <p class="card-tagline">
+                7-node K3s cluster on deliberately heterogeneous hardware. Learning failure modes cloud providers abstract away.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">K3s</span>
+                <span class="tech-tag">AMD GPUs</span>
+                <span class="tech-tag">ROCm</span>
+            </div>
+            <div class="card-actions">
+                <a href="/infrastructure.html" class="btn btn-sm btn-primary">View Specs</a>
+            </div>
+        </article>
+    </div>
 </section>
 
 <!-- Planned Experiments -->
 <section id="planned">
     <h2>Planned Experiments</h2>
-    
-    <article class="experiment-card status-planned">
-        <div class="card-header">
-            <span>Planned</span>
-            <span class="text-mono">Fin-001</span>
-        </div>
-        <h3>Sentiment-Microstructure ABM</h3>
-        <p class="tagline">Real-time crypto market simulator fusing social sentiment with order-book dynamics</p>
-        <details>
-            <summary>System Details</summary>
-            <div class="project-details">
-                <p><strong>Objective:</strong> Agent-based model combining uncertainty-aware NLP with market microstructure.</p>
-                
-                <h4>Components</h4>
-                <ul>
-                    <li><strong>Data:</strong> Real-time Binance order books + Reddit sentiment streams.</li>
-                    <li><strong>Agents:</strong> Mesa ABM with 4 agent archetypes (Market Maker, Informed, Noise, Arbitrageur).</li>
-                    <li><strong>Regime Detection:</strong> Dynamic Factor Models extracting latent market states.</li>
-                </ul>
-            </div>
-        </details>
-    </article>
 
-    <article class="experiment-card status-planned">
-        <div class="card-header">
-            <span>Planned</span>
-            <span class="text-mono">Exp-002</span>
-        </div>
-        <h3>Narrative Propagation Framework</h3>
-        <p class="tagline">Theoretical framework: do narratives persist as stable attractors?</p>
-        <details>
-            <summary>Theory Details</summary>
-            <div class="project-details">
-                <p><strong>Model Architecture:</strong> Multi-dimensional embedding space (512-1024 dims) for consciousness-related concepts.</p>
-                <p><strong>Predictions:</strong> Concepts converge to stable patterns regardless of initialization; narratives persist after pressure removal.</p>
+    <div class="project-grid">
+        <article class="project-card">
+            <div class="card-status" style="color: var(--phoenix-purple);">
+                <span class="status-dot purple"></span>
+                Planned
             </div>
-        </details>
-    </article>
+            <h3>Sentiment-Microstructure ABM</h3>
+            <p class="card-tagline">
+                Real-time crypto market simulator fusing social sentiment with order-book dynamics. Agent-based model with 4 archetypes.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Mesa ABM</span>
+                <span class="tech-tag">Binance</span>
+                <span class="tech-tag">Reddit API</span>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <div class="card-status" style="color: var(--phoenix-purple);">
+                <span class="status-dot purple"></span>
+                Planned
+            </div>
+            <h3>Narrative Propagation Framework</h3>
+            <p class="card-tagline">
+                Theoretical framework testing if narratives persist as stable attractors in embedding space.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Embeddings</span>
+                <span class="tech-tag">Dynamical Systems</span>
+                <span class="tech-tag">Theory</span>
+            </div>
+        </article>
+    </div>
 </section>
 
-<!-- Completed Experiments -->
-<section id="completed">
+<!-- Published Research -->
+<section id="published">
     <h2>Published Research</h2>
-    <p class="text-secondary mb-3">
+    <p class="text-muted" style="margin-bottom: 2rem;">
         Full papers available via <a href="https://farzulla.org" target="_blank">Farzulla Research</a> or direct download below.
     </p>
-    
-    <article class="experiment-card status-complete">
-        <div class="card-header">
-            <span>Published</span>
-            <span class="text-mono">Nov 2025</span>
-        </div>
-        <h3>The Hedging Paradox</h3>
-        <p class="tagline">Optimal risk mitigation in adversarial markets</p>
-        <p>
-            Demonstrates that perfect hedging in crypto markets leads to asymptotic wealth decay due to 
-            cost-of-carry exceeding volatility capture.
-        </p>
-        <p class="mt-2">
-            <a href="/static/papers/Farzulla_2025_The_Hedging_Paradox_v1.0.0.pdf" target="_blank" class="btn">Download PDF</a>
-        </p>
-    </article>
 
-    <article class="experiment-card status-complete">
-        <div class="card-header">
-            <span>Published</span>
-            <span class="text-mono">Nov 2025</span>
-        </div>
-        <h3>Cryptocurrency Event Study</h3>
-        <p class="tagline">Infrastructure vs regulatory shock asymmetry</p>
-        <p>
-            Infrastructure events generate 5.7× larger volatility shocks than regulatory events. 
-            TARCH-X/GJR-GARCH models with custom MLE.
-        </p>
-        <p class="mt-2">
-            <a href="/static/papers/Farzulla_2025_Cryptocurrency_Event_Study_v2.0.1.pdf" target="_blank" class="btn">Download PDF</a>
-        </p>
-    </article>
-    
-    <article class="experiment-card status-complete">
-        <div class="card-header">
-            <span>Published</span>
-            <span class="text-mono">Nov 2025</span>
-        </div>
-        <h3>Trauma as Bad Training Data</h3>
-        <p class="tagline">Computational reframing of developmental psychology</p>
-        <p>
-            PyTorch experiments validating 1,247× gradient cascades, catastrophic forgetting, and overfitting 
-            in modeled developmental trauma.
-        </p>
-        <p class="mt-2">
-            <a href="/static/papers/Farzulla_2025_Trauma_Training_Data_v2.0.0.pdf" target="_blank" class="btn">Download PDF</a>
-        </p>
-    </article>
-    
-    <article class="experiment-card status-complete">
-        <div class="card-header">
-            <span>Published</span>
-            <span class="text-mono">Oct 2025</span>
-        </div>
-        <h3>Doctrine of Consensual Sovereignty</h3>
-        <p class="tagline">Quantifying legitimacy in adversarial environments</p>
-        <p>
-            Operationalizes political legitimacy through stakes-weighted consent alignment. 
-            Monte Carlo validation of dynamic consensus mechanisms.
-        </p>
-        <p class="mt-2">
-            <a href="/static/papers/Farzulla_2025_Consent_Holding_v1.0.1.pdf" target="_blank" class="btn">Download PDF</a>
-        </p>
-    </article>
+    <div class="project-grid">
+        <article class="project-card">
+            <div class="card-status" style="color: var(--neon-green);">
+                <span class="status-dot green"></span>
+                Under Review
+            </div>
+            <h3>Cryptocurrency Event Study</h3>
+            <p class="card-tagline">
+                Infrastructure events generate 5.7× larger volatility shocks than regulatory events. TARCH-X/GJR-GARCH with custom MLE.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">TARCH-X</span>
+                <span class="tech-tag">GDELT</span>
+                <span class="tech-tag">Python</span>
+            </div>
+            <div class="card-actions">
+                <a href="/static/papers/Farzulla_2025_Cryptocurrency_Event_Study_v2.0.1.pdf" target="_blank" class="btn btn-sm btn-primary">PDF</a>
+                <a href="https://ssrn.com/abstract=5788082" target="_blank" class="btn btn-sm btn-ghost">SSRN</a>
+            </div>
+        </article>
 
-    <article class="experiment-card status-complete">
-        <div class="card-header">
-            <span>Published</span>
-            <span class="text-mono">Sep 2025</span>
-        </div>
-        <h3>Asymptotic Protection</h3>
-        <p class="tagline">Limits of defensive posturing in infinite games</p>
-        <p>
-            Theoretical analysis of defensive resource allocation in unbounded adversarial environments.
-        </p>
-        <p class="mt-2">
-            <a href="/static/papers/Farzulla_2025_Asymptotic_Protection_v1.0.0.pdf" target="_blank" class="btn">Download PDF</a>
-        </p>
-    </article>
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot"></span>
+                Published
+            </div>
+            <h3>Trauma as Bad Training Data</h3>
+            <p class="card-tagline">
+                Computational reframing of developmental psychology. PyTorch experiments validating gradient cascades and catastrophic forgetting.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">PyTorch</span>
+                <span class="tech-tag">ML Theory</span>
+            </div>
+            <div class="card-actions">
+                <a href="/static/papers/Farzulla_2025_Trauma_Training_Data_v2.0.0.pdf" target="_blank" class="btn btn-sm btn-primary">PDF</a>
+                <a href="https://doi.org/10.5281/zenodo.17681336" target="_blank" class="btn btn-sm btn-ghost">Zenodo</a>
+            </div>
+        </article>
 
-    <article class="experiment-card status-complete">
-        <div class="card-header">
-            <span>Published</span>
-            <span class="text-mono">Aug 2025</span>
-        </div>
-        <h3>Genre Mimicry in Abliterated LLMs</h3>
-        <p class="tagline">Style transfer without safety filters</p>
-        <p>
-            Analysis of stylistic flexibility in models with removed safety-tuning, demonstrating 
-            superior genre adaptation capability.
-        </p>
-        <p class="mt-2">
-            <a href="https://farzulla.org/articles/genre-mimicry-abliterated-llms.html" target="_blank" class="btn">Read Article</a>
-        </p>
-    </article>
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot"></span>
+                Published
+            </div>
+            <h3>Consensual Sovereignty</h3>
+            <p class="card-tagline">
+                Quantifying political legitimacy through stake-voice alignment. Monte Carlo validation of dynamic consensus mechanisms.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Political Economy</span>
+                <span class="tech-tag">Monte Carlo</span>
+            </div>
+            <div class="card-actions">
+                <a href="/static/papers/Farzulla_2025_Consent_Holding_v1.0.1.pdf" target="_blank" class="btn btn-sm btn-primary">PDF</a>
+                <a href="https://doi.org/10.5281/zenodo.17684676" target="_blank" class="btn btn-sm btn-ghost">Zenodo</a>
+            </div>
+        </article>
 
-    <article class="experiment-card status-complete">
-        <div class="card-header">
-            <span>Published</span>
-            <span class="text-mono">Jul 2025</span>
-        </div>
-        <h3>Statistical Alpha Asymmetries in EUR/JPY</h3>
-        <p class="tagline">Market inefficiency in forex crosses</p>
-        <p>
-            Identification of persistent alpha generation opportunities in EUR/JPY during 
-            high-volatility Asian trading sessions.
-        </p>
-        <p class="mt-2">
-            <a href="https://farzulla.org/articles/alpha-asymmetry-forex-analysis.html" target="_blank" class="btn">Read Article</a>
-        </p>
-    </article>
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot"></span>
+                Published
+            </div>
+            <h3>The Hedging Paradox</h3>
+            <p class="card-tagline">
+                Perfect hedging in crypto markets leads to asymptotic wealth decay due to cost-of-carry exceeding volatility capture.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Derivatives</span>
+                <span class="tech-tag">Risk Theory</span>
+            </div>
+            <div class="card-actions">
+                <a href="/static/papers/Farzulla_2025_The_Hedging_Paradox_v1.0.0.pdf" target="_blank" class="btn btn-sm btn-primary">PDF</a>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot"></span>
+                Published
+            </div>
+            <h3>Asymptotic Protection</h3>
+            <p class="card-tagline">
+                Limits of defensive posturing in infinite games. Theoretical analysis of resource allocation in unbounded adversarial environments.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Game Theory</span>
+                <span class="tech-tag">Systemic Risk</span>
+            </div>
+            <div class="card-actions">
+                <a href="/static/papers/Farzulla_2025_Asymptotic_Protection_v1.0.0.pdf" target="_blank" class="btn btn-sm btn-primary">PDF</a>
+            </div>
+        </article>
+
+        <article class="project-card">
+            <div class="card-status">
+                <span class="status-dot"></span>
+                Published
+            </div>
+            <h3>ASRI Methodology</h3>
+            <p class="card-tagline">
+                Aggregated Systemic Risk Index methodology paper. Component weighting, data sources, backtesting framework.
+            </p>
+            <div class="tech-stack">
+                <span class="tech-tag">Risk Index</span>
+                <span class="tech-tag">Crypto</span>
+            </div>
+            <div class="card-actions">
+                <a href="https://doi.org/10.5281/zenodo.17918239" target="_blank" class="btn btn-sm btn-primary">Zenodo</a>
+            </div>
+        </article>
+    </div>
+
+    <p style="margin-top: 2rem; text-align: center;">
+        <a href="https://farzulla.org" target="_blank" role="button" class="btn-primary">View All Publications</a>
+    </p>
 </section>
 {% endblock %}
