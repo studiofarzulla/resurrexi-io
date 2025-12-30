@@ -1,197 +1,301 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Interactive research dashboards and data visualizations - Resurrexi" />
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research Dashboards - Resurrexi</title>
-    <link rel="icon" type="image/png" href="../static/images/favicon-32x32.png">
-    <link rel="stylesheet" href="../static/css/academic.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
+    <meta name="description" content="Interactive research dashboards and data visualizations for computational finance, governance theory, and AI alignment research">
+    <meta name="author" content="Murad Farzulla">
 
-    <!-- Subtle Eye Branding -->
-    <div class="brand-eye">
-      <div class="eye-outer">
-        <div class="eye-inner"></div>
-      </div>
-    </div>
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://resurrexi.io/dashboards/">
+    <meta property="og:title" content="Research Dashboards - Resurrexi">
+    <meta property="og:description" content="Interactive research dashboards and data visualizations">
+    <meta property="og:image" content="https://resurrexi.io/static/images/logo.png">
 
-    <!-- Navigation -->
-    <nav class="main-nav">
-      <a href="../index.html" class="brand-name">
-        <img src="../logo.svg" alt="Resurrexi" class="nav-logo" />
-      </a>
-      <div class="nav-quote">
-        <span class="quote-text">"Power is tolerable only on condition that it mask a substantial part of itself."<span class="quote-author">— Foucault</span></span>
-        <span class="quote-text">"The strategic adversary is fascism... the fascism in us all."<span class="quote-author">— Foucault</span></span>
-        <span class="quote-text">"What is good? All that heightens the feeling of power, the will to power, power itself."<span class="quote-author">— Nietzsche</span></span>
-        <span class="quote-text">"We do not lack communication. On the contrary, we have too much of it."<span class="quote-author">— Deleuze</span></span>
-        <span class="quote-text">"There is but one truly serious philosophical problem, and that is suicide."<span class="quote-author">— Camus</span></span>
-        <span class="quote-text">"The limits of my language mean the limits of my world."<span class="quote-author">— Wittgenstein</span></span>
-        <span class="quote-text">"Life can only be understood backwards; but it must be lived forwards."<span class="quote-author">— Kierkegaard</span></span>
-        <span class="quote-text">"Man is the only creature who refuses to be what he is."<span class="quote-author">— Camus</span></span>
-        <span class="quote-text">"Fragility can be measured; risk is not measurable."<span class="quote-author">— Taleb</span></span>
-        <span class="quote-text">"The robust resists shocks and stays the same; the antifragile gets better."<span class="quote-author">— Taleb</span></span>
-        <span class="quote-text">"Markets can remain irrational longer than you can remain solvent."<span class="quote-author">— Keynes</span></span>
-        <span class="quote-text">"Stability breeds instability."<span class="quote-author">— Minsky</span></span>
-        <span class="quote-text">"Success breeds a disregard of the possibility of failure."<span class="quote-author">— Minsky</span></span>
-        <span class="quote-text">"Clouds are not spheres, mountains are not cones, coastlines are not circles."<span class="quote-author">— Mandelbrot</span></span>
-        <span class="quote-text">"The curious task of economics is to demonstrate how little they really know."<span class="quote-author">— Hayek</span></span>
-        <span class="quote-text">"Information is information, not matter or energy."<span class="quote-author">— Wiener</span></span>
-        <span class="quote-text">"Only variety can destroy variety."<span class="quote-author">— Ashby</span></span>
-        <span class="quote-text">"Information is the resolution of uncertainty."<span class="quote-author">— Shannon</span></span>
-        <span class="quote-text">"Simplicity is prerequisite for reliability."<span class="quote-author">— Dijkstra</span></span>
-        <span class="quote-text">"There's no sense in being precise when you don't know what you're talking about."<span class="quote-author">— von Neumann</span></span>
-        <span class="quote-text">"You don't understand mathematics. You just get used to it."<span class="quote-author">— von Neumann</span></span>
-        <span class="quote-text">"The computing scientist's main challenge is not to get confused by his own complexities."<span class="quote-author">— Dijkstra</span></span>
-        <span class="quote-text">"Sovereign is he who decides on the exception."<span class="quote-author">— Schmitt</span></span>
-        <span class="quote-text">"Politics have no relation to morals."<span class="quote-author">— Machiavelli</span></span>
-        <span class="quote-text">"Everyone sees what you appear to be, few experience what you really are."<span class="quote-author">— Machiavelli</span></span>
-        <span class="quote-text">"Covenants, without the sword, are but words."<span class="quote-author">— Hobbes</span></span>
-        <span class="quote-text">"Violence can destroy power; it is utterly incapable of creating it."<span class="quote-author">— Arendt</span></span>
-        <span class="quote-text">"The most radical revolutionary becomes a conservative the day after the revolution."<span class="quote-author">— Arendt</span></span>
-        <span class="quote-text">"The condition of man is a condition of war of everyone against everyone."<span class="quote-author">— Hobbes</span></span>
-        <span class="quote-text">"Science is built up of facts, as a house is built of stones."<span class="quote-author">— Poincaré</span></span>
-        <span class="quote-text">"To doubt everything or believe everything dispenses with reflection."<span class="quote-author">— Poincaré</span></span>
-        <span class="quote-text">"We can only see a short distance ahead, but plenty there that needs to be done."<span class="quote-author">— Turing</span></span>
-        <span class="quote-text">"The more I think about language, the more it amazes me people understand each other."<span class="quote-author">— Gödel</span></span>
-        <span class="quote-text">"Fools and fanatics are always certain; wiser people so full of doubts."<span class="quote-author">— Russell</span></span>
-        <span class="quote-text">"A wheel turns because of its encounter with the surface of the road."<span class="quote-author">— Tsing</span></span>
-        <span class="quote-text">"Friction is required to keep global power in motion."<span class="quote-author">— Tsing</span></span>
-      </div>
-      <button class="mobile-menu-toggle" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      <ul class="nav-links">
-        <li><a href="../index.html">Home</a></li>
-        <li><a href="../publications.html">Publications</a></li>
-        <li><a href="../research-areas.html">Research Areas</a></li>
-        <li><a href="../research/" class="active">Dashboards</a></li>
-        <li><a href="../data-tools.html">Data & Tools</a></li>
-        <li><a href="../about.html">About</a></li>
-      </ul>
-    </nav>
+    <!-- Canonical -->
+    <link rel="canonical" href="https://resurrexi.io/dashboards/">
 
-    <!-- Page Header -->
-    <header class="page-header">
-      <div class="container">
-        <h1 class="page-title">RESEARCH DASHBOARDS</h1>
-      </div>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Pico CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="/static/css/custom.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32.png">
+
+    <style>
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .dashboard-card {
+            background: var(--pico-card-background-color);
+            border: 1px solid var(--pico-muted-border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        .dashboard-card:hover {
+            border-color: var(--pico-primary);
+            transform: translateY(-2px);
+        }
+
+        .dashboard-card h3 {
+            margin-bottom: 0.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .dashboard-card .tagline {
+            color: var(--pico-muted-color);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-card .meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-card .tag {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(168, 85, 247, 0.15);
+            color: #a855f7;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .dashboard-card .actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .dashboard-card .actions a {
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-primary {
+            background: var(--pico-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--pico-muted-color);
+            text-decoration: none;
+            border: 1px solid var(--pico-muted-border-color);
+            border-radius: 4px;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--pico-primary);
+            color: var(--pico-primary);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header .lead {
+            color: var(--pico-muted-color);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #22c55e;
+        }
+
+        .status-dot.live {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <ul>
+                <li><a href="/infrastructure.html">Infrastructure</a></li>
+                <li><a href="/experiments.html">Experiments</a></li>
+                <li><a href="/dashboards/" aria-current="page">Dashboards</a></li>
+                <li><a href="/about.html">About</a></li>
+                <li><a href="https://farzulla.org" target="_blank">Research</a></li>
+                <li><a href="https://resurrexi.dev" target="_blank">Lab Docs</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <!-- Main Content -->
-    <main id="main-content" class="page-content">
-      <div class="container">
-        
-        <!-- Intro -->
-        <section class="content-block" style="text-align: center; margin: 0 auto 4rem; max-width: 900px;">
-          <p class="lead-text">
-            Interactive visualizations, data exploration tools, and real-time analytics for research outputs.
-          </p>
-          <p class="body-text" style="color: var(--text-tertiary); font-style: italic;">
-            Dashboards powered by Resurrexi Labs infrastructure
-          </p>
+    <div class="logo-container">
+        <a href="/" class="logo">
+            <img src="/static/images/logo.png" alt="Resurrexi" class="brand-logo">
+            <strong class="logo-text">Resurrexi</strong>
+        </a>
+    </div>
+
+    <main class="container">
+        <section class="page-header">
+            <h1>Research Dashboards</h1>
+            <p class="lead">
+                Interactive visualizations for published research. Explore parameters,
+                test sensitivity, and understand the data behind the papers.
+            </p>
         </section>
 
-        <!-- Dashboard Grid -->
-        <div class="research-grid">
+        <div class="dashboard-grid">
+            <!-- ASRI Dashboard -->
+            <article class="dashboard-card">
+                <div class="status-badge">
+                    <span class="status-dot live"></span>
+                    Live
+                </div>
+                <h3>ASRI Dashboard</h3>
+                <p class="tagline">Aggregated Systemic Risk Index for cryptocurrency markets with daily updates.</p>
+                <div class="meta">
+                    <span class="tag">Python</span>
+                    <span class="tag">FRED API</span>
+                    <span class="tag">DeFi Llama</span>
+                </div>
+                <div class="actions">
+                    <a href="/asri/" class="btn-primary">View Dashboard</a>
+                    <a href="https://doi.org/10.5281/zenodo.17918239" target="_blank" class="btn-secondary">Paper</a>
+                </div>
+            </article>
 
-          <!-- Crypto Event Study Dashboard -->
-          <div class="research-card" style="border: 1px solid var(--slate-border); padding: 1.5rem; border-radius: 4px;">
-            <div class="research-meta">
-              <span class="status-badge status-active">Live</span>
-              <span class="meta-item">Updated November 2025</span>
-            </div>
-            <h3 class="research-title">Cryptocurrency Event Study Dashboard</h3>
-            <p class="research-abstract">
-              Interactive volatility analysis: TARCH-X models, infrastructure vs regulatory events, ETH systemic risk centrality. Real-time GARCH forecasts and sentiment decomposition across 2020-2025.
-            </p>
-            <div class="research-tags">
-              <span class="tag">Volatility Modeling</span>
-              <span class="tag">Event Studies</span>
-              <span class="tag">Econometrics</span>
-            </div>
-            <div class="research-links">
-              <a href="crypto-event-study/dashboard.html" class="link-button">Launch Dashboard</a>
-              <a href="../publications.html" class="link-button secondary">Read Paper</a>
-            </div>
-          </div>
+            <!-- Crypto Event Study -->
+            <article class="dashboard-card">
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    Active
+                </div>
+                <h3>Cryptocurrency Event Study</h3>
+                <p class="tagline">TARCH-X volatility analysis across 6 cryptocurrencies and 50 market events (2019-2025).</p>
+                <div class="meta">
+                    <span class="tag">TARCH-X</span>
+                    <span class="tag">GDELT</span>
+                    <span class="tag">Plotly</span>
+                </div>
+                <div class="actions">
+                    <a href="/dashboards/crypto-event-study/" class="btn-primary">View Dashboard</a>
+                    <a href="https://doi.org/10.2139/ssrn.5788082" target="_blank" class="btn-secondary">Paper</a>
+                </div>
+            </article>
 
-          <!-- DoCS Dashboard -->
-          <div class="research-card" style="border: 1px solid var(--slate-border); padding: 1.5rem; border-radius: 4px;">
-            <div class="research-meta">
-              <span class="status-badge status-active">Live</span>
-              <span class="meta-item">Updated November 2025</span>
-            </div>
-            <h3 class="research-title">Doctrine of Consensual Sovereignty</h3>
-            <p class="research-abstract">
-              Interactive simulation of consent-weighted governance dynamics. Explore stakes-weighted alignment (α), friction (F), and legitimacy (L) across policy scenarios. Monte Carlo validation with Bayesian learning.
-            </p>
-            <div class="research-tags">
-              <span class="tag">Political Economy</span>
-              <span class="tag">Monte Carlo</span>
-              <span class="tag">Governance</span>
-            </div>
-            <div class="research-links">
-              <a href="consent-theory/dashboard.html" class="link-button">Launch Dashboard</a>
-              <a href="../publications.html" class="link-button secondary">Read Paper</a>
-            </div>
-          </div>
+            <!-- Consent Theory -->
+            <article class="dashboard-card">
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    Active
+                </div>
+                <h3>Consent Theory</h3>
+                <p class="tagline">Interactive visualizations for the Degrees of Consent framework and legitimacy quantification.</p>
+                <div class="meta">
+                    <span class="tag">Governance</span>
+                    <span class="tag">Political Economy</span>
+                </div>
+                <div class="actions">
+                    <a href="/dashboards/consent-theory/dashboard.html" class="btn-primary">View Dashboard</a>
+                    <a href="https://doi.org/10.5281/zenodo.17684676" target="_blank" class="btn-secondary">Paper</a>
+                </div>
+            </article>
 
-          <!-- Friendship Substrate Independence Dashboard -->
-          <div class="research-card" style="border: 1px solid var(--slate-border); padding: 1.5rem; border-radius: 4px;">
-            <div class="research-meta">
-              <span class="status-badge status-active">Live</span>
-              <span class="meta-item">Updated November 2025</span>
-            </div>
-            <h3 class="research-title">Friendship & Substrate Independence</h3>
-            <p class="research-abstract">
-              Interactive visualization exploring the philosophical foundations of friendship across biological and artificial substrates. Examines necessary conditions, emergent properties, and substrate-invariant relationships.
-            </p>
-            <div class="research-tags">
-              <span class="tag">Philosophy</span>
-              <span class="tag">AI Ethics</span>
-              <span class="tag">Consciousness</span>
-            </div>
-            <div class="research-links">
-              <a href="friendship-substrate-independence/dashboard.html" class="link-button">Launch Dashboard</a>
-              <a href="../publications.html" class="link-button secondary">Read Paper</a>
-            </div>
-          </div>
+            <!-- Friendship Substrate Independence -->
+            <article class="dashboard-card">
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    Active
+                </div>
+                <h3>Substrate-Independent Friendship</h3>
+                <p class="tagline">Exploring AI-human relationship dynamics and relational functionalism.</p>
+                <div class="meta">
+                    <span class="tag">AI Alignment</span>
+                    <span class="tag">Philosophy</span>
+                </div>
+                <div class="actions">
+                    <a href="/dashboards/friendship-substrate-independence/dashboard.html" class="btn-primary">View Dashboard</a>
+                    <a href="https://doi.org/10.5281/zenodo.17626860" target="_blank" class="btn-secondary">Paper</a>
+                </div>
+            </article>
 
+            <!-- Tensor DeFi -->
+            <article class="dashboard-card">
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    Archive
+                </div>
+                <h3>Tensor Factor Analysis</h3>
+                <p class="tagline">Whitepaper claims vs market behavior in DeFi token launches.</p>
+                <div class="meta">
+                    <span class="tag">DeFi</span>
+                    <span class="tag">Factor Analysis</span>
+                </div>
+                <div class="actions">
+                    <a href="/dashboards/tensor-defi/dashboard.html" class="btn-primary">View Dashboard</a>
+                    <a href="https://doi.org/10.5281/zenodo.17917922" target="_blank" class="btn-secondary">Paper</a>
+                </div>
+            </article>
         </div>
 
-      </div>
+        <section style="margin-top: 4rem; text-align: center;">
+            <p style="color: var(--pico-muted-color);">
+                All dashboards accompany papers published via <a href="https://farzulla.org" target="_blank">Farzulla Research</a>.
+                <br>Source code available on <a href="https://github.com/studiofarzulla" target="_blank">GitHub</a>.
+            </p>
+        </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="main-footer">
-      <div class="footer-nav">
+    <footer class="container">
         <div class="footer-links">
-          <a href="../index.html">Home</a>
-          <a href="../publications.html">Publications</a>
-          <a href="../research-areas.html">Research Areas</a>
-          <a href="../research/">Dashboards</a>
-          <a href="../data-tools.html">Data & Tools</a>
-          <a href="../about.html">About</a>
+            <a href="/infrastructure.html">Infrastructure</a>
+            <a href="/experiments.html">Experiments</a>
+            <a href="/dashboards/">Dashboards</a>
+            <a href="/about.html">About</a>
+            <a href="https://farzulla.org" target="_blank">Farzulla Research</a>
+            <a href="https://resurrexi.dev" target="_blank">Lab Docs</a>
+            <a href="https://github.com/studiofarzulla" target="_blank">GitHub</a>
         </div>
-        <div class="footer-links">
-          <a href="../charter.html">Charter</a>
-        </div>
-      </div>
-      <p class="footer-quote">"We are more beholden to custom than reason; it is thus reason's task to interrogate custom." — Murad Farzulla</p>
-      <p class="footer-text">© 2025 Resurrexi</p>
+        <p>
+            <small>&copy; 2025 Resurrexi · <a href="mailto:murad@resurrexi.io">murad@resurrexi.io</a></small>
+        </p>
     </footer>
-
-    <script src="../js/academic.js"></script>
-  </body>
+</body>
 </html>
