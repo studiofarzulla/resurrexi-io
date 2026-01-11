@@ -3,37 +3,18 @@
 {% block content %}
 <!-- Hero Section -->
 <section class="hero">
-    <p class="hero-tagline">
+    <div class="terminal-status">
         <span class="status-dot green pulse"></span>
-        System Status: Online // Node Count: 7
-    </p>
+        <span class="status-text">[ SYSTEM: ONLINE | 7 NODES | 66 CORES | 229GB RAM | 48GB VRAM ]</span>
+    </div>
     <h1>Built from <span class="text-phoenix">Chaos</span></h1>
     <p class="lead">
         A 7-node frankencluster for adversarial systems research. Deliberately heterogeneous.
         Computationally resilient. Learning failure modes that cloud providers abstract away.
     </p>
 
-    <div class="stats-grid">
-        <div class="stat-item">
-            <div class="stat-value">7</div>
-            <div class="stat-label">Nodes</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-value">66</div>
-            <div class="stat-label">Cores</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-value">229<small>GB</small></div>
-            <div class="stat-label">RAM</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-value">48<small>GB</small></div>
-            <div class="stat-label">VRAM</div>
-        </div>
-    </div>
-
     <div class="cta-group">
-        <a href="/infrastructure.html" role="button" class="btn-primary">View Topology</a>
+        <a href="/infrastructure.html" role="button" class="btn-primary">View Infrastructure</a>
         <a href="/experiments.html" role="button">Active Research</a>
     </div>
 </section>
@@ -123,103 +104,6 @@
 
     <p class="text-muted" style="margin-top: 1.5rem;">
         <a href="/experiments.html">View all experiments →</a>
-    </p>
-</section>
-
-<!-- Mini Topology Preview -->
-<section id="topology-preview">
-    <h2>Cluster Topology</h2>
-    <p class="text-muted" style="margin-bottom: 2rem;">
-        Mixed AMD/Intel nodes connected via 2.5Gbps network. PurrPower serves as the primary workstation with dual AMD GPUs, SudoSenpai runs the K3s control plane.
-    </p>
-
-    <div class="topology-container">
-        <svg class="topology-diagram topology-mini" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <linearGradient id="phoenixGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#7c3aed"/>
-                    <stop offset="50%" style="stop-color:#a855f7"/>
-                    <stop offset="100%" style="stop-color:#e879f9"/>
-                </linearGradient>
-                <filter id="glow">
-                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                    <feMerge>
-                        <feMergeNode in="coloredBlur"/>
-                        <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                </filter>
-            </defs>
-
-            <!-- Connections -->
-            <g class="connections">
-                <!-- PurrPower to others -->
-                <line class="connection active" x1="200" y1="80" x2="100" y2="150"/>
-                <line class="connection active" x1="200" y1="80" x2="300" y2="150"/>
-                <line class="connection active" x1="200" y1="80" x2="200" y2="180"/>
-                <!-- SudoSenpai to workers -->
-                <line class="connection active" x1="100" y1="150" x2="80" y2="230"/>
-                <line class="connection active" x1="100" y1="150" x2="160" y2="230"/>
-                <!-- CronCrunch to workers -->
-                <line class="connection active" x1="300" y1="150" x2="240" y2="230"/>
-                <line class="connection active" x1="300" y1="150" x2="320" y2="230"/>
-            </g>
-
-            <!-- Nodes -->
-            <g class="nodes">
-                <!-- PurrPower (Primary) -->
-                <g class="node node-primary">
-                    <circle cx="200" cy="80" r="28" class="node-bg"/>
-                    <circle cx="200" cy="80" r="24" class="node-ring"/>
-                    <text x="200" y="83" class="node-label">PP</text>
-                </g>
-
-                <!-- SudoSenpai (Control Plane) -->
-                <g class="node">
-                    <circle cx="100" cy="150" r="22" class="node-bg"/>
-                    <text x="100" y="153" class="node-label">SS</text>
-                </g>
-
-                <!-- CronCrunch (GPU Worker) -->
-                <g class="node">
-                    <circle cx="300" cy="150" r="22" class="node-bg"/>
-                    <text x="300" y="153" class="node-label">CC</text>
-                </g>
-
-                <!-- KawaiiKali -->
-                <g class="node">
-                    <circle cx="200" cy="180" r="18" class="node-bg"/>
-                    <text x="200" y="183" class="node-label" style="font-size: 11px;">KK</text>
-                </g>
-
-                <!-- Workers -->
-                <g class="node">
-                    <circle cx="80" cy="230" r="16" class="node-bg"/>
-                    <text x="80" y="233" class="node-label" style="font-size: 10px;">WW</text>
-                </g>
-                <g class="node">
-                    <circle cx="160" cy="230" r="16" class="node-bg"/>
-                    <text x="160" y="233" class="node-label" style="font-size: 10px;">NN</text>
-                </g>
-                <g class="node">
-                    <circle cx="240" cy="230" r="16" class="node-bg"/>
-                    <text x="240" y="233" class="node-label" style="font-size: 10px;">BB</text>
-                </g>
-                <g class="node">
-                    <circle cx="320" cy="230" r="16" class="node-bg"/>
-                    <text x="320" y="233" class="node-label" style="font-size: 10px;">VV</text>
-                </g>
-            </g>
-
-            <!-- Legend -->
-            <g class="legend" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; fill: #5a5a70;">
-                <text x="20" y="280">PP: PurrPower · SS: SudoSenpai · CC: CronCrunch · KK: KawaiiKali</text>
-                <text x="20" y="292">WW: WolfWhoami · NN: NekoNetcat · BB: BittyBash · VV: VeryVuln</text>
-            </g>
-        </svg>
-    </div>
-
-    <p style="text-align: center; margin-top: 1.5rem;">
-        <a href="/infrastructure.html" role="button" class="btn-primary">Full Infrastructure Details</a>
     </p>
 </section>
 
