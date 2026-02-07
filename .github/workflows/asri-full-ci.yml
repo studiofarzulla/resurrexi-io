@@ -36,7 +36,7 @@ jobs:
         run: mypy src/ --pretty --show-error-context
       - name: Run tests
         run: pytest tests/ -v --cov=src/asri --cov-report=xml --cov-report=term-missing --cov-fail-under=70
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v5
         with:
           file: projects/papers/papers-official/asri/code/coverage.xml
           flags: asri
