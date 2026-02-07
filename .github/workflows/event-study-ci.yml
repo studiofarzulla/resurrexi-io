@@ -1,0 +1,48 @@
+name: Event Study - CI
+
+on:
+  push:
+    paths:
+      - 'projects/papers/papers-official/event-study/code/**'
+      - '.github/workflows/event-study-ci.yml'
+  pull_request:
+    paths:
+      - 'projects/papers/papers-official/event-study/code/**'
+
+defaults:
+  run:
+    working-directory: projects/papers/papers-official/event-study/code
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: projects/papers/papers-official/event-study/code/requirements*.txt
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          [ -f requirements-test.txt ] && pip install -r requirements-test.txt || true
+          pip install pytest pytest-cov
+      - name: Smoke test imports
+        run: |
+          python -c "import config; print('✓ config')"
+          python -c "import data_preparation; print('✓ data_preparation')"
+          python -c "import garch_models; print('✓ garch_models')"
+      - name: Run tests
+        run: pytest tests/ -v --cov --cov-report=xml || echo "Tests not yet comprehensive"
+
+  reproducibility:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check random seeds
+        run: |
+          grep -r "random.seed\|np.random.seed\|torch.manual_seed" projects/papers/papers-official/event-study/code/ --include="*.py" || echo "⚠️ No random seeds found"

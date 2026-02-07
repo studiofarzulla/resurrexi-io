@@ -1,0 +1,27 @@
+name: LaTeX Build Check
+
+on:
+  push:
+    paths:
+      - 'projects/papers/papers-official/**/*.tex'
+      - 'projects/papers/papers-official/**/*.bib'
+      - '.github/workflows/latex-build.yml'
+  pull_request:
+    paths:
+      - 'projects/papers/papers-official/**/*.tex'
+      - 'projects/papers/papers-official/**/*.bib'
+
+jobs:
+  validate-citations:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check self-citations BibTeX
+        run: |
+          if grep -q "^@" projects/papers/papers-official/farzulla-self-citations.bib; then
+            echo "✓ Self-citations file valid"
+            echo "Total entries: $(grep -c '^@' projects/papers/papers-official/farzulla-self-citations.bib)"
+          else
+            echo "⚠️ No BibTeX entries"
+            exit 1
+          fi

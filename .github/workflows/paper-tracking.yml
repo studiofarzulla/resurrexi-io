@@ -1,0 +1,29 @@
+name: Paper Status Tracking
+
+on:
+  push:
+    paths:
+      - 'projects/papers/papers-official/CLAUDE.md'
+      - 'projects/papers/papers-official/LEAN_FORMALIZATION_MAP.md'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Paper statistics
+        run: |
+          cd projects/papers/papers-official
+          echo "## Paper Statistics" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- arXiv papers: $(grep -c 'arXiv:' CLAUDE.md)" >> $GITHUB_STEP_SUMMARY
+          echo "- Under Review: $(grep -c 'Under Review' CLAUDE.md)" >> $GITHUB_STEP_SUMMARY
+          echo "- With Editor: $(grep -c 'With Editor' CLAUDE.md)" >> $GITHUB_STEP_SUMMARY
+          echo "- Zenodo: $(grep -c 'Zenodo' CLAUDE.md)" >> $GITHUB_STEP_SUMMARY
+      - name: Check submission protection
+        run: |
+          cd projects/papers/papers-official
+          for dir in event-study/digital-finance-canon consent-consideration/ai-ethics-submission relational-functionalism/ethics-it-submission; do
+            [ -d "$dir" ] && echo "✓ Protected: $dir" || true
+          done

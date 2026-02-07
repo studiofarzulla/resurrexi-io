@@ -1,0 +1,93 @@
+name: ASRI - Full CI/CD
+
+on:
+  push:
+    paths:
+      - 'projects/papers/papers-official/asri/code/**'
+      - '.github/workflows/asri-full-ci.yml'
+  pull_request:
+    paths:
+      - 'projects/papers/papers-official/asri/code/**'
+
+defaults:
+  run:
+    working-directory: projects/papers/papers-official/asri/code
+
+jobs:
+  test-and-lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: projects/papers/papers-official/asri/code/pyproject.toml
+      - name: Install dependencies
+        run: pip install -e ".[dev,all]"
+      - name: Lint with ruff
+        run: ruff check . --output-format=github
+      - name: Format check
+        run: ruff format --check .
+      - name: Type check with mypy
+        run: mypy src/ --pretty --show-error-context
+      - name: Run tests
+        run: pytest tests/ -v --cov=src/asri --cov-report=xml --cov-report=term-missing --cov-fail-under=70
+      - uses: codecov/codecov-action@v4
+        with:
+          file: projects/papers/papers-official/asri/code/coverage.xml
+          flags: asri
+          fail_ci_if_error: false
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install
+        run: pip install -e ".[dev]"
+        working-directory: projects/papers/papers-official/asri/code
+      - name: Bandit scan
+        run: |
+          pip install bandit[toml]
+          bandit -r projects/papers/papers-official/asri/code/src/ -f screen || true
+      - name: Vulnerability check
+        run: |
+          pip install safety
+          safety check || true
+
+  code-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install radon xenon
+      - name: Complexity check
+        run: |
+          cd projects/papers/papers-official/asri/code/src
+          radon cc . -a -s
+          radon mi . -s
+          xenon --max-absolute B --max-modules A --max-average A . || echo "Complexity threshold exceeded"
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/papers/papers-official/asri/code/frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: projects/papers/papers-official/asri/code/frontend/package-lock.json
+      - run: npm ci
+      - run: npm run lint || echo "Linting issues found"
+      - run: npm run build

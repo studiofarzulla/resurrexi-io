@@ -1,0 +1,22 @@
+name: Python Code Quality
+
+on:
+  push:
+    paths:
+      - 'projects/papers/papers-official/**/*.py'
+      - 'projects/papers/papers-official/**/requirements*.txt'
+      - 'projects/papers/papers-official/**/pyproject.toml'
+      - '.github/workflows/python-tests.yml'
+  pull_request:
+    paths:
+      - 'projects/papers/papers-official/**/*.py'
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bandit scan
+        run: |
+          pip install bandit
+          find projects/papers/papers-official -name "*.py" -not -path "*/node_modules/*" -not -path "*/_archive/*" -not -path "*/venv/*" | xargs bandit -r || true

@@ -1,0 +1,16 @@
+# Papers-official
+/projects/papers/papers-official/** @studiofarzulla
+
+# Master index files
+/projects/papers/papers-official/CLAUDE.md @studiofarzulla
+/projects/papers/papers-official/farzulla-self-citations.bib @studiofarzulla
+/projects/papers/papers-official/LEAN_FORMALIZATION_MAP.md @studiofarzulla
+
+# ASRI (co-authored)
+/projects/papers/papers-official/asri/** @studiofarzulla @andrew-maksakov
+
+# Frozen submission packages — should not be modified
+/projects/papers/papers-official/**/springer-submission/** @studiofarzulla
+/projects/papers/papers-official/**/digital-finance-canon/** @studiofarzulla
+/projects/papers/papers-official/**/ai-ethics-submission/** @studiofarzulla
+/projects/papers/papers-official/**/ethics-it-submission/** @studiofarzulla

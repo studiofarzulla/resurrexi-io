@@ -1,0 +1,87 @@
+# Pre-commit hooks for papers-official repository
+# Install: pip install pre-commit && pre-commit install
+# Run manually: pre-commit run --all-files
+
+repos:
+  # General file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: '\.tex$|\.bib$'  # LaTeX has specific whitespace rules
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: check-added-large-files
+        args: ['--maxkb=50000']  # 50MB limit
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: mixed-line-ending
+
+  # Python formatting with ruff
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.9
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+        files: ^(asri|event-study|whitepaper-claims|no-structure|extremity-abm|semantic-vision)/code/.*\.py$
+      - id: ruff-format
+        files: ^(asri|event-study|whitepaper-claims|no-structure|extremity-abm|semantic-vision)/code/.*\.py$
+
+  # Type checking for Python
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        files: ^asri/code/src/.*\.py$
+        additional_dependencies: [types-all]
+        args: [--config-file=asri/code/pyproject.toml]
+
+  # LaTeX checks
+  - repo: https://github.com/cmhughes/latexindent.pl
+    rev: V3.23.5
+    hooks:
+      - id: latexindent
+        args: [-w, -s, -l]
+        files: \.tex$
+        exclude: '_archive/|submission/|springer-submission/|digital-finance-canon/|ai-ethics-submission/|ethics-it-submission/'
+
+  # BibTeX validation
+  - repo: local
+    hooks:
+      - id: bibtex-validate
+        name: Validate BibTeX files
+        entry: python -c "import sys; import re; content = open(sys.argv[1]).read(); sys.exit(0 if re.search(r'^@\w+\{', content, re.M) else 1)"
+        language: system
+        files: \.bib$
+        exclude: '_archive/'
+
+  # Check for frozen submission modifications
+  - repo: local
+    hooks:
+      - id: protect-submissions
+        name: Protect frozen submission directories
+        entry: bash -c 'if echo "$@" | grep -E "(springer-submission|digital-finance-canon|ai-ethics-submission|ethics-it-submission)"; then echo "⚠️  Attempting to modify frozen submission directory!"; exit 1; fi'
+        language: system
+        files: '(springer-submission|digital-finance-canon|ai-ethics-submission|ethics-it-submission)/.*'
+        pass_filenames: true
+
+  # Security checks
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+        exclude: package-lock.json
+
+  # Jupyter notebook cleaning
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.6.1
+    hooks:
+      - id: nbstripout
+        files: \.ipynb$
+
+# Configuration for specific file types
+default_stages: [commit]
+fail_fast: false

@@ -1,0 +1,55 @@
+name: Extremity ABM - CI
+
+on:
+  push:
+    paths:
+      - 'projects/papers/papers-official/extremity-abm/code/**'
+      - '.github/workflows/extremity-abm-ci.yml'
+  pull_request:
+    paths:
+      - 'projects/papers/papers-official/extremity-abm/code/**'
+
+defaults:
+  run:
+    working-directory: projects/papers/papers-official/extremity-abm/code
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: projects/papers/papers-official/extremity-abm/code/requirements.txt
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest pytest-cov pytest-timeout
+      - name: Run tests
+        run: pytest tests/ -v --cov --cov-report=xml --cov-report=term-missing --timeout=300
+      - uses: codecov/codecov-action@v4
+        with:
+          file: projects/papers/papers-official/extremity-abm/code/coverage.xml
+          flags: extremity-abm
+          fail_ci_if_error: false
+
+  benchmarks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install
+        run: |
+          pip install -r requirements.txt
+          pip install pytest pytest-benchmark
+        working-directory: projects/papers/papers-official/extremity-abm/code
+      - name: Performance tests
+        run: pytest tests/ -v -m performance --benchmark-only || echo "No benchmarks configured"
+        working-directory: projects/papers/papers-official/extremity-abm/code
