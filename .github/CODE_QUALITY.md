@@ -8,7 +8,8 @@ Papers with computational components maintain high code quality standards throug
 
 ### 🏆 ASRI (Tier 1 - Production)
 **Path:** `asri/code/`  
-**Tech:** Python 3.11+, FastAPI, PostgreSQL, React frontend
+**Tech:** Python 3.11+, FastAPI, PostgreSQL, React frontend  
+**Tests:** 103+ unit tests | pipeline/transform 91% cov | signals/algorithmic_stablecoin 97% cov
 
 **CI Features:**
 - ✅ Unit tests with 70%+ coverage requirement
@@ -30,7 +31,8 @@ mypy src/
 
 ### 📊 Event Study (Tier 1 - Analysis)
 **Path:** `event-study/code/`  
-**Tech:** Python 3.10+, pandas, statsmodels, GARCH models
+**Tech:** Python 3.10+, pandas, statsmodels, GARCH models  
+**Tests:** 47 unit tests | data preparation, config, bootstrap CI, imports
 
 **CI Features:**
 - ✅ Analysis script smoke tests
@@ -49,7 +51,8 @@ python data_preparation.py  # Verify scripts run
 
 ### 🤖 Extremity ABM (Tier 1 - Simulation)
 **Path:** `extremity-abm/code/`  
-**Tech:** Python 3.10+, Mesa, Kafka, sentiment analysis
+**Tech:** Python 3.10+, Mesa, Kafka, sentiment analysis  
+**Tests:** 100+ unit tests | data_ingestion + feature_engineering at 80% coverage
 
 **CI Features:**
 - ✅ Unit tests with 80%+ coverage requirement
@@ -68,7 +71,8 @@ pytest tests/ -v -m performance  # Benchmarks
 
 ### 📄 Whitepaper Claims (Tier 2 - Analysis)
 **Path:** `whitepaper-claims/code/`  
-**Tech:** Python, NLP, factor analysis
+**Tech:** Python 3.13+, NLP, Random Matrix Theory, factor analysis  
+**Tests:** 68 unit tests | RMT 25 tests, alignment 22 tests, market 15 tests
 
 **CI Features:**
 - ✅ Basic testing (60%+ coverage)
@@ -80,6 +84,23 @@ pytest tests/ -v -m performance  # Benchmarks
 cd whitepaper-claims/code
 pip install -r requirements.txt
 pytest tests/ -v -m "not data_intensive"  # Skip large data tests
+```
+
+### 🧠 Monograph Qualia (Tier 2 - Computational Model)
+**Path:** `monograph-qualia/code/`  
+**Tech:** Python 3.11+, PyTorch, NetworkX, DGL  
+**Tests:** 58 unit tests | belief simulation 22, metrics 19, polygraphs math 17
+
+**CI Features:**
+- ✅ Unit tests (belief networks, stability metrics, Bayesian math)
+- ✅ Linting (ruff)
+- ✅ Tests work without torch/DGL (mocked imports)
+
+**Run Locally:**
+```bash
+cd monograph-qualia/code
+pip install numpy scipy pandas networkx pytest
+pytest tests/ -v
 ```
 
 ## Pre-commit Hooks
