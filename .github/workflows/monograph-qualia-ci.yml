@@ -1,0 +1,39 @@
+name: Monograph Qualia - CI
+
+on:
+  push:
+    paths:
+      - 'projects/papers/papers-official/monograph-qualia/**'
+      - '.github/workflows/monograph-qualia-ci.yml'
+  pull_request:
+    paths:
+      - 'projects/papers/papers-official/monograph-qualia/**'
+
+defaults:
+  run:
+    working-directory: projects/papers/papers-official/monograph-qualia/code
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install pytest pytest-cov numpy scipy pandas networkx
+      - name: Run tests
+        run: pytest tests/ -v --tb=short
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install ruff
+        run: pip install ruff
+      - name: Lint with ruff
+        run: ruff check . --output-format=github
