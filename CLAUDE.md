@@ -5,9 +5,9 @@ Instructions for Claude Code when working in this repository.
 ## Project Overview
 
 **Site:** resurrexi.io
-**Purpose:** Main Resurrexi Labs site - research overview, publications, technical projects, and compute access.
+**Purpose:** RETIRED to a "coming soon" placeholder (June 2026), reserved for future projects.
 
-**Architecture:** Flask backend with Jinja2 templating. Static site generation for deployment. Hosted on K3s cluster via Cloudflare Tunnel.
+**Architecture (June 2026):** Static, served by **Cloudflare Pages** from `./public` (`wrangler.jsonc`). The old Flask/K3s deployment is **decommissioned — K3s is no longer up.** `app.py`, `k8s/`, `Dockerfile`, `deploy.sh` remain on disk as dead artifacts; do NOT run kubectl/Flask. To change the live site, edit `public/index.html` (placeholder) and redeploy via Cloudflare Pages.
 
 ## Brand Position
 

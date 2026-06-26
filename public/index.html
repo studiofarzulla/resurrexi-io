@@ -1,460 +1,104 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resurrexi Labs - Research Infrastructure</title>
-    <meta name="description" content="Research infrastructure for adversarial systems analysis - distributed computing, autonomous agents, computational experiments">
-    <meta name="author" content="Murad Farzulla">
-    <meta name="theme-color" content="#13151a">
-    <meta name="robots" content="index, follow">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resurrexi Labs — Coming soon</title>
+  <meta name="description" content="Resurrexi Labs — research infrastructure for adversarial systems. Site under reconstruction.">
+  <meta name="author" content="Murad Farzulla">
+  <meta name="theme-color" content="#13151a">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://resurrexi.io/">
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://resurrexi.io/">
-    <meta property="og:title" content="Resurrexi Labs - Research Infrastructure">
-    <meta property="og:description" content="Research infrastructure for adversarial systems analysis - distributed computing, autonomous agents">
-    <meta property="og:image" content="https://resurrexi.io/static/images/logo.png">
-    <meta property="og:site_name" content="Resurrexi Labs">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://resurrexi.io/">
+  <meta property="og:title" content="Resurrexi Labs — Coming soon">
+  <meta property="og:description" content="Research infrastructure for adversarial systems. Site under reconstruction.">
+  <meta property="og:site_name" content="Resurrexi Labs">
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Resurrexi Labs - Research Infrastructure">
-    <meta name="twitter:description" content="Research infrastructure for adversarial systems analysis">
-    <meta name="twitter:image" content="https://resurrexi.io/static/images/logo.png">
-
-    <!-- Canonical -->
-    <link rel="canonical" href="https://resurrexi.io/">
-
-    <!-- Structured Data - Research Lab -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ResearchOrganization",
-      "name": "Resurrexi Labs",
-      "url": "https://resurrexi.io",
-      "logo": "https://resurrexi.io/static/images/logo.png",
-      "description": "Research infrastructure for adversarial systems analysis - distributed computing, autonomous agents, computational experiments",
-      "parentOrganization": {
-        "@type": "ResearchOrganization",
-        "name": "Farzulla Research",
-        "url": "https://farzulla.org"
-      },
-      "founder": {
-        "@type": "Person",
-        "name": "Murad Farzulla",
-        "url": "https://farzulla.com",
-        "sameAs": [
-          "https://orcid.org/0009-0002-7164-8704",
-          "https://www.researchgate.net/profile/Murad-Farzulla",
-          "https://kcl.academia.edu/MuradFarzulla",
-          "https://github.com/studiofarzulla"
-        ]
-      },
-      "sameAs": [
-        "https://github.com/resurrexio",
-        "https://resurrexi.dev"
-      ],
-      "knowsAbout": ["Distributed Systems", "Adversarial AI", "Autonomous Agents", "Infrastructure Engineering", "Computational Research"]
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --fg: #e7e7ea;
+      --muted: #8a8f99;
+      --accent: #b3324b;
+      --border: #23262e;
     }
-    </script>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-
-    <!-- Pico CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-    <link rel="stylesheet" href="/static/css/custom.css">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon.png">
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      background: radial-gradient(1200px 600px at 50% -10%, #181b22 0%, var(--bg) 60%);
+      color: var(--fg);
+      font-family: ui-monospace, "JetBrains Mono", "Courier New", monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    .card { max-width: 560px; width: 100%; text-align: center; }
+    .mark {
+      font-size: 0.8rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    h1 {
+      font-size: clamp(2rem, 7vw, 3.2rem);
+      letter-spacing: 0.06em;
+      margin: 0 0 1rem;
+      font-weight: 600;
+    }
+    h1 .accent { color: var(--accent); }
+    .lede {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 0.95rem;
+      margin: 0 auto 2rem;
+      max-width: 44ch;
+    }
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      justify-content: center;
+      margin-bottom: 1.75rem;
+    }
+    .links a {
+      color: var(--fg);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 0.5rem 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      transition: all 0.2s ease;
+    }
+    .links a:hover { border-color: var(--accent); color: var(--accent); }
+    .note { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+    .note a { color: var(--accent); text-decoration: none; }
+    .note a:hover { text-decoration: underline; }
+    footer {
+      margin-top: 2.5rem;
+      font-size: 0.72rem;
+      color: #5a5f68;
+      letter-spacing: 0.1em;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <nav class="container">
-            <ul>
-                <li><a href="/infrastructure.html">Infrastructure</a></li>
-                <li><a href="/experiments.html">Experiments</a></li>
-                <li><a href="/dashboards/">Dashboards</a></li>
-                <li><a href="/about.html">About</a></li>
-                <li><a href="https://farzulla.org" target="_blank">Research</a></li>
-                <li><a href="https://resurrexi.dev" target="_blank">Lab Docs</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <div class="logo-container">
-        <a href="/" class="logo">
-            <img src="/static/images/logo.png" alt="Resurrexi Labs" class="brand-logo">
-            <strong class="logo-text">Resurrexi Labs</strong>
-        </a>
-    </div>
-
-    <main class="container">
-        
-<!-- Hero Section -->
-<section class="hero">
-    <p class="hero-tagline">
-        <span class="status-dot green pulse"></span>
-        System Status: Online // Node Count: 7
-    </p>
-    <h1>Built from <span class="text-phoenix">Chaos</span></h1>
-    <p class="lead">
-        A 7-node frankencluster for adversarial systems research. Deliberately heterogeneous.
-        Computationally resilient. Learning failure modes that cloud providers abstract away.
-    </p>
-
-    <div class="stats-grid">
-        <div class="stat-item">
-            <div class="stat-value">7</div>
-            <div class="stat-label">Nodes</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-value">66</div>
-            <div class="stat-label">Cores</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-value">229<small>GB</small></div>
-            <div class="stat-label">RAM</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-value">48<small>GB</small></div>
-            <div class="stat-label">VRAM</div>
-        </div>
-    </div>
-
-    <div class="cta-group">
-        <a href="/infrastructure.html" role="button" class="btn-primary">View Topology</a>
-        <a href="/experiments.html" role="button">Active Research</a>
-    </div>
-</section>
-
-<!-- Featured Experiments -->
-<section id="experiments">
-    <h2>Active Experiments</h2>
-
-    <div class="project-grid">
-        <article class="project-card">
-            <div class="card-status">
-                <span class="status-dot green pulse"></span>
-                Live
-            </div>
-            <h3>ASRI Dashboard</h3>
-            <p class="card-tagline">
-                Aggregated Systemic Risk Index for crypto markets. Real-time monitoring of stablecoin, DeFi, and contagion risk indicators.
-            </p>
-            <div class="tech-stack">
-                <span class="tech-tag">Python</span>
-                <span class="tech-tag">FRED API</span>
-                <span class="tech-tag">DeFi Llama</span>
-            </div>
-            <div class="card-actions">
-                <a href="/asri/" class="btn btn-sm btn-primary">View Dashboard</a>
-                <a href="https://doi.org/10.5281/zenodo.17918239" target="_blank" class="btn btn-sm btn-ghost">Paper</a>
-            </div>
-        </article>
-
-        <article class="project-card">
-            <div class="card-status">
-                <span class="status-dot pulse"></span>
-                Active
-            </div>
-            <h3>Consciousness Narrative LLM</h3>
-            <p class="card-tagline">
-                Fine-tuning local LLMs with LoRA to test the consciousness-as-narrative thesis. Do phenomenological concepts persist as stable attractors?
-            </p>
-            <div class="tech-stack">
-                <span class="tech-tag">PyTorch</span>
-                <span class="tech-tag">LoRA</span>
-                <span class="tech-tag">Qwen3</span>
-            </div>
-            <div class="card-actions">
-                <a href="https://resurrexi.dev/posts/2025-11-27-consciousness-narrative-llm.html" target="_blank" class="btn btn-sm">Documentation</a>
-            </div>
-        </article>
-
-        <article class="project-card">
-            <div class="card-status">
-                <span class="status-dot pulse"></span>
-                Active
-            </div>
-            <h3>Multi-Agent Swarms</h3>
-            <p class="card-tagline">
-                Distributed AI coordination using Claude-Flow orchestration. Hierarchical, mesh, and ring topologies for complex research tasks.
-            </p>
-            <div class="tech-stack">
-                <span class="tech-tag">Claude Code</span>
-                <span class="tech-tag">MCP</span>
-                <span class="tech-tag">K3s</span>
-            </div>
-            <div class="card-actions">
-                <a href="https://github.com/ruvnet/claude-flow" target="_blank" class="btn btn-sm">GitHub</a>
-            </div>
-        </article>
-
-        <article class="project-card">
-            <div class="card-status">
-                <span class="status-dot orange"></span>
-                Infrastructure
-            </div>
-            <h3>Frankencluster</h3>
-            <p class="card-tagline">
-                7-node K3s cluster on deliberately heterogeneous hardware. Cross-chassis power delivery, mixed storage topology, intentional failure domains.
-            </p>
-            <div class="tech-stack">
-                <span class="tech-tag">K3s</span>
-                <span class="tech-tag">AMD GPUs</span>
-                <span class="tech-tag">ROCm</span>
-            </div>
-            <div class="card-actions">
-                <a href="/infrastructure.html" class="btn btn-sm btn-primary">View Specs</a>
-            </div>
-        </article>
-    </div>
-
-    <p class="text-muted" style="margin-top: 1.5rem;">
-        <a href="/experiments.html">View all experiments →</a>
-    </p>
-</section>
-
-<!-- Mini Topology Preview -->
-<section id="topology-preview">
-    <h2>Cluster Topology</h2>
-    <p class="text-muted" style="margin-bottom: 2rem;">
-        Mixed AMD/Intel nodes connected via 2.5Gbps network. PurrPower serves as the primary workstation with dual AMD GPUs, SudoSenpai runs the K3s control plane.
-    </p>
-
-    <div class="topology-container">
-        <svg class="topology-diagram topology-mini" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <linearGradient id="phoenixGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#7c3aed"/>
-                    <stop offset="50%" style="stop-color:#a855f7"/>
-                    <stop offset="100%" style="stop-color:#e879f9"/>
-                </linearGradient>
-                <filter id="glow">
-                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                    <feMerge>
-                        <feMergeNode in="coloredBlur"/>
-                        <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                </filter>
-            </defs>
-
-            <!-- Connections -->
-            <g class="connections">
-                <!-- PurrPower to others -->
-                <line class="connection active" x1="200" y1="80" x2="100" y2="150"/>
-                <line class="connection active" x1="200" y1="80" x2="300" y2="150"/>
-                <line class="connection active" x1="200" y1="80" x2="200" y2="180"/>
-                <!-- SudoSenpai to workers -->
-                <line class="connection active" x1="100" y1="150" x2="80" y2="230"/>
-                <line class="connection active" x1="100" y1="150" x2="160" y2="230"/>
-                <!-- CronCrunch to workers -->
-                <line class="connection active" x1="300" y1="150" x2="240" y2="230"/>
-                <line class="connection active" x1="300" y1="150" x2="320" y2="230"/>
-            </g>
-
-            <!-- Nodes -->
-            <g class="nodes">
-                <!-- PurrPower (Primary) -->
-                <g class="node node-primary">
-                    <circle cx="200" cy="80" r="28" class="node-bg"/>
-                    <circle cx="200" cy="80" r="24" class="node-ring"/>
-                    <text x="200" y="83" class="node-label">PP</text>
-                </g>
-
-                <!-- SudoSenpai (Control Plane) -->
-                <g class="node">
-                    <circle cx="100" cy="150" r="22" class="node-bg"/>
-                    <text x="100" y="153" class="node-label">SS</text>
-                </g>
-
-                <!-- CronCrunch (GPU Worker) -->
-                <g class="node">
-                    <circle cx="300" cy="150" r="22" class="node-bg"/>
-                    <text x="300" y="153" class="node-label">CC</text>
-                </g>
-
-                <!-- KawaiiKali -->
-                <g class="node">
-                    <circle cx="200" cy="180" r="18" class="node-bg"/>
-                    <text x="200" y="183" class="node-label" style="font-size: 11px;">KK</text>
-                </g>
-
-                <!-- Workers -->
-                <g class="node">
-                    <circle cx="80" cy="230" r="16" class="node-bg"/>
-                    <text x="80" y="233" class="node-label" style="font-size: 10px;">WW</text>
-                </g>
-                <g class="node">
-                    <circle cx="160" cy="230" r="16" class="node-bg"/>
-                    <text x="160" y="233" class="node-label" style="font-size: 10px;">NN</text>
-                </g>
-                <g class="node">
-                    <circle cx="240" cy="230" r="16" class="node-bg"/>
-                    <text x="240" y="233" class="node-label" style="font-size: 10px;">BB</text>
-                </g>
-                <g class="node">
-                    <circle cx="320" cy="230" r="16" class="node-bg"/>
-                    <text x="320" y="233" class="node-label" style="font-size: 10px;">VV</text>
-                </g>
-            </g>
-
-            <!-- Legend -->
-            <g class="legend" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; fill: #5a5a70;">
-                <text x="20" y="280">PP: PurrPower · SS: SudoSenpai · CC: CronCrunch · KK: KawaiiKali</text>
-                <text x="20" y="292">WW: WolfWhoami · NN: NekoNetcat · BB: BittyBash · VV: VeryVuln</text>
-            </g>
-        </svg>
-    </div>
-
-    <p style="text-align: center; margin-top: 1.5rem;">
-        <a href="/infrastructure.html" role="button" class="btn-primary">Full Infrastructure Details</a>
-    </p>
-</section>
-
-<!-- Explore Section -->
-<section id="explore">
-    <h2>Explore</h2>
-    <div class="cta-grid">
-        <div class="cta-card">
-            <h3>ASRI Dashboard</h3>
-            <p>Live crypto systemic risk index. Aggregated risk indicators with daily updates.</p>
-            <a href="/asri/" role="button" class="btn-primary">View Dashboard</a>
-        </div>
-        <div class="cta-card">
-            <h3>Published Research</h3>
-            <p>Academic outputs from this infrastructure. Papers on adversarial systems, finance, AI alignment.</p>
-            <a href="https://farzulla.org" target="_blank" role="button">Farzulla Research</a>
-        </div>
-        <div class="cta-card">
-            <h3>Lab Documentation</h3>
-            <p>Session logs, troubleshooting workflows, implementation decisions. Raw technical docs.</p>
-            <a href="https://resurrexi.dev" target="_blank" role="button">Lab Docs</a>
-        </div>
-        <div class="cta-card">
-            <h3>Source Code</h3>
-            <p>Open source projects, configuration files, research tools. MIT licensed.</p>
-            <a href="https://github.com/studiofarzulla" target="_blank" role="button">GitHub</a>
-        </div>
-    </div>
-</section>
-
-<!-- Recent Highlights -->
-<section id="recent">
-    <h2>Recent Publications</h2>
-    <p class="text-muted" style="margin-bottom: 1.5rem;">
-        15 papers across computational finance, political economy, cognitive modeling, and AI safety.
-        <a href="/experiments.html#published">View all →</a>
-    </p>
-
-    <article>
-        <span class="status status-active">Under Review</span>
-        <h4>Market Reaction Asymmetry in Cryptocurrency</h4>
-        <p>
-            Infrastructure events generate 5.7× larger volatility shocks than regulatory events (p=0.0008).
-            TARCH-X/GJR-GARCH models with Bayesian inference, GDELT sentiment decomposition.
-        </p>
-        <footer>
-            <small class="text-muted">Digital Finance (Springer) · <a href="https://doi.org/10.21203/rs.3.rs-8323026/v1" target="_blank">Paper</a> · <a href="https://ssrn.com/abstract=5788082" target="_blank">SSRN</a></small>
-        </footer>
-    </article>
-
-    <article>
-        <h4>Whitepaper Claims & Factor Analysis</h4>
-        <p>
-            Do whitepaper claims predict market behavior? NLP zero-shot classification with
-            CP tensor decomposition and Tucker congruence for cryptocurrency factor analysis.
-        </p>
-        <footer>
-            <small class="text-muted">December 2025 · <a href="https://doi.org/10.2139/ssrn.5918302" target="_blank">SSRN</a></small>
-        </footer>
-    </article>
-
-    <article>
-        <h4>Eliminative Monism</h4>
-        <p>
-            Dissolving qualia via Occam's razor. 33k-word monograph on the computational basis of
-            phenomenological illusion with Gödelian self-reference and network epistemology simulation.
-        </p>
-        <footer>
-            <small class="text-muted">December 2025 · <a href="https://doi.org/10.5281/zenodo.17917970" target="_blank">Zenodo</a></small>
-        </footer>
-    </article>
-
-    <article>
-        <h4>Autonomous Red Team AI</h4>
-        <p>
-            LLM-guided adversarial security testing with RAG knowledge bases, OODA loops,
-            NetworkPolicy isolation, and abliterated models for offensive security research.
-        </p>
-        <footer>
-            <small class="text-muted">December 2025 · <a href="https://doi.org/10.5281/zenodo.17614726" target="_blank">Zenodo</a></small>
-        </footer>
-    </article>
-</section>
-
-    </main>
-
-    <footer class="container">
-        <div class="footer-links">
-            <a href="/infrastructure.html">Infrastructure</a>
-            <a href="/experiments.html">Experiments</a>
-            <a href="/dashboards/">Dashboards</a>
-            <a href="/about.html">About</a>
-            <a href="https://farzulla.org" target="_blank">Farzulla Research</a>
-            <a href="https://resurrexi.dev" target="_blank">Lab Docs</a>
-            <a href="https://github.com/studiofarzulla" target="_blank">GitHub</a>
-        </div>
-        <p class="footer-meta">
-            7-node K3s cluster · 66 cores · 229GB RAM · 48GB VRAM
-        </p>
-        <p>
-            <small>&copy; 2025 Resurrexi Labs · <a href="mailto:murad@farzulla.org">murad@farzulla.org</a></small>
-        </p>
-    </footer>
-
-    <!-- Status Widget -->
-    <div class="status-widget" id="cluster-status">
-        <div class="status-header">
-            <span class="status-icon"></span>
-            <span class="status-title">Cluster Status</span>
-        </div>
-        <div class="status-body">
-            <div class="status-row">
-                <span class="status-label">Nodes</span>
-                <span class="status-value">7/7 Online</span>
-            </div>
-            <div class="status-row">
-                <span class="status-label">CPU</span>
-                <div class="status-bar">
-                    <div class="status-bar-fill" style="width: 18%"></div>
-                </div>
-                <span class="status-value">18%</span>
-            </div>
-            <div class="status-row">
-                <span class="status-label">Memory</span>
-                <div class="status-bar">
-                    <div class="status-bar-fill" style="width: 34%"></div>
-                </div>
-                <span class="status-value">78/229GB</span>
-            </div>
-            <div class="status-row">
-                <span class="status-label">VRAM</span>
-                <div class="status-bar">
-                    <div class="status-bar-fill" style="width: 12%"></div>
-                </div>
-                <span class="status-value">6/48GB</span>
-            </div>
-        </div>
-        <div class="status-footer">
-            <span class="status-timestamp">Simulated · Demo Data</span>
-        </div>
-    </div>
+  <main class="card">
+    <p class="mark">Resurrexi Labs</p>
+    <h1>Coming <span class="accent">soon</span></h1>
+    <p class="lede">Research infrastructure for adversarial systems. The site is being rebuilt — check back shortly.</p>
+    <nav class="links">
+      <a href="https://dissensus.ai">Dissensus</a>
+      <a href="https://farzulla.org">Farzulla Research</a>
+      <a href="https://systems.ac">ASCRI</a>
+    </nav>
+    <p class="note">The ASRI systemic-risk dashboard now lives at <a href="https://asri.dissensus.ai">asri.dissensus.ai</a>.</p>
+    <footer>&copy; 2026 Resurrexi Labs · Dissensus Research Ltd</footer>
+  </main>
 </body>
 </html>
